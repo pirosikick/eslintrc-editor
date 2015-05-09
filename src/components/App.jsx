@@ -1,15 +1,38 @@
 "use strict";
+
 import _ from 'lodash';
 import React, {PropTypes} from "react";
-import FluxCommponent from "flummox/component";
+
+class EnvList extends React.Component {
+  static propTypes = {};
+
+  render () {
+    let elems = _.map(this.props.env, (env) => {
+      return (
+        <li className="env">
+          <label>
+            <input
+              type="checkbox"
+              name={env.name}
+              defaultChecked={env.enabled}/>{env.name}
+          </label>
+        </li>
+      );
+    });
+
+    return <ul className="envs" onChange={this.onChange.bind(this)}>{ elems }</ul>;
+  }
+
+  onChange (e) {
+    let {name, checked} = e.target;
+    this.props.onChange(name, checked);
+  }
+}
 
 class RuleList extends React.Component {
   constructor (props) {
     super(props);
-
-    let { ruleConfigs } = this.props.flux.getStore('common').state;
-
-    this.state = ruleConfigs;
+    this.state = props.ruleConfigs;
   }
 
   render () {
@@ -85,25 +108,21 @@ class Rule extends React.Component {
 }
 
 export default class App extends React.Component {
-
   render () {
-    var json = {
-      env: {
-        browser: false,
-        node: false,
-      },
-      ecmaFeatures: {
-      },
-      rules: {
-      }
-    };
+    let json = this.props.commonStore.toJson();
+    let { ruleConfigs } = this.props.commonStore.state;
 
     return (
-      <FluxCommponent flux={this.props.flux}>
+      <div className="app">
         <h1>eslintrc editor</h1>
-        <RuleList/>
-        <pre dangerouslySetInnerHTML={{ __html:JSON.stringify(json, null, 2)}}></pre>
-      </FluxCommponent>
+        <EnvList env={this.props.env} onChange={this.onChangeEnv.bind(this)}/>
+        <RuleList ruleConfigs={ruleConfigs}/>
+        <pre dangerouslySetInnerHTML={{ __html:json }}></pre>
+      </div>
     );
+  }
+
+  onChangeEnv (name, enabled) {
+    this.props.flux.getActions('common').changeEnv(name, enabled);
   }
 }

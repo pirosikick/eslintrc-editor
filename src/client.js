@@ -1,8 +1,22 @@
 "use strict";
 import React from "react";
 import App from "./components/App.jsx";
-import Flux from './flux';
+import FluxComponent from "flummox/component";
+import AppFlux from './AppFlux';
 
-let flux = new Flux();
+let flux = new AppFlux();
+flux.getActions('common').init();
+let connectToStores = {
+  common: store => ({
+      commonStore: store,
+      json: store.toJson(),
+      env: store.state.env
+  })
+};
+let element = (
+  <FluxComponent flux={flux} connectToStores={connectToStores}>
+    <App />
+  </FluxComponent>
+)
 
-React.render(<App flux={flux}/>, document.getElementById("app"));
+React.render(element, document.getElementById("app"));

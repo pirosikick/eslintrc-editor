@@ -8,9 +8,11 @@
   "devDependencies": {
     "babel": "^4.7.7",
     "babel-loader": "^5.0.0",
+    "babel-runtime": "^5.2.17",
     "babelify": "^5.0.4",
     "browser-sync": "^2.2.5",
     "browserify": "^9.0.3",
+    "eslint": "^0.20.0",
     "espower-babel": "^2.0.0",
     "gulp": "^3.8.11",
     "gulp-load-plugins": "^0.10.0",
