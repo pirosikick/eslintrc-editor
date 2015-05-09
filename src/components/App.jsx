@@ -7,18 +7,18 @@ class EnvList extends React.Component {
   static propTypes = {};
 
   render () {
-    let elems = _.map(this.props.env, (env) => {
+    let elems = this.props.env.map((enabled, name) => {
       return (
         <li className="env">
           <label>
             <input
               type="checkbox"
-              name={env.name}
-              defaultChecked={env.enabled}/>{env.name}
+              name={name}
+              defaultChecked={enabled}/>{name}
           </label>
         </li>
       );
-    });
+    }).toArray();
 
     return <ul className="envs" onChange={this.onChange.bind(this)}>{ elems }</ul>;
   }

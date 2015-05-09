@@ -1,6 +1,7 @@
 'use strict';
 
 import _ from "lodash";
+import Immutable from "immutable";
 import {Flux, Actions, Store} from "flummox";
 import {ENV, ECMA_FEATURES} from "./const";
 
@@ -26,16 +27,16 @@ class CommonStore extends Store {
     super();
 
     const actions = flux.getActions('common');
-    this.register(actions.init, this.init)
+    this.register(actions.init, this.init);
     this.register(actions.initRuleConfigs, this.initRuleConfigs);
     this.register(actions.changeEnv, this.handleChangeEnv);
     this.register(actions.changeRuleConfig, this.handleChangeRuleConfig);
 
     let ruleConfigs ={};
 
-    let enabled = false;
-    let env = ENV.map(name => ({ name, enabled }));
-    let ecmaFeatures = ECMA_FEATURES.map(name => ({ name, enabled }));
+    let setFalse = (obj, name) => { obj[name] = false };
+    let env = Immutable.Map(_.transform(ENV, setFalse, {}));
+    let ecmaFeatures = Immutable.Map(_.transform(ECMA_FEATURES, setFalse, {}));
 
     this.state = { env, ecmaFeatures, ruleConfigs };
   }
@@ -44,14 +45,7 @@ class CommonStore extends Store {
   }
 
   handleChangeEnv (message) {
-    let env = _.clone(this.state.env);
-    let target = undefined;
-
-    _.each(env, (e, i) => {
-      if (e.name === message.name) target = i;
-    })
-
-    if (target !== undefined) env[target] = message;
+    let env = this.state.env.set(message.name, message.enabled);
 
     this.setState({ env });
   }
@@ -70,18 +64,11 @@ class CommonStore extends Store {
   }
 
   toJson () {
-    let {env, ecmaFeatures, ruleConfigs} = this.state;
-    let json = { env: {}, ecmaFeatures: {}, rule: {} };
+    let env = this.state.env.filter(_.identity).toObject()
+      , ecmaFeatures = this.state.ecmaFeatures.filter(_.identity).toObject()
+      , rules = {};
 
-    _.each(env, (e) => {
-      if (e.enabled) json.env[e.name] = e.enabled;
-    });
-
-    _.each(ecmaFeatures, (e) => {
-      if (e.enabled) json.ecmaFeatures[e.name] = e.enabled;
-    });
-
-    return JSON.stringify(json, null, 2);
+    return JSON.stringify({env, ecmaFeatures, rules}, null, 2);
   }
 }
 
