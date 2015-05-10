@@ -3,29 +3,41 @@
 import _ from 'lodash';
 import React, {PropTypes} from "react";
 
-class EnvList extends React.Component {
-  static propTypes = {};
-
+class CheckBox extends React.Component {
   render () {
-    let elems = this.props.env.map((enabled, name) => {
-      return (
-        <li className="env">
-          <label>
-            <input
-              type="checkbox"
-              name={name}
-              defaultChecked={enabled}/>{name}
-          </label>
-        </li>
-      );
-    }).toArray();
+    let { name, enabled, className } = this.props;
 
-    return <ul className="envs" onChange={this.onChange.bind(this)}>{ elems }</ul>;
+    return (
+      <label className={className || ''}>
+        <input
+          type="checkbox"
+          name={name}
+          defaultChecked={enabled}/>{name}
+      </label>
+    );
+  }
+}
+
+class CheckBoxGroup extends React.Component {
+  render () {
+    let { className, data } = this.props;
+
+    let checkboxes = this.props.data.map((enabled, name) => {
+      return <CheckBox name={name} enabled={enabled}/>;
+    });
+
+    return (
+      <div
+        className={className || ''}
+        onChange={this.onChange.bind(this)}>
+        { checkboxes }
+      </div>
+    );
   }
 
   onChange (e) {
-    let {name, checked} = e.target;
-    this.props.onChange(name, checked);
+    let { name, checked } = e.target;
+    this.props.onChange(this.props.name, name, checked);
   }
 }
 
@@ -108,6 +120,12 @@ class Rule extends React.Component {
 }
 
 export default class App extends React.Component {
+  constructor (props) {
+    super(props);
+
+    this.commonActions = props.flux.getActions('common');
+  }
+
   render () {
     let json = this.props.commonStore.toJson();
     let { ruleConfigs } = this.props.commonStore.state;
@@ -115,14 +133,30 @@ export default class App extends React.Component {
     return (
       <div className="app">
         <h1>eslintrc editor</h1>
-        <EnvList env={this.props.env} onChange={this.onChangeEnv.bind(this)}/>
+
+        <h2>env</h2>
+
+        <CheckBoxGroup
+          name="env"
+          data={this.props.env}
+          onChange={this.onToggleCheckBox.bind(this)}/>
+
+        <h2>ecmaFeatures</h2>
+
+        <CheckBoxGroup
+          name="ecmaFeatures"
+          data={this.props.ecmaFeatures}
+          onChange={this.onToggleCheckBox.bind(this)}/>
+
+        <h2>rules</h2>
         <RuleList ruleConfigs={ruleConfigs}/>
+
         <pre dangerouslySetInnerHTML={{ __html:json }}></pre>
       </div>
     );
   }
 
-  onChangeEnv (name, enabled) {
-    this.props.flux.getActions('common').changeEnv(name, enabled);
+  onToggleCheckBox (group, name, enabled) {
+    this.commonActions.toggleCheckBox(group, name, enabled);
   }
 }

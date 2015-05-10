@@ -10,7 +10,8 @@ let connectToStores = {
   common: store => ({
       commonStore: store,
       json: store.toJson(),
-      env: store.state.env
+      env: store.state.env,
+      ecmaFeatures: store.state.ecmaFeatures
   })
 };
 let element = (
