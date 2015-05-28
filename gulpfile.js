@@ -7,7 +7,8 @@ var browserSync = require('browser-sync');
 var mainBowerFiles = require('main-bower-files');
 
 var src = {
-  sass: 'public/styles/**/*.{scss,sass}'
+  sass: 'public/styles/**/*.{scss,sass}',
+  html: 'public/*.html'
 };
 
 var dest = {
@@ -15,7 +16,7 @@ var dest = {
   webpackProd:'build/scripts',
   sass: '.tmp/styles',
   sassProd: 'build/styles',
-  bower: '.tmp/lib',
+  bower: '.tmp/lib'
 }
 
 var port = process.env.NODE_PORT || 3000;
@@ -68,7 +69,7 @@ gulp.task('sass', function () {
   return gulp.src(src.sass)
     .pipe($.sass({ outputStyle: 'nested', errorLogToConsole: true }))
     .pipe(gulp.dest(dest.sass))
-    .pipe(browserSync.reload(stream));
+    .pipe(browserSync.reload({ stream: true }));
 });
 
 gulp.task('sass-for-prod', function () {
@@ -116,6 +117,9 @@ gulp.task('default', ['serve']);
 gulp.task('watch', ['watch-webpack'], function () {
   gulp.watch([src.sass], ['sass']);
   gulp.watch(['bower.json'], ['main-bower-files']);
+  gulp.watch([src.html]).on('change', function () {
+    browserSync.reload();
+  });
 });
 
 gulp.task('build', ['html']);
