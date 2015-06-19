@@ -18,7 +18,8 @@ let dest = {
   webpackProd:'build/scripts',
   sass: '.tmp/styles',
   sassProd: 'build/styles',
-  bower: '.tmp/lib'
+  bower: '.tmp/lib',
+  eslintdoc: 'src/docs'
 }
 
 let port = process.env.NODE_PORT || 3000;
@@ -52,7 +53,11 @@ gulp.task('sass', () => {
 });
 
 gulp.task('main-bower-files', () => {
-  return gulp.src(mainBowerFiles())
+  let src = mainBowerFiles().concat([
+    'node_modules/react/dist/react.min.js'
+  ]);
+
+  return gulp.src(src)
     .pipe(gulp.dest(dest.bower));
 });
 
@@ -63,6 +68,25 @@ gulp.task('html', ['main-bower-files', 'webpack', 'sass'], () => {
       js: ['concat']
     }))
     .pipe(gulp.dest(dest.html))
+});
+
+gulp.task('eslintdoc2react', [], () => {
+  let template =
+`
+var React = require('react');
+var md2react = require('md2react');
+module.exports = React.createClass({
+  render: function () {
+    return md2react(\`<%= contents %>\`);
+  }
+});
+`;
+
+  return gulp.src('eslint/docs/**/*.md')
+    .pipe($.replace('`', '\\`'))
+    .pipe($.wrap(template))
+    .pipe($.rename({ extname: '.js' }))
+    .pipe(gulp.dest(dest.eslintdoc));
 });
 
 gulp.task('serve', ['watch'], () => {
