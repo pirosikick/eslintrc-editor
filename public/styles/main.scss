@@ -10,3 +10,34 @@
 .env-option {
   padding: 10px;
 }
+
+.globals-form {
+  @at-root {
+    #{&}__name {
+
+    }
+  }
+}
+
+.rule {
+  @at-root {
+    #{&}__content {
+      display: none;
+    }
+
+    #{&}__header {
+    }
+
+    #{&}--selected #{&}__content {
+      display: block;
+    }
+  }
+}
+
+.rule-header {
+  @at-root {
+    #{&}__name {
+      padding: 10px;
+    }
+  }
+}

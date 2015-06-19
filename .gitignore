@@ -32,3 +32,4 @@ build
 *.css
 
 bower_components/
+.sass-cache
