@@ -49,31 +49,233 @@
           </ul>
         </div>
 
+        <div>
+          <h2>ecmaFeatures or parser</h2>
+
+          <ul>
+            <li>
+              <label for="radio-ecma-features">
+                <input id="radio-ecma-features" type="radio" name="ecma-features-or-parser">
+                use ecmaFeatures
+              </label>
+            </li>
+            <li>
+              <label for="radio-parser">
+                <input id="radio-parser" type="radio" name="ecma-features-or-parser">
+                use parser
+              </label>
+            </li>
+          </ul>
+
+          <h3>ecmaFeatures</h3>
+
+          <a href="#">check all</a>
+          <a href="#">clear all</a>
+
+          <table class="pure-table pure-table-horizontal">
+            <tbody>
+              <tr>
+                <td>
+                  <input type="checkbox" name="">
+                </td>
+                <td>arrowFunctions</td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" name="">
+                </td>
+                <td>binaryLiterals</td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" name="">
+                </td>
+                <td>blockBindings</td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" name="">
+                </td>
+                <td>classes</td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" name="">
+                </td>
+                <td>defaultParams</td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" name="">
+                </td>
+                <td>destructuring</td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" name="">
+                </td>
+                <td>forOf</td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" name="">
+                </td>
+                <td>generators</td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" name="">
+                </td>
+                <td>modules</td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" name="">
+                </td>
+                <td>objectLiteralComputedProperties</td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" name="">
+                </td>
+                <td>objectLiteralDuplicateProperties</td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" name="">
+                </td>
+                <td>objectLiteralShorthandMethods</td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" name="">
+                </td>
+                <td>objectLiteralShorthandProperties</td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" name="">
+                </td>
+                <td>octalLiterals</td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" name="">
+                </td>
+                <td>regexUFlag</td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" name="">
+                </td>
+                <td>regexYFlag</td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" name="">
+                </td>
+                <td>restParams</td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" name="">
+                </td>
+                <td>spread</td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" name="">
+                </td>
+                <td>superInFunctions</td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" name="">
+                </td>
+                <td>templateStrings</td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" name="">
+                </td>
+                <td>unicodeCodePointEscapes</td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" name="">
+                </td>
+                <td>globalReturn</td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" name="">
+                </td>
+                <td>jsx</td>
+              </tr>
+            </tr>
+          </tbody>
+          </table>
+
+          <h3>parser</h3>
+
+          <div class="pure-form">
+            <select id="" name="">
+              <option value="esprima">esprima</option>
+              <option value="esprima-fb">esprima-fb</option>
+              <option value="babel-eslint">babel-eslint</option>
+            </select>
+          </div>
+        </div>
+
         <div class="globals">
           <h2>globals</h2>
 
           <form class="pure-form globals-form">
             <input id="" type="text" name="global-var-name" class="globals-form__name">
 
-            <label for="">
-              <input id="" type="radio" name="value" checked>
+            <!--
+            <label for="global-value-true">
+              <input id="global-value-true" type="radio" name="value" value="true" checked>
               true
             </label>
-            <label for="">
-              <input id="" type="radio" name="value">
+            <label for="global-value-false">
+              <input id="global-value-false" type="radio" name="value" value="false">
               false
             </label>
+            -->
             <button class="pure-button">+</button>
           </form>
 
+          <table class="pure-table">
+            <thead>
+              <tr>
+                <td>Name</td>
+                <td>Value</td>
+                <td></td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>hoge</td>
+                <td class="pure-form">
+                  <select>
+                    <option value="true">true</option>
+                    <option value="false">false</option>
+                  </select>
+                </td>
+                <td>
+                  <a href="#">remove</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
           <ul class="pure-menu-list">
-            <li class="pure-menu-item">
-              hoge true
-              <a href="#">remove</a>
-            </li>
-            <li class="pure-menu-item">
-              hoge false
-              <a href="#">remove</a>
+            <li class="pure-menu-item pure-form">
+              <button class="pure-button">x</button>
+              <span class="global-var-name">hoge</span>
+              <span class="global-var-value">
+              </span>
             </li>
           </ul>
         </div>
@@ -123,6 +325,7 @@
       </div>
 
       <div class="pure-3-5">
+        <div class="doc"></div>
       </div>
     </div>
 

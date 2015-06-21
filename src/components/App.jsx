@@ -1,162 +1,122 @@
 "use strict";
+import React, {Component, PropTypes} from "react";
+import Environments from './Environments.jsx';
+import EcmaFeatures from "./EcmaFeatures.jsx";
+import Globals from "./Globals.jsx";
 
-import _ from 'lodash';
-import React, {PropTypes} from "react";
-
-class CheckBox extends React.Component {
+export default class App extends Component {
   render () {
-    let { name, enabled, className } = this.props;
-
     return (
-      <label className={className || ''}>
-        <input
-          type="checkbox"
-          name={name}
-          defaultChecked={enabled}/>{name}
-      </label>
-    );
-  }
-}
+      <div className="pure-g">
+        <div className="nav pure-u-1-5">
+          <h1 className="title">.eslintrc generator</h1>
 
-class CheckBoxGroup extends React.Component {
-  render () {
-    let { className, data } = this.props;
+          <div className="pure-menu">
+            <ul className="pure-menu-list">
+              <li className="pure-menu-item">
+                <a className="pure-menu-link" href="#">env</a>
+              </li>
+              <li className="pure-menu-item">
+                <a className="pure-menu-link" href="#">globals</a>
+              </li>
+              <li className="pure-menu-item">
+                <a className="pure-menu-link" href="#">ecmaFeatures &amp; parser</a>
+              </li>
+              <li className="pure-menu-item">
+                <a className="pure-menu-link" href="#">rules</a>
+              </li>
+            </ul>
+          </div>
 
-    let checkboxes = this.props.data.map((enabled, name) => {
-      return <CheckBox name={name} enabled={enabled}/>;
-    });
+          <button className="pure-button">Generate</button>
 
-    return (
-      <div
-        className={className || ''}
-        onChange={this.onChange.bind(this)}>
-        { checkboxes }
+        </div>
+
+        <div className="pure-u-1-5">
+
+          <Environments/>
+
+          <div>
+            <h2>ecmaFeatures or parser</h2>
+
+            <ul>
+              <li>
+                <label htmlFor="radio-ecma-features">
+                  <input id="radio-ecma-features" type="radio" name="ecma-features-or-parser"/>
+                  use ecmaFeatures
+                </label>
+              </li>
+              <li>
+                <label htmlFor="radio-parser">
+                  <input id="radio-parser" type="radio" name="ecma-features-or-parser"/>
+                  use parser
+                </label>
+              </li>
+            </ul>
+
+            <EcmaFeatures/>
+
+            <h3>parser</h3>
+
+            <div className="pure-form">
+              <select id="" name="">
+                <option value="esprima">esprima</option>
+                <option value="esprima-fb">esprima-fb</option>
+                <option value="babel-eslint">babel-eslint</option>
+              </select>
+            </div>
+          </div>
+
+          <Globals/>
+
+          <div>
+            <h2>Rules</h2>
+
+            <div className="rule rule--selected">
+              <header className="rule__header rule-header">
+                <h3 className="rule-header__name">command-dangle</h3>
+              </header>
+
+              <div className="rule__content">
+                <form className="pure-form">
+
+
+                  <label htmlFor="status-off">
+                    <input id="status-off" type="radio" name="status" value="off"/>
+                    off
+                  </label>
+                  <label htmlFor="status-warn">
+                    <input id="status-warn" type="radio" name="status" value="warn"/>
+                    warning
+                  </label>
+                  <label htmlFor="status-error">
+                    <input id="status-error" type="radio" name="status" value="error"/>
+                    error
+                  </label>
+
+                  <div className="rule-options">
+                    <h4>Options</h4>
+
+                    <div className="rule-options__option rule-option">
+                      <label htmlFor="">option1</label>
+                      <select id="" name="">
+                        <option value="never">never(default)</option>
+                        <option value="always">always</option>
+                        <option value="always-multiline">always-multiline</option>
+                      </select>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div className="pure-3-5">
+          <div className="doc"></div>
+        </div>
       </div>
     );
-  }
-
-  onChange (e) {
-    let { name, checked } = e.target;
-    this.props.onChange(this.props.name, name, checked);
-  }
-}
-
-class RuleList extends React.Component {
-  constructor (props) {
-    super(props);
-    this.state = props.ruleConfigs;
-  }
-
-  render () {
-    let lists = _.map(this.state, (config, name) => {
-      return (
-        <li className="rule">
-          <Rule name={name} enabled={config.enabled} status={config.status}/>
-        </li>
-      );
-    });
-
-    return <ul className="rules">{ lists }</ul>;
-  }
-}
-
-class Rule extends React.Component {
-  static propTypes = {
-    name: PropTypes.string.isRequired,
-    enabled: PropTypes.bool
-  };
-
-  static defaultProps = {
-    enabled: true
-  };
-
-  constructor (props) {
-    super(props)
-
-    this.state = { enabled: !!props.enabled }
-    this.ruleActions = props.flux.getActions('rule');
-  }
-
-  render () {
-    return (
-      <div className="rule">
-        <h3>{ this.props.name }</h3>
-
-        <label>
-          <input ref="enabled"
-                 type="checkbox"
-                 onChange={this.onChange.bind(this)}
-                 defaultChecked={ this.props.enabled }/>
-          enabled
-        </label>
-
-        <p>
-          status:
-          <select ref="status" onChange={this.onChange.bind(this)}>
-            <option value="0">off</option>
-            <option value="1">warning</option>
-            <option value="2">error</option>
-          </select>
-        </p>
-      </div>
-    );
-  }
-
-  enabled () {
-    return React.findDOMNode(this.refs.enabled).checked;
-  }
-
-  status () {
-    return React.findDOMNode(this.refs.status).value;
-  }
-
-  onChange (e) {
-    this.ruleActions.change({
-      name: this.props.name,
-      enabled: this.enabled(),
-      status: this.status()
-    });
-  }
-}
-
-export default class App extends React.Component {
-  constructor (props) {
-    super(props);
-
-    this.commonActions = props.flux.getActions('common');
-  }
-
-  render () {
-    let json = this.props.commonStore.toJson();
-    let { ruleConfigs } = this.props.commonStore.state;
-
-    return (
-      <div className="app">
-        <h1>eslintrc editor</h1>
-
-        <h2>env</h2>
-
-        <CheckBoxGroup
-          name="env"
-          data={this.props.env}
-          onChange={this.onToggleCheckBox.bind(this)}/>
-
-        <h2>ecmaFeatures</h2>
-
-        <CheckBoxGroup
-          name="ecmaFeatures"
-          data={this.props.ecmaFeatures}
-          onChange={this.onToggleCheckBox.bind(this)}/>
-
-        <h2>rules</h2>
-        <RuleList ruleConfigs={ruleConfigs}/>
-
-        <pre dangerouslySetInnerHTML={{ __html:json }}></pre>
-      </div>
-    );
-  }
-
-  onToggleCheckBox (group, name, enabled) {
-    this.commonActions.toggleCheckBox(group, name, enabled);
   }
 }

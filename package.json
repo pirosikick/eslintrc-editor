@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "flummox": "^4.0.0-alpha2",
+    "fluxible": "^0.4.12",
     "immutable": "^3.7.3",
     "lodash": "^3.9.3",
     "md2react": "^0.6.4",
