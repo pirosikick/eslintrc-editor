@@ -32,27 +32,31 @@ const options = {
 export default
   class EcmaFeatures extends Component {
     render () {
-      let lines = _.map(_.keys(options), (name) => {
+      let list = _.map(_.keys(options), (name) => {
+        let id = `checkbox-ecma-feature-${name}`;
+
         return (
-          <tr key={name}>
-            <td><input id={name} type="checkbox" value={name}/></td>
-            <td>
-              <label htmlFor={name}>{name}</label>
-            </td>
-          </tr>
+          <li className="ecma-feature-options__item ecma-feature-option">
+            <label className="ecma-feature-option__label" htmlFor={id}>
+              <input
+                className="ecma-feature-option__checkbox"
+                id={id}
+                type="checkbox"
+                value={name} />
+              {name}
+            </label>
+          </li>
         );
       });
 
       return (
-        <div>
+        <div className="sidemenu__contents">
           <h3>ecmaFeatures</h3>
 
           <a href="javascript:void(0)" onClick={this.checkAll.bind(this)}>check all</a>
           <a href="javascript:void(0)" onClick={this.clearAll.bind(this)}>clear all</a>
 
-          <table className="pure-table pure-table-horizontal">
-            <tbody>{lines}</tbody>
-          </table>
+          <ul className="ecma-feature-options">{list}</ul>
         </div>
       );
     }

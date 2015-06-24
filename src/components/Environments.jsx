@@ -22,32 +22,27 @@ const options = {
 export default
   class Envivonments extends Component {
     render () {
-      let lines = _.map(_.keys(options), (name) => {
+      let items = _.map(_.keys(options), (name) => {
         let id = `checkbox-env-${name}`;
 
         return (
-          <tr className="pure-form">
-            <td>
-              <input id={id} type="checkbox" value={name}/>
-            </td>
-            <td>
-              <label htmlFor={id}>{name}</label>
-            </td>
-          </tr>
+          <li className="env-options__item env-option">
+            <label className="env-option__label" htmlFor={id}>
+              <input
+                className="env-option__checkbox"
+                id={id}
+                type="checkbox"
+                value={name} />
+              {name}
+            </label>
+          </li>
         );
       });
 
       return (
-          <div>
-            <h2>env options</h2>
-
-            <a href="javascript:void(0)" onClick={this.checkAll.bind(this)}>check all</a>
-            <a href="javascript:void(0)" onClick={this.clearAll.bind(this)}>clear all</a>
-
-            <table className="pure-table pure-table-horizontal">
-              <tbody>{lines}</tbody>
-            </table>
-          </div>
+        <div className="sidemenu__contents">
+          <ul className="env-options">{items}</ul>
+        </div>
       );
     }
 

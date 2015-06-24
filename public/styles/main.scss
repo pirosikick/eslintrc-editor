@@ -2,6 +2,30 @@
   font-family: "YuGothic", "san-seif"
 }
 
+.nav {
+  box-shadow: 0px 1px #ccc;
+}
+
+.sidemenu {
+  //padding: 1em 2em;
+  overflow: hidden;
+  box-shadow: 1px 0px #ccc;
+
+  @at-root {
+    #{&}__header {
+      padding-left: .5em;
+    }
+
+    #{&}__contents {
+      padding-left: 1em;
+    }
+  }
+
+  .pure-table {
+    width: 100%;
+  }
+}
+
 .menu {
   height: 100%;
   background-color: #CCC;
@@ -11,8 +35,40 @@
   font-size: 110%;
 }
 
+.env-options {
+  padding-left: 0px;
+
+  @at-root {
+    #{&}__item {
+      list-style: none;
+    }
+  }
+}
+
 .env-option {
-  padding: 10px;
+  @at-root {
+    #{&}__label span {
+      margin-left: .5em;
+    }
+  }
+}
+
+.ecma-feature-options {
+  padding-left: 0px;
+
+  @at-root {
+    #{&}__item {
+      list-style: none;
+    }
+  }
+}
+
+.ecma-feature-option {
+  @at-root {
+    #{&}__label span {
+      margin-left: .5em;
+    }
+  }
 }
 
 .globals-form {

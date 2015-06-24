@@ -7,214 +7,90 @@
     <link rel="stylesheet" href="styles/main.css">
   </head>
   <body>
-    <div class="pure-g">
-      <div class="nav pure-u-1-5">
-        <h1 class="title">.eslintrc generator</h1>
 
-        <div class="pure-menu">
-          <ul class="pure-menu-list">
-            <li class="pure-menu-item">
-              <a class="pure-menu-link" href="#">env</a>
-            </li>
-            <li class="pure-menu-item">
-              <a class="pure-menu-link" href="#">globals</a>
-            </li>
-            <li class="pure-menu-item">
-              <a class="pure-menu-link" href="#">ecmaFeatures &amp; parser</a>
-            </li>
-            <li class="pure-menu-item">
-              <a class="pure-menu-link" href="#">rules</a>
-            </li>
-          </ul>
-        </div>
-
-        <button class="pure-button">Generate</button>
-
+    <header class="nav">
+      <div class="pure-menu pure-menu-horizontal">
+        <a class="pure-menu-heading" href="/">.eslintrc editor</a>
+        <ul class="pure-menu-list">
+          <li class="pure-menu-item pure-menu-selected">
+            <a class="pure-menu-link" href="">Environments</a>
+          </li>
+          <li class="pure-menu-item">
+            <a class="pure-menu-link" href="">Globals</a>
+          </li>
+          <li class="pure-menu-item">
+            <a class="pure-menu-link" href="">ecmaFeatures | parser</a>
+          </li>
+          <li class="pure-menu-item">
+            <a class="pure-menu-link" href="">Rules</a>
+          </li>
+        </ul>
       </div>
+    </header>
 
-      <div class="pure-u-1-5">
+    <div class="pure-g">
+      <div class="pure-u-6-24">
+        <div class="sidemenu">
 
-        <div class="pure-form pure-menu">
-          <h2>env options</h2>
+          <div class="pure-form pure-menu">
+            <div class="sidemenu__header">
+              <h2>Environments</h2>
+            </div>
 
-          <ul class="pure-menu-list">
-            <li class="pure-menu-item">
-              <div class="pure-menu-link env-option">
-                <label for="env-browser">
-                  <input id="env-browser" type="checkbox" name="">
-                  browser
+            <div class="sidemenu__contents">
+              <ul class="env-options">
+                <li class="env-options__item env-option">
+                  <label for="env-option-browser">
+                    <input id="env-option-browser" type="checkbox" name=""> browser</label>
+                </li>
+              </ul>
+            </div>
+
+          <div>
+            <div class="sidemenu__header">
+              <h2>ecmaFeatures or parser</h2>
+            </div>
+
+            <ul>
+              <li>
+                <label for="radio-ecma-features">
+                  <input id="radio-ecma-features" type="radio" name="ecma-features-or-parser">
+                  use ecmaFeatures
                 </label>
-              </div>
-            </li>
-          </ul>
-        </div>
+              </li>
+              <li>
+                <label for="radio-parser">
+                  <input id="radio-parser" type="radio" name="ecma-features-or-parser">
+                  use parser
+                </label>
+              </li>
+            </ul>
 
-        <div>
-          <h2>ecmaFeatures or parser</h2>
+            <h3>ecmaFeatures</h3>
 
-          <ul>
-            <li>
-              <label for="radio-ecma-features">
-                <input id="radio-ecma-features" type="radio" name="ecma-features-or-parser">
-                use ecmaFeatures
-              </label>
-            </li>
-            <li>
-              <label for="radio-parser">
-                <input id="radio-parser" type="radio" name="ecma-features-or-parser">
-                use parser
-              </label>
-            </li>
-          </ul>
+            <a href="#">check all</a>
+            <a href="#">clear all</a>
 
-          <h3>ecmaFeatures</h3>
+            <div class="sidemenu__contents">
+              <ul class="env-options">
+                <li class="env-options__item env-option">
+                  <label for="env-option-browser">
+                    <input id="env-option-browser" type="checkbox" name=""> browser</label>
+                </li>
+              </ul>
+            </div>
 
-          <a href="#">check all</a>
-          <a href="#">clear all</a>
 
-          <table class="pure-table pure-table-horizontal">
-            <tbody>
-              <tr>
-                <td>
-                  <input type="checkbox" name="">
-                </td>
-                <td>arrowFunctions</td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="checkbox" name="">
-                </td>
-                <td>binaryLiterals</td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="checkbox" name="">
-                </td>
-                <td>blockBindings</td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="checkbox" name="">
-                </td>
-                <td>classes</td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="checkbox" name="">
-                </td>
-                <td>defaultParams</td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="checkbox" name="">
-                </td>
-                <td>destructuring</td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="checkbox" name="">
-                </td>
-                <td>forOf</td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="checkbox" name="">
-                </td>
-                <td>generators</td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="checkbox" name="">
-                </td>
-                <td>modules</td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="checkbox" name="">
-                </td>
-                <td>objectLiteralComputedProperties</td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="checkbox" name="">
-                </td>
-                <td>objectLiteralDuplicateProperties</td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="checkbox" name="">
-                </td>
-                <td>objectLiteralShorthandMethods</td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="checkbox" name="">
-                </td>
-                <td>objectLiteralShorthandProperties</td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="checkbox" name="">
-                </td>
-                <td>octalLiterals</td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="checkbox" name="">
-                </td>
-                <td>regexUFlag</td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="checkbox" name="">
-                </td>
-                <td>regexYFlag</td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="checkbox" name="">
-                </td>
-                <td>restParams</td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="checkbox" name="">
-                </td>
-                <td>spread</td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="checkbox" name="">
-                </td>
-                <td>superInFunctions</td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="checkbox" name="">
-                </td>
-                <td>templateStrings</td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="checkbox" name="">
-                </td>
-                <td>unicodeCodePointEscapes</td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="checkbox" name="">
-                </td>
-                <td>globalReturn</td>
-              </tr>
-              <tr>
-                <td>
-                  <input type="checkbox" name="">
-                </td>
-                <td>jsx</td>
-              </tr>
-            </tr>
-          </tbody>
-          </table>
+            <ul class="pure-menu-list">
+              <li class="pure-menu-item">
+                <a class="pure-menu-link ecmaFeatureOption">
+                  <label class="ecmaFeatureOption__label" for="">
+                    <input id="" type="checkbox" name="">
+                    arrowFunctions
+                  </label>
+                </a>
+              </li>
+            </ul>
 
           <h3>parser</h3>
 
@@ -228,7 +104,9 @@
         </div>
 
         <div class="globals">
-          <h2>globals</h2>
+          <div class="sidemenu__header">
+            <h2>globals</h2>
+          </div>
 
           <form class="pure-form globals-form">
             <input id="" type="text" name="global-var-name" class="globals-form__name">
@@ -281,7 +159,9 @@
         </div>
 
         <div>
-          <h2>Rules</h2>
+          <div class="sidemenu__header">
+            <h2>Rules</h2>
+          </div>
 
           <div class="rule rule--selected">
             <header class="rule__header rule-header">
@@ -323,9 +203,11 @@
 
         </div>
       </div>
+      </div>
 
       <div class="pure-3-5">
-        <div class="doc"></div>
+        <div class="doc">
+        </div>
       </div>
     </div>
 
