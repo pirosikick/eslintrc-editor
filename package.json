@@ -37,18 +37,10 @@
     "lodash": "^3.9.3",
     "md2react": "^0.6.4",
     "react": "^0.13.3",
-    "redux": "^0.12.0"
+    "redux": "^0.12.0",
+    "uniqueid": "^0.1.0"
   },
   "scripts": {
-    "test": "mocha --compilers js:espower-babel/guess",
-    "watch": "npm run watch-js & npm run watch-css & npm run watch-test",
-    "watch-test": "mocha -w --compilers js:espower-babel/guess",
-    "watch-js": "mkdir -p .tmp/scripts && watchify -t babelify src/client.js -o .tmp/scripts/client.bundle.js -v",
-    "watch-css": "mkdir -p .tmp/styles && node-sass app/styles/ -o .tmp/styles/ --output-style nested -w --source-map-embed",
-    "serve": "browser-sync start --config bs-config.js",
-    "start": "npm run watch & npm run serve",
-    "build": "npm run build-js && npm run build-css",
-    "build-js": "NODE_ENV=production mkdir -p build/scripts && browserify -t babelify -t uglifyify src/client.js -o build/scripts/client.bundle.js",
-    "build-css": "mkdir -p build/styles && node-sass app/styles/ -o build/styles/ --output-style compressed -w"
+    "start": "gulp"
   }
 }

@@ -1,6 +1,7 @@
 'use strict';
 import _ from 'lodash';
 import React, {Component} from "react";
+import {EnvActions} from "../actions/app";
 
 const options = {
   browser: "browser global variables.",
@@ -21,18 +22,26 @@ const options = {
 
 export default
   class Envivonments extends Component {
+    constructor (props) {
+      super(props);
+
+      this.change = this.props.change;
+    }
+
     render () {
+      const {change, env} = this.props;
       let items = _.map(_.keys(options), (name) => {
         let id = `checkbox-env-${name}`;
 
         return (
-          <li className="env-options__item env-option">
+          <li className="env-options__item env-option" key={name}>
             <label className="env-option__label" htmlFor={id}>
               <input
                 className="env-option__checkbox"
                 id={id}
                 type="checkbox"
-                value={name} />
+                name={name}
+                defaultChecked={env.get(name)}/>
               {name}
             </label>
           </li>
@@ -40,7 +49,7 @@ export default
       });
 
       return (
-        <div className="sidemenu__contents">
+        <div className="sidemenu__contents" onChange={this.onChange.bind(this)}>
           <ul className="env-options">{items}</ul>
         </div>
       );
@@ -60,5 +69,10 @@ export default
 
     getAllCheckbox () {
       return React.findDOMNode(this).querySelectorAll('input[type=checkbox]');
+    }
+
+    onChange (e) {
+      let {name, checked} = e.target;
+      this.change(name, checked);
     }
   }

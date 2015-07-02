@@ -54,7 +54,8 @@ gulp.task('sass', () => {
 
 gulp.task('main-bower-files', () => {
   let src = mainBowerFiles().concat([
-    'node_modules/react/dist/react.min.js'
+    'node_modules/react/dist/react.min.js',
+    'node_modules/react/dist/react.js'
   ]);
 
   return gulp.src(src)
