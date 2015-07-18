@@ -1,0 +1,8 @@
+.checkbox {
+  @at-root {
+    #{&}__label {
+      display: inline-block;
+      margin-left: .5em;
+    }
+  }
+}

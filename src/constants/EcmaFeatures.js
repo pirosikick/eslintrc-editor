@@ -1,20 +1,5 @@
 'use strict';
-
-export const ENV = [
-  'browser'
-, 'node'
-, 'amd'
-, 'mocha'
-, 'jasmine'
-, 'phantomjs'
-, 'jquery'
-, 'prototypejs'
-, 'shelljs'
-, 'meteor'
-, 'es6'
-];
-
-export const ECMA_FEATURES = [
+export default [
   'arrowFunctions'
 , 'binaryLiterals'
 , 'blockBindings'
@@ -37,8 +22,4 @@ export const ECMA_FEATURES = [
 , 'unicodeCodePointEscapes'
 , 'globalReturn'
 , 'jsx'
-];
-
-export const RULES = [
-
 ];

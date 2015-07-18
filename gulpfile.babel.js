@@ -10,7 +10,8 @@ const $ = gulpLoadPlugins();
 
 let src = {
   sass: 'public/styles/**/*.{scss,sass}',
-  html: 'public/*.html'
+  html: 'public/*.html',
+  font: 'bower_components/font-awesome/fonts/**'
 };
 
 let dest = {
@@ -19,7 +20,8 @@ let dest = {
   sass: '.tmp/styles',
   sassProd: 'build/styles',
   bower: '.tmp/lib',
-  eslintdoc: 'src/docs'
+  eslintdoc: 'src/docs',
+  font: '.tmp/fonts'
 }
 
 let port = process.env.NODE_PORT || 3000;
@@ -52,7 +54,7 @@ gulp.task('sass', () => {
     .pipe(reload({ stream: true }));
 });
 
-gulp.task('main-bower-files', () => {
+gulp.task('main-bower-files', ['copy-font'], () => {
   let src = mainBowerFiles().concat([
     'node_modules/react/dist/react.min.js',
     'node_modules/react/dist/react.js'
@@ -62,7 +64,12 @@ gulp.task('main-bower-files', () => {
     .pipe(gulp.dest(dest.bower));
 });
 
-gulp.task('html', ['main-bower-files', 'webpack', 'sass'], () => {
+gulp.task('copy-font', [], () => {
+  gulp.src(src.font)
+    .pipe(gulp.dest(dest.font));
+});
+
+gulp.task('html', ['main-bower-files', 'webpack', 'sass', 'copy-font'], () => {
   return gulp.src(src.html)
     .pipe($.usemin({
       css: ['concat'],
