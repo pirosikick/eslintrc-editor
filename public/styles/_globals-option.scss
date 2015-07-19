@@ -1,0 +1,11 @@
+.globals-option {
+  @at-root {
+    #{&}__form {
+      padding-left: 1em;
+    }
+    
+    #{&}__plus {
+      margin-left: .5em;
+    }
+  }
+}

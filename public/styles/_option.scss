@@ -1,0 +1,8 @@
+.option {
+  @at-root {
+    #{&}__title {
+      padding-left: 1em;
+      margin: 1em 0;
+    }
+  }
+}

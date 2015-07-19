@@ -1,0 +1,11 @@
+.radioset {
+  list-style: none;
+  padding-left: 2em;
+
+  @at-root {
+    #{&}__text {
+      margin-left: 1em;
+    }
+  }
+
+}

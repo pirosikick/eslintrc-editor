@@ -16,6 +16,34 @@ class Main extends Component {
   }
 }
 
+class RadioSet extends Component {
+  static defaultProps = {
+    defaultValue: ""
+  }
+
+  render () {
+    let {name, options, defaultValue} = this.props;
+
+    return (
+      <ul className="radioset">{
+        options.map((o) => (
+          <li className="radioset__item">
+            <label htmlFor={`${name}-${o.value}`}>
+              <input
+                id={`${name}-${o.value}`}
+                type="radio"
+                name={name}
+                value={o.value}
+                defaultChecked={o.value === defaultValue}/>
+              <span className="radioset__text">{o.label}</span>
+            </label>
+          </li>
+        ))
+      }</ul>
+    );
+  }
+}
+
 export default
   class Mock extends Component {
     render () {
@@ -24,42 +52,70 @@ export default
           <Header/>
           <Wrapper className="pure-g" offsetHeight="48">
             <SideMenu className="pure-u-6-24">
-              <OptionGroup name="Environments" defaultOpened={true}>
+              <OptionGroup name="Environments">
                 <CheckList
                     id="environments"
                     name="environments"
                     keys={Environments}/>
               </OptionGroup>
 
-              <OptionGroup name="Globals">
+              <OptionGroup name="Globals" defaultOpened={true}>
+                <div className="globals-option">
+                  <div className="globals-option__form pure-form">
+                    <input id="" type="text" name=""/>
+                    <button className="globals-option__plus pure-button">
+                      <i className="fa fa-plus"></i>
+                    </button>
+                  </div>
+
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>name</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>React</td>
+                        <td>true</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
               </OptionGroup>
 
               <OptionGroup name="ecmaFeatures | parser">
-                <ul>
-                  <li>
-                    <label htmlFor="">
-                      <input id="" type="radio" name="use-ecma-or-parser-or-nothing"/>
-                      <span>none</span>
-                    </label>
-                  </li>
-                  <li>
-                    <label htmlFor="">
-                      <input id="" type="radio" name="use-ecma-or-parser-or-nothing"/>
-                      <span>use ecmaFeatures options</span>
-                    </label>
-                  </li>
-                  <li>
-                    <label htmlFor="">
-                      <input id="" type="radio" name="use-ecma-or-parser-or-nothing"/>
-                      <span>use parser</span>
-                    </label>
-                  </li>
-                </ul>
+                <RadioSet
+                  name="ecma-or-parser"
+                  options={[
+                    {value: "", label: "none"},
+                    {value: "ecmaFeatures", label: "use ecmaFeatures option"},
+                    {value: "parser", label: "use parser option"}
+                  ]}
+                  defaultValue=""
+                  />
 
-                <CheckList
-                    id="ecma-features"
-                    name="ecmaFeatures"
-                    keys={ECMAFeatures}/>
+                <div className="option">
+                  <h4 className="option__title">ecmaFeatures</h4>
+
+                  <CheckList
+                      id="ecma-features"
+                      name="ecmaFeatures"
+                      keys={ECMAFeatures}/>
+                </div>
+
+                <div className="option parser-option">
+                  <h4 className="option__title">parser</h4>
+
+                  <div className="pure-form">
+                    <select className="parser-option__pulldown pure-input-1-2" name="parser">
+                      <option value=""></option>
+                      <option value="babel-parser">babel-parser</option>
+                    </select>
+                  </div>
+                </div>
+
               </OptionGroup>
 
               <OptionGroup name="Rules">

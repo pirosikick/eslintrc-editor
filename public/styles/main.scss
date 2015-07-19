@@ -1,9 +1,13 @@
 @import "base";
 @import "option-group";
+@import "option";
 @import "checklist";
 @import "checklist-table";
 @import "checkbox";
 @import "sidemenu";
+@import "radioset";
+@import "globals-option";
+@import "parser-option";
 
 .nav {
   box-shadow: 0px 1px #ccc;
