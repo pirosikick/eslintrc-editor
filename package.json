@@ -1,10 +1,7 @@
 {
   "name": "hiden-no-tare.web",
   "version": "0.0.1",
-  "license": {
-    "type": "MIT",
-    "url": "http://pirosikick.mit-license.org/"
-  },
+  "license": "MIT",
   "devDependencies": {
     "babel-runtime": "^5.5.8",
     "babelify": "^5.0.4",
@@ -35,7 +32,7 @@
     "flummox": "^4.0.0-alpha2",
     "fluxible": "^0.4.12",
     "immutable": "^3.7.3",
-    "lodash": "^3.9.3",
+    "lodash": "^3.10.0",
     "md2react": "^0.6.4",
     "react": "^0.13.3",
     "redux": "^0.12.0",

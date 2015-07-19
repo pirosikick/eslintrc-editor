@@ -8,12 +8,15 @@
 @import "radioset";
 @import "globals-option";
 @import "parser-option";
+@import "global-list";
+
+.app {
+  min-width: 950px;
+}
 
 .nav {
   box-shadow: 0px 1px #ccc;
 }
-
-
 
 .menu {
   height: 100%;
