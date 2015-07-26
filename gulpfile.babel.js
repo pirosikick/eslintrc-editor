@@ -100,7 +100,7 @@ module.exports = React.createClass({
 gulp.task('serve', ['watch'], () => {
   browserSync({
     server: {
-      baseDir: ['public', '.tmp', 'build']
+      baseDir: ['public', '.tmp', 'build', 'eslint']
     },
     port: port,
     ghostMode: false
