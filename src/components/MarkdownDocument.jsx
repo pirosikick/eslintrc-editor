@@ -1,8 +1,12 @@
-import React, {Component} from "react";
+import React, {Component, findDOMNode} from "react";
 import md2react from "md2react";
 
 export default
   class MarkdownDocument extends Component {
+    static defaultProps = {
+      onClickLink: function () {}
+    }
+
     constructor (props) {
       super(props);
 
@@ -19,5 +23,26 @@ export default
 
     render () {
       return md2react(this.state.md);
+    }
+
+    componentDidUpdate() {
+      if (this.linkTags) {
+        this.linkTags.forEach(this.unbindClickLinkListener, this);
+      }
+
+      this.linkTags = this.getLinks().map(this.bindClickLinkListener, this);
+    }
+
+    bindClickLinkListener(link) {
+      link.addEventListener('click', this.props.onClickLink);
+    }
+
+    unbindClickLinkListener(link) {
+      link.removeEventListener('click', this.props.onClickLink);
+    }
+
+    getLinks() {
+      let linkNodeList = findDOMNode(this).querySelectorAll('a');
+      return [].slice.call(linkNodeList);
     }
   }

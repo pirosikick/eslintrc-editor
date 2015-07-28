@@ -9,7 +9,7 @@ import OptionGroup from './OptionGroup.jsx';
 import CheckList from './CheckList.jsx';
 import RadioSet from './RadioSet.jsx';
 import GlobalsOption from './GlobalsOption.jsx';
-import MarkdownDocument from './MarkdownDocument.jsx';
+import Document from './Document.jsx';
 import {Environments, ECMAFeatures} from '../constants'
 
 class Main extends Component {
@@ -79,7 +79,7 @@ export default
               </OptionGroup>
             </SideMenu>
             <Main className="pure-u-18-24">
-              <MarkdownDocument url="docs/user-guide/configuring.md"/>
+              <Document url="docs/user-guide/configuring.md"/>
             </Main>
           </Wrapper>
         </div>
