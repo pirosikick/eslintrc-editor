@@ -8,18 +8,12 @@ export default
         <header className="nav">
           <div className="pure-menu pure-menu-horizontal">
             <a className="pure-menu-heading" href="/">.eslintrc editor</a>
-            <ul className="pure-menu-list">
-              <li className="pure-menu-item pure-menu-selected">
-                <a className="pure-menu-link" href="">Environments</a>
+            <ul className="pure-menu-list pure-menu-list-right">
+              <li className="pure-menu-item">
+                <a className="pure-menu-link" href="http://eslint.org/" target="_blank">ESLint</a>
               </li>
               <li className="pure-menu-item">
-                <a className="pure-menu-link" href="">Globals</a>
-              </li>
-              <li className="pure-menu-item">
-                <a className="pure-menu-link" href="">ecmaFeatures | parser</a>
-              </li>
-              <li className="pure-menu-item">
-                <a className="pure-menu-link" href="">Rules</a>
+                <a className="pure-menu-link" href="https://github.com/pirosikick/eslintrc-editor" target="_blank">Github</a>
               </li>
             </ul>
           </div>

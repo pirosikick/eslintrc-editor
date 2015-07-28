@@ -10,6 +10,7 @@ import CheckList from './CheckList.jsx';
 import RadioSet from './RadioSet.jsx';
 import GlobalsOption from './GlobalsOption.jsx';
 import Document from './Document.jsx';
+import Preview from './Preview.jsx';
 import {Environments, ECMAFeatures} from '../constants'
 
 class Main extends Component {
@@ -79,6 +80,13 @@ export default
               </OptionGroup>
             </SideMenu>
             <Main className="pure-u-18-24">
+              <div className="main-menu pure-menu pure-menu-horizontal">
+                <ul className="main-menu-list pure-menu-list">
+                  <li className="pure-menu-item pure-menu-selected"><a href="#" className="pure-menu-link">Preview</a></li>
+                  <li className="pure-menu-item"><a href="#" className="pure-menu-link">Document</a></li>
+                </ul>
+              </div>
+              <Preview target={{ env: [], globals: {}, ecmaFeatures: {}, rules: {} }}/>
               <Document url="docs/user-guide/configuring.md"/>
             </Main>
           </Wrapper>
