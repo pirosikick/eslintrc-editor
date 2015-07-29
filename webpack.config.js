@@ -4,7 +4,7 @@ module.exports = {
   context: __dirname + '/src',
   entry: {
     client: './client',
-    mock: './mock',
+    mock: './mock'
   },
   output: {
     path: __dirname + "/.tmp/scripts",
@@ -16,7 +16,9 @@ module.exports = {
   devtool: 'inline-source-map',
   module: {
     loaders: [
-      { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader?optional=runtime&stage=0' }
+      { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader?optional=runtime&stage=0' },
+      { test: /\.md$/, exclude: /node_modules/, loader: 'babel!md2jsx' },
+      { test: /\.json$/, loader: 'json' }
     ]
   }
 };

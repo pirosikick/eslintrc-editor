@@ -1,10 +1,12 @@
 'use strict';
-
+import {writeFile} from 'fs';
+import _ from 'lodash';
 import gulp from 'gulp';
 import gulpLoadPlugins from 'gulp-load-plugins';
 import webpack from 'webpack';
 import browserSync, {reload} from 'browser-sync';
 import mainBowerFiles from 'main-bower-files';
+import loadRules from 'eslint/lib/load-rules';
 
 const $ = gulpLoadPlugins();
 
@@ -21,7 +23,8 @@ let dest = {
   sassProd: 'build/styles',
   bower: '.tmp/lib',
   eslintdoc: 'src/docs',
-  font: '.tmp/fonts'
+  font: '.tmp/fonts',
+  eslintRuleSchema: 'src/constants/eslintRuleSchema.json'
 }
 
 let port = process.env.NODE_PORT || 3000;
@@ -78,23 +81,15 @@ gulp.task('html', ['main-bower-files', 'webpack', 'sass', 'copy-font'], () => {
     .pipe(gulp.dest(dest.html))
 });
 
-gulp.task('eslintdoc2react', [], () => {
-  let template =
-`
-var React = require('react');
-var md2react = require('md2react');
-module.exports = React.createClass({
-  render: function () {
-    return md2react(\`<%= contents %>\`);
-  }
-});
-`;
-
-  return gulp.src('eslint/docs/**/*.md')
-    .pipe($.replace('`', '\\`'))
-    .pipe($.wrap(template))
-    .pipe($.rename({ extname: '.js' }))
-    .pipe(gulp.dest(dest.eslintdoc));
+gulp.task('eslint-rule-schema', (done) => {
+  let schema = [];
+  _.each(loadRules(), (data, name) => {
+    schema.push({ name, schema: data.schema });
+  });
+  writeFile(dest.eslintRuleSchema, JSON.stringify(schema), (err) => {
+    if (err) return $.util.log('[eslint-rule-schema]', err);
+    done();
+  })
 });
 
 gulp.task('serve', ['watch'], () => {

@@ -33,3 +33,4 @@ build
 
 bower_components/
 .sass-cache
+src/constants/eslintRuleSchema.json

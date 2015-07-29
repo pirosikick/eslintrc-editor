@@ -11,6 +11,7 @@ import RadioSet from './RadioSet.jsx';
 import GlobalsOption from './GlobalsOption.jsx';
 import Document from './Document.jsx';
 import Preview from './Preview.jsx';
+import RuleList from './RuleList.jsx';
 import {Environments, ECMAFeatures} from '../constants'
 
 class Main extends Component {
@@ -77,6 +78,11 @@ export default
               </OptionGroup>
 
               <OptionGroup name="Rules">
+                <div className="rule">
+                  <article className="rule__body">
+                    <RuleList />
+                  </article>
+                </div>
               </OptionGroup>
             </SideMenu>
             <Main className="pure-u-18-24">
