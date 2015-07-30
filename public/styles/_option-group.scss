@@ -1,0 +1,44 @@
+$hover-background-color: #eee;
+
+.option-group {
+  @at-root {
+    #{&}__header {
+      border-bottom: 1px solid #ccc;
+
+      &:hover {
+        background-color: $hover-background-color;
+      }
+    }
+
+    #{&}__body {
+      display: none;
+      border-bottom: 1px solid #ccc;
+      padding-top: 1em;
+      padding-bottom: 2em;
+    }
+
+    #{&}-is-opened #{&}__body {
+      display: block;
+    }
+  }
+
+}
+
+.option-group-header {
+  display: block;
+  padding: 1em 1em;
+  text-decoration: none;
+  color: black;
+
+  @at-root {
+    #{&}__icon {
+      opacity: .7;
+    }
+
+    #{&}__title {
+      display: inline-block;
+      margin: 0;
+      margin-left: 1em;
+    }
+  }
+}

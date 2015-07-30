@@ -1,0 +1,51 @@
+{
+  "name": "hiden-no-tare.web",
+  "version": "0.0.1",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-runtime": "^5.5.8",
+    "babelify": "^5.0.4",
+    "browser-sync": "^2.2.5",
+    "browserify": "^9.0.3",
+    "espower-babel": "^2.0.0",
+    "gulp": "^3.9.0",
+    "gulp-load-plugins": "^0.10.0",
+    "gulp-plumber": "^1.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.3",
+    "gulp-ruby-sass": "^1.0.5",
+    "gulp-sass": "^1.3.3",
+    "gulp-util": "^3.0.5",
+    "gulp-wrap": "^0.11.0",
+    "html-loader": "^0.3.0",
+    "htmltojsx-loader": "0.0.1",
+    "json-loader": "^0.5.2",
+    "main-bower-files": "^2.8.0",
+    "markdown-loader": "^0.1.3",
+    "mocha": "^2.2.5",
+    "node-getopt": "^0.2.3",
+    "node-libs-browser": "^0.5.2",
+    "node-sass": "^2.1.1",
+    "power-assert": "^0.10.2",
+    "uglifyify": "^3.0.1",
+    "watchify": "^2.4.0",
+    "webpack": "^1.9.11"
+  },
+  "dependencies": {
+    "classnames": "^2.1.3",
+    "es6-promise": "^2.3.0",
+    "eslint": "file:eslint",
+    "flummox": "^4.0.0-alpha2",
+    "fluxible": "^0.4.12",
+    "immutable": "^3.7.3",
+    "isomorphic-fetch": "^2.1.1",
+    "lodash": "^3.10.0",
+    "md2react": "^0.6.4",
+    "react": "^0.13.3",
+    "redux": "^0.12.0",
+    "uniqueid": "^0.1.0"
+  },
+  "scripts": {
+    "start": "gulp"
+  }
+}

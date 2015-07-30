@@ -1,0 +1,19 @@
+.sidemenu {
+  //padding: 1em 2em;
+  overflow: scroll;
+  box-shadow: 1px 0px #ccc;
+
+  @at-root {
+    #{&}__header {
+      padding-left: .5em;
+    }
+
+    #{&}__contents {
+      padding-left: 1em;
+    }
+  }
+
+  .pure-table {
+    width: 100%;
+  }
+}

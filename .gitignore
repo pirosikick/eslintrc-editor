@@ -30,3 +30,7 @@ node_modules
 .tmp
 build
 *.css
+
+bower_components/
+.sass-cache
+src/constants/eslintRuleSchema.json

@@ -1,0 +1,18 @@
+.checklist-table {
+  width: 100%;
+
+  th, td {
+    padding: .5em 2em;
+    text-align: left;
+  }
+
+  @at-root {
+    #{&}__header {
+      border-bottom: 1px solid #eee;
+    }
+  }
+
+  .checkbox__label {
+    margin-left: 1.5em;
+  }
+}
