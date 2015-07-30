@@ -1,9 +1,18 @@
 .checklist-table {
   width: 100%;
 
-  th, td {
+  th {
     padding: .5em 2em;
     text-align: left;
+  }
+
+  td {
+    padding: .2em 2em;
+    text-align: left;
+  }
+
+  tbody tr:first-child td {
+    padding-top: .5em;
   }
 
   @at-root {

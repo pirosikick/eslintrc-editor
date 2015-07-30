@@ -1,8 +1,14 @@
 .rule {
+  border-bottom: 1px solid rgba(0, 0, 0, .2);
+
   @at-root {
     #{&}__header {
       padding: .5em 0;
-      border-bottom: 1px solid rgba(0, 0, 0, .2);
+    }
+
+    #{&}__body {
+      border-top: 1px dashed rgba(0, 0, 0, .2);
+      padding-bottom: 1.5em;
     }
   }
 }
@@ -38,10 +44,11 @@
   padding: 0;
   overflow: hidden;
   float: right;
+  width: 30%;
 
   @at-root {
     #{&}__item {
-      width: 65px;
+      width: 33%;
       float: left;
       text-align: center;
     }
