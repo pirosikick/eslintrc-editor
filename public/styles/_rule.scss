@@ -73,16 +73,17 @@
 
     #{&}__index {
       float: left;
+      width: 10%;
+      text-align: center;
     }
 
     #{&}__index-no {
-      display: inline-block;
-      margin: 0 1em;
       font-size: 80%;
     }
 
     #{&}__form {
       float: left;
+      width: 90%;
     }
 
     #{&}__title {
