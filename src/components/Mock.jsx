@@ -78,11 +78,7 @@ export default
               </OptionGroup>
 
               <OptionGroup name="Rules">
-                <div className="rule">
-                  <article className="rule__body">
-                    <RuleList />
-                  </article>
-                </div>
+                <RuleList />
               </OptionGroup>
             </SideMenu>
             <Main className="pure-u-18-24">

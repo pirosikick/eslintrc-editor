@@ -65,9 +65,24 @@
 }
 
 .rule-arg {
+  overflow: hidden;
 
   @at-root {
     #{&}__header {
+    }
+
+    #{&}__index {
+      float: left;
+    }
+
+    #{&}__index-no {
+      display: inline-block;
+      margin: 0 1em;
+      font-size: 80%;
+    }
+
+    #{&}__form {
+      float: left;
     }
 
     #{&}__title {
@@ -81,13 +96,25 @@
 
     #{&}__name {
       display: inline-block;
-      width: 10%;
-      padding: 0 .5em;
+      padding: 0 1em;
       font-size: 80%;
     }
 
     #{&}__options {
       width: 80%;
+    }
+  }
+}
+
+.rule-arg-object {
+  list-style: none;
+  padding: 0;
+}
+
+.rule-arg-bool {
+  @at-root {
+    #{&}__checkbox{
+      margin-right: .5em;
     }
   }
 }
