@@ -81,7 +81,7 @@
       font-size: 80%;
     }
 
-    #{&}__form {
+    #{&}__input {
       float: left;
       width: 90%;
     }
@@ -105,6 +105,11 @@
       width: 80%;
     }
   }
+
+  input[type="text"], input[type="number"] {
+    padding: 0 .5em;
+    font-size: 90%;
+  }
 }
 
 .rule-arg-object {
@@ -118,4 +123,21 @@
       margin-right: .5em;
     }
   }
+}
+
+.rule-arg-oneof {
+  list-style: none;
+  padding: 0;
+
+  @at-root {
+    #{&}__radio {
+      margin-right: .5em;
+    }
+
+    #{&}__or {
+      font-size: 80%;
+    }
+  }
+
+
 }
