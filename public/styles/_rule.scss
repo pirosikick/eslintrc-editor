@@ -135,8 +135,22 @@
   padding: 0;
 
   @at-root {
+    #{&}__item {
+      overflow: hidden;
+      clear: both;
+    }
+
+    #{&}__radio-column {
+      float: left;
+    }
+
+    #{&}__input-column {
+      float: left;
+    }
+
     #{&}__radio {
-      margin-right: .5em;
+      margin-left: 1px;
+      margin-right: 1em;
     }
 
     #{&}__or {

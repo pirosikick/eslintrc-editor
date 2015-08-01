@@ -75,22 +75,6 @@ class RuleArgumentObject extends Component {
         <tbody>{lines}</tbody>
       </table>
     );
-
-//    let lists = [];
-//    each(properties, (v, k) => {
-//      lists.push(
-//        <li className="rule-arg-object__item">
-//          <div className="rule-arg-object__name-column">
-//            <span>{k}</span>
-//          </div>
-//          <div className="rule-arg-object__input-column">
-//            <RuleArgumentInput options={v}/>
-//          </div>
-//        </li>
-//      );
-//    });
-//
-//    return <ul className="rule-arg-object">{lists}</ul>;
   }
 }
 
@@ -119,11 +103,15 @@ class RuleArgumentOneOf extends Component {
       }
 
       lists.push([
-        <input
-          className="rule-arg-oneof__radio"
-          type="radio"
-          name={name}/>,
-        <RuleArgumentInput options={arg} />
+        <div className="rule-arg-oneof__radio-column">
+          <input
+            className="rule-arg-oneof__radio"
+            type="radio"
+            name={name}/>
+        </div>,
+        <div className="rule-arg-oneof__input-column">
+          <RuleArgumentInput options={arg} />
+        </div>
       ]);
 
       return lists;
