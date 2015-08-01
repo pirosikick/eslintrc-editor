@@ -38,6 +38,9 @@ class RuleArgumentInput extends Component {
         return <RuleArgumentInteger />;
       case 'string':
         return <RuleArgumentString />;
+      case 'bool':
+      case 'boolean':
+        return <RuleArgumentBool />;
       }
     }
 
@@ -47,7 +50,7 @@ class RuleArgumentInput extends Component {
 
 class RuleArgumentInteger extends Component {
   render() {
-    return <input {...this.props} type="number"/>;
+    return <input className="rule-arg-integer" type="number" placeholder="integer"/>;
   }
 }
 
@@ -55,16 +58,39 @@ class RuleArgumentObject extends Component {
   render() {
     let {properties} = this.props;
 
-    let lists = [];
-    each(properties, (v, k) => {
-      lists.push(
-        <li className="rule-arg-object__item">
-          <RuleArgumentBool name={k}/>
-        </li>
+    let lines = [];
+    each(properties, (options, key) => {
+      lines.push(
+        <tr>
+          <td className="rule-arg-object__name">{key}</td>
+          <td className="rule-arg-object__input">
+            <RuleArgumentInput options={options}/>
+          </td>
+        </tr>
       );
-    });
+    })
 
-    return <ul className="rule-arg-object">{lists}</ul>;
+    return (
+      <table className="rule-arg-object">
+        <tbody>{lines}</tbody>
+      </table>
+    );
+
+//    let lists = [];
+//    each(properties, (v, k) => {
+//      lists.push(
+//        <li className="rule-arg-object__item">
+//          <div className="rule-arg-object__name-column">
+//            <span>{k}</span>
+//          </div>
+//          <div className="rule-arg-object__input-column">
+//            <RuleArgumentInput options={v}/>
+//          </div>
+//        </li>
+//      );
+//    });
+//
+//    return <ul className="rule-arg-object">{lists}</ul>;
   }
 }
 
@@ -116,23 +142,12 @@ class RuleArgumentOneOf extends Component {
 class RuleArgumentBool extends Component {
   render() {
     let {name} = this.props;
-    let id = uniqueid({ prefix: 'rule-arg-bool' });
-
-    return (
-      <label className="rule-arg-bool" htmlFor={id}>
-        <input
-          className="rule-arg-bool__checkbox"
-          id={id}
-          type="checkbox"
-          name=""/>
-        <span>{name}</span>
-      </label>
-    );
+    return <input className="rule-arg-bool" type="checkbox"/>;
   }
 }
 
 class RuleArgumentString extends Component {
   render() {
-    return <input type="text" name="" placeholder="string" />;
+    return <input className="rule-arg-string" type="text" name="" placeholder="string" />;
   }
 }

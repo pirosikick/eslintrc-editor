@@ -113,8 +113,13 @@
 }
 
 .rule-arg-object {
-  list-style: none;
-  padding: 0;
+  max-width: 100%;
+
+  @at-root {
+    #{&}__input {
+      padding-left: .5em;
+    }
+  }
 }
 
 .rule-arg-bool {
