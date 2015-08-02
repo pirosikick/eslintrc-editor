@@ -1,6 +1,5 @@
 import React, {Component} from "react";
-import {isArray} from 'lodash';
-import RuleArgument from './RuleArgument.jsx';
+import Rule from './Rule.jsx';
 import ruleSchema from "../constants/eslintRuleSchema.json";
 
 export default
@@ -30,56 +29,3 @@ export default
       );
     }
   }
-
-class Rule extends Component {
-  render() {
-    let {name, schema} = this.props;
-
-    let body;
-    if (isArray(schema) && schema.length) {
-      body = (
-        <article className="rule__body">
-          <header className="rule-arg__header">
-            <h5 className="rule-arg__title">{name} arguments</h5>
-          </header>
-          <ul className="rule-arg-list">
-            {schema.map((options, index) => (
-              <li className="rule-arg-list__item">
-                <RuleArgument
-                  ruleName={name}
-                  index={index}
-                  options={options} />
-              </li>
-            ))}
-          </ul>
-        </article>
-      );
-    } else {
-      body = ""
-    }
-
-    return (
-      <div className="rule">
-        <header className="rule__header">
-          <span className="rule-list__name">{name}</span>
-          <ul className="rule-status">
-            {
-              [0, 1, 2].map((value) => (
-                <li key={`rule-status-${name}-${value}`}
-                    className="rule-status__item">
-                  <input
-                    type="radio"
-                    name={`rule-status-${name}`}
-                    value={value} />
-                </li>
-              ))
-            }
-          </ul>
-        </header>
-        {body}
-      </div>
-    );
-  }
-}
-
-

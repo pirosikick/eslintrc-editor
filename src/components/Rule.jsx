@@ -1,66 +1,67 @@
-'use strict';
-import _ from 'lodash';
+import {isArray} from 'lodash';
+import cx from 'classnames';
+import uniqueid from 'uniqueid';
 import React, {Component} from "react";
-
-export class RuleStatus extends Component {
-  render () {
-    const values = ['off', 'warn', 'error'];
-    const {name, defaultValue} = this.props;
-
-    _.map(values, (value) => (
-      <label htmlFor={`rule-${name}-status-${value}`}>
-        <input
-          id={`rule-${name}-status-${value}`}
-          type="radio"
-          name="status" value={value}/>
-        {value}
-      </label>
-    ));
-
-    const {value} = this.props;
-    const id = `status-${value}`;
-
-    return (
-      <label htmlFor={id}>
-        <input id={id} type="radio" name="status" value={value}/>
-        {value}
-      </label>
-    );
-  }
-}
+import RuleArgument from './RuleArgument.jsx';
 
 export default
-  class RuleOption extends Component {
-    render () {
-      let {name} = this.props;
+  class Rule extends Component {
+    render() {
+      let {name, schema} = this.props;
+
+      schema = isArray(schema) ? schema : [];
+
+      let args = schema.map((options, index) => (
+        <RuleArgument
+          ruleName={name}
+          index={index}
+          options={options} />
+      ));
 
       return (
-        <div className="rule rule--selected">
-          <header className="rule__header rule-header">
-            <h3 className="rule-header__name">command-dangle</h3>
+        <div className="rule">
+          <header className="rule__header">
+            <span className="rule-list__name">{name}</span>
+            <ul className="rule-status">
+              {
+                [0, 1, 2].map((value) => (
+                  <li key={`rule-status-${name}-${value}`}
+                      className="rule-status__item">
+                    <input
+                      type="radio"
+                      name={`rule-status-${name}`}
+                      value={value} />
+                  </li>
+                ))
+              }
+            </ul>
           </header>
-
-          <div className="rule__content">
-            <form className="pure-form">
-              <RuleStatus value="off"/>
-              <RuleStatus value="warn"/>
-              <RuleStatus value="error"/>
-
-              <div className="rule-options">
-                <h4>Options</h4>
-
-                <div className="rule-options__option rule-option">
-                  <label htmlFor="">option1</label>
-                  <select id="" name="">
-                    <option value="never">never(default)</option>
-                    <option value="always">always</option>
-                    <option value="always-multiline">always-multiline</option>
-                  </select>
-                </div>
-              </div>
-            </form>
-          </div>
+          <RuleBody name={name} args={args} />
         </div>
       );
     }
   }
+
+class RuleBody extends Component {
+  render() {
+    let {name, args} = this.props;
+
+    if (!args.length) {
+      return null;
+    }
+
+    return (
+      <article
+        className="rule__body">
+        <header className="rule-arg__header">
+          <h5 className="rule-arg__title">{name} arguments</h5>
+        </header>
+        <ul className="rule-arg-list">
+          {args.map((arg) => (
+            <li className="rule-arg-list__item">{arg}</li>
+          ))}
+        </ul>
+      </article>
+    );
+  }
+}
