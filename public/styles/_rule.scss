@@ -4,6 +4,7 @@
   @at-root {
     #{&}__header {
       padding: .5em 0;
+      overflow: hidden;
     }
 
     #{&}__body {
@@ -108,15 +109,22 @@
 
   input[type="text"], input[type="number"] {
     padding: 0 .5em;
-    font-size: 90%;
+    font-size: 80%;
   }
 }
 
 .rule-arg-object {
-  max-width: 100%;
-
   @at-root {
-    #{&}__input {
+    #{&}__name-column {
+      width: 40%;
+      vertical-align: top;
+    }
+
+    #{&}__name {
+      font-size: 90%;
+    }
+
+    #{&}__input-column {
       padding-left: .5em;
     }
   }
@@ -157,6 +165,30 @@
       font-size: 80%;
     }
   }
+}
 
+.rule-arg-array {
+  margin-bottom: .5em;
 
+  @at-root {
+    #{&}__input {
+      display: inline-block;
+    }
+
+    #{&}__string {
+      width: 50%;
+      margin-right: .3em;
+      vertical-align: middle;
+    }
+
+    #{&}__plus {
+      padding: .5em;
+      font-size: 80%;
+    }
+
+    #{&}__list {
+      padding-left: 1.5em;
+      font-size: 80%;
+    }
+  }
 }

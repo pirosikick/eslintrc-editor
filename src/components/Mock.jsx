@@ -28,7 +28,7 @@ export default
         <div className="app">
           <Header/>
           <Wrapper className="pure-g" offsetHeight="48">
-            <SideMenu className="pure-u-6-24">
+            <SideMenu className="pure-u-7-24">
               <OptionGroup name="Environments">
                 <CheckList
                     id="environments"
@@ -81,7 +81,7 @@ export default
                 <RuleList />
               </OptionGroup>
             </SideMenu>
-            <Main className="pure-u-18-24">
+            <Main className="pure-u-17-24">
               <div className="main-menu pure-menu pure-menu-horizontal">
                 <ul className="main-menu-list pure-menu-list">
                   <li className="pure-menu-item pure-menu-selected"><a href="#" className="pure-menu-link">Preview</a></li>

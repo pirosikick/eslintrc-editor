@@ -15,6 +15,11 @@
 @import "rule";
 @import "main";
 
+.disabled {
+  color: rgba(0,0,0,.2);
+  cursor: default;
+}
+
 .app {
   min-width: 950px;
 }

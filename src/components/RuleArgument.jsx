@@ -1,6 +1,7 @@
-import React, {Component} from "react";
+import React, {Component, findDOMNode} from "react";
 import {isArray, isObject, each} from 'lodash';
 import uniqueid from 'uniqueid';
+import cx from 'classnames';
 
 export default
   class RuleArgument extends Component {
@@ -41,6 +42,8 @@ class RuleArgumentInput extends Component {
       case 'bool':
       case 'boolean':
         return <RuleArgumentBool />;
+      case 'array':
+        return <RuleArgumentArray />;
       }
     }
 
@@ -54,6 +57,18 @@ class RuleArgumentInteger extends Component {
   }
 }
 
+class RuleArgumentBool extends Component {
+  render() {
+    let {name} = this.props;
+    return <input className="rule-arg-bool" type="checkbox"/>;
+  }
+}
+
+class RuleArgumentString extends Component {
+  render() {
+    return <input className="rule-arg-string" type="text" name="" placeholder="string" />;
+  }
+}
 class RuleArgumentObject extends Component {
   render() {
     let {properties} = this.props;
@@ -62,8 +77,10 @@ class RuleArgumentObject extends Component {
     each(properties, (options, key) => {
       lines.push(
         <tr>
-          <td className="rule-arg-object__name">{key}</td>
-          <td className="rule-arg-object__input">
+          <td className="rule-arg-object__name-column">
+            <span className="rule-arg-object__name">{key}</span>
+          </td>
+          <td className="rule-arg-object__input-column">
             <RuleArgumentInput options={options}/>
           </td>
         </tr>
@@ -127,15 +144,64 @@ class RuleArgumentOneOf extends Component {
   }
 }
 
-class RuleArgumentBool extends Component {
-  render() {
-    let {name} = this.props;
-    return <input className="rule-arg-bool" type="checkbox"/>;
+class RuleArgumentArray extends Component {
+  static defaultProps = {
+    values: []
   }
-}
 
-class RuleArgumentString extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { plusDisabled: true };
+  }
+
   render() {
-    return <input className="rule-arg-string" type="text" name="" placeholder="string" />;
+    let {values} = this.props;
+    let {plusDisabled} = this.state;
+
+    return (
+      <div className="rule-arg-array">
+        <div className="rule-arg-array__input">
+          <input
+            ref="input"
+            className="rule-arg-array__string"
+            type="text"
+            placeholder="string"
+            onInput={this.onInput.bind(this)} />
+          <a
+            className={cx(
+              "rule-arg-array__plus",
+              { disabled: plusDisabled }
+            )}
+            href="javascript:void(0)"
+            onClick={this.onPlus.bind(this)}>
+            <i className="fa fa-plus"></i>
+          </a>
+        </div>
+        <ul className="rule-arg-array__list">
+          {values.map((v) => (
+            <li>{v}</li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
+
+  onInput(e) {
+    let {value} = e.target;
+
+    if (value && this.props.values.indexOf(value) === -1) {
+      this.setState({ plusDisabled: false });
+    } else {
+      this.setState({ plusDisabled: true });
+    }
+  }
+
+  onPlus(e) {
+    if (this.state.plusDisabled) return;
+
+    let input = findDOMNode(this.refs.input);
+    console.log(input.value);
+    input.value = "";
   }
 }
