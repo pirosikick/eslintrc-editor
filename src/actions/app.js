@@ -9,6 +9,8 @@ export const EnvActions = createActions({
   change: (env) => ({ env })
 });
 
-export const CheckListActions = createActions({
-  change: (name, checklist) => ({ name, checklist })
+export const GlobalsActions = createActions({
+  add: (name) => ({ name }),
+  change: (name, value) => ({ name, value }),
+  remove: (name) => ({ name })
 });

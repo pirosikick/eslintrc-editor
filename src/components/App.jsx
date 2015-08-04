@@ -1,7 +1,6 @@
-"use strict";
 import React, {Component, PropTypes} from "react";
 import {bindActionCreators} from 'redux';
-import {EnvActions} from '../actions/app';
+import {EnvActions, GlobalsActions} from '../actions/app';
 import {connect} from 'redux/react';
 
 import Header from './Header.jsx';
@@ -20,14 +19,13 @@ import {Environments, ECMAFeatures} from '../constants'
 @connect(state => ({
   app: state.app,
   doc: state.doc,
-  env: state.env
+  env: state.env,
+  globals: state.globals,
 }))
 export default
   class App extends Component {
     render () {
-      let {app, doc, env, dispatch} = this.props;
-
-      console.log(env);
+      let {app, doc, env, globals, dispatch} = this.props;
 
       return (
         <div className="app">
@@ -46,10 +44,8 @@ export default
 
               <OptionGroup name="Globals" defaultOpened={true}>
                 <GlobalsOption
-                  globals={[
-                    { name: 'react', value: true },
-                    { name: 'eslint', value: false }
-                  ]}/>
+                  globals={globals}
+                  {...bindActionCreators(GlobalsActions, dispatch)} />
               </OptionGroup>
 
               <OptionGroup name="ecmaFeatures | parser">
@@ -91,7 +87,7 @@ export default
             </SideMenu>
             <Main className="pure-u-17-24">
               <Header selectedTabName={app.get('selectedTabName')}/>
-              <Preview target={{ env, globals: {}, ecmaFeatures: {}, rules: {} }} hidden={app.selectedTabName=='preview'}/>
+              <Preview target={{ env, globals: globals.toObject(), ecmaFeatures: {}, rules: {} }} hidden={app.selectedTabName=='preview'}/>
               <Document url="docs/user-guide/configuring.md" hidden={app.selectedTabName=='document'}/>
             </Main>
           </Wrapper>

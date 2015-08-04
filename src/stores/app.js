@@ -1,11 +1,13 @@
 'use strict';
 import Immutable, {Map} from 'immutable';
 import {createStore, getActionIds} from '../util/redux';
-import {AppActions, EnvActions, CheckListActions} from '../actions/app';
+import {
+  AppActions,
+  EnvActions,
+  GlobalsActions
+} from '../actions/app';
 
 const actions = getActionIds(AppActions);
-const envActions = getActionIds(EnvActions);
-const checkListActions = getActionIds(CheckListActions);
 
 export const app = createStore(
   Map({
@@ -29,8 +31,24 @@ export const doc = createStore(Map({ name: 'configure' }), {
   }
 });
 
+const envActions = getActionIds(EnvActions);
 export const env = createStore([], {
   [envActions.change]: (state, action) => {
     return action.env;
   }
 })
+
+const globalsActions = getActionIds(GlobalsActions);
+export const globals = createStore(Map({}), {
+  [globalsActions.change]: (state, action) => {
+    return state.set(action.name, action.value);
+  },
+
+  [globalsActions.add]: (state, action) => {
+    return state.set(action.name, true);
+  },
+
+  [globalsActions.remove]: (state, action) => {
+    return state.remove(action.name);
+  }
+});

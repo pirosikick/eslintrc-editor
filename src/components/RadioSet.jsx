@@ -1,5 +1,6 @@
 'use strict';
 import React, {Component} from "react";
+import uniqueid from 'uniqueid';
 
 export default
   class RadioSet extends Component {
@@ -9,28 +10,32 @@ export default
       onChange: function () {}
     }
 
-    onChange (e) {
-      let {name, value} = e.target;
+    constructor(props) {
+      super(props);
 
-      if (name == this.props.name) {
-        this.props.onChange(value);
-      }
+      this.idPrefix = uniqueid({ prefix: 'radio-set' });
+    }
+
+    onChange (e) {
+      let {value} = e.target;
+      this.props.onChange(this.props.name, value);
     }
 
     render () {
       let {name, options, defaultValue, horizontal} = this.props;
       let pre = horizontal ? "radioset-horizontal" : "radioset"
+      let radioName = `${this.idPrefix}-${name}`;
 
       return (
         <ul className={pre} onChange={this.onChange.bind(this)}>{
           options.map((o, i) => (
             <li key={`radioset-${name}-${i}`} className={`${pre}__item`}>
-              <label htmlFor={`${name}-${o.value}`}>
+              <label htmlFor={`${this.idPrefix}-${o.value}`}>
                 <input
                   className={`${pre}__radio`}
-                  id={`${name}-${o.value}`}
+                  id={`${this.idPrefix}-${o.value}`}
                   type="radio"
-                  name={name}
+                  name={radioName}
                   value={o.value}
                   defaultChecked={o.value == defaultValue}/>
                 <span className={`${pre}__label-text`}>{o.label}</span>

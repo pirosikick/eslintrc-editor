@@ -1,37 +1,57 @@
 'use strict';
-import React, {Component} from "react";
+import {map, clone, isUndefined} from 'lodash';
+import React, {Component, findDOMNode} from "react";
 import RadioSet from './RadioSet.jsx';
 
 export default
   class GlobalsOption extends Component {
-    static defaultProps = {
-      globals: []
-    };
-
     constructor (props) {
       super(props);
       this.state = { isPlusButtonDisabled: true };
     }
 
     onInput (e) {
-      let disabled = !e.target.value.length;
+      let {value} = e.target;
+      let disabled = !value.length
+        || !isUndefined(this.props.globals[value]);
+
       this.setState({ isPlusButtonDisabled: disabled });
     }
 
+    onChange(name, value) {
+      this.props.change(name, !!parseInt(value))
+    }
+
+    onAdd(e) {
+      let input = findDOMNode(this.refs.globalName);
+      let name = input.value;
+
+      input.value = '';
+      this.props.add(name)
+    }
+
     onRemove(e) {
+      let name = e.currentTarget.getAttribute('data-global-name');
+      this.props.remove(name)
     }
 
     render () {
       let {globals} = this.props;
       let {isPlusButtonDisabled} = this.state;
 
+      let radioSetOptions = [
+        { label: "true", value: "1" },
+        { label: "false", value: "0" }
+      ];
+
       return (
         <div className="globals-option">
           <div className="globals-option__form pure-form">
-            <input type="text" onInput={this.onInput.bind(this)}/>
+            <input ref="globalName" type="text" onInput={this.onInput.bind(this)}/>
             <button
               className="globals-option__plus pure-button"
-              disabled={isPlusButtonDisabled}>
+              disabled={isPlusButtonDisabled}
+              onClick={this.onAdd.bind(this)}>
               <i className="fa fa-plus"></i>
             </button>
           </div>
@@ -44,25 +64,26 @@ export default
                 <th className="global-list__value-col">value</th>
               </tr>
             </thead>
-            <tbody>{globals.map((g, index) => (
-              <tr key={`global-${g.name}-${index}`}>
+            <tbody>{map(globals.toObject(), (value, name) => (
+              <tr key={`globals-${name}`}>
                 <td>
-                  <a href="javascript:void(0)" className="global-list__remove">
+                  <a onClick={this.onRemove.bind(this)}
+                     href="javascript:void(0)"
+                     data-global-name={name}
+                     className="global-list__remove">
                     <i className="fa fa-times"></i>
                   </a>
                 </td>
                 <td>
-                  <span className="global-list__var-name">{g.name}</span>
+                  <span className="global-list__var-name">{name}</span>
                 </td>
                 <td>
                   <RadioSet
-                    name={`global-value-${g.name}`}
+                    name={name}
                     horizontal={true}
-                    options={[
-                      { label: "true", value: "1" },
-                      { label: "false", value: "0" }
-                    ]}
-                    defaultValue={g.value - 0}
+                    options={radioSetOptions}
+                    defaultValue={value - 0}
+                    onChange={this.onChange.bind(this)}
                   />
                 </td>
               </tr>
