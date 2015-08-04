@@ -1,134 +1,101 @@
 "use strict";
 import React, {Component, PropTypes} from "react";
 import {bindActionCreators} from 'redux';
-import {connect} from 'redux/react';
-import Header from './Header.jsx';
-import Environments from './Environments.jsx';
-import EcmaFeatures from "./EcmaFeatures.jsx";
-import Globals from "./Globals.jsx";
-import Doc from "./Doc.jsx";
 import {EnvActions} from '../actions/app';
+import {connect} from 'redux/react';
 
-class SideMenu extends Component {
-  render () {
-    return (
-      <div className="sidemenu">
-        <div className="sidemenu__header">
-          <h2>{this.props.title}</h2>
-        </div>
-
-        {this.props.children}
-      </div>
-    );
-  }
-}
+import Header from './Header.jsx';
+import Wrapper from './Wrapper.jsx';
+import Main from './Main.jsx';
+import SideMenu from './SideMenu.jsx';
+import OptionGroup from './OptionGroup.jsx';
+import CheckList from './CheckList.jsx';
+import RadioSet from './RadioSet.jsx';
+import GlobalsOption from './GlobalsOption.jsx';
+import Document from './Document.jsx';
+import Preview from './Preview.jsx';
+import RuleList from './RuleList.jsx';
+import {Environments, ECMAFeatures} from '../constants'
 
 @connect(state => ({
   app: state.app,
   doc: state.doc,
   env: state.env
 }))
-export default class App extends Component {
-  render () {
-    const {dispatch, doc, env} = this.props;
+export default
+  class App extends Component {
+    render () {
+      let {app, doc, env, dispatch} = this.props;
 
-    return (
-      <div className="app">
-        <Header/>
-        <div className="pure-g">
-          <div className="pure-u-6-24">
-            <SideMenu title="Environments">
-              <Environments env={env}
-                {...bindActionCreators(EnvActions, dispatch)}/>
-            </SideMenu>
+      console.log(env);
 
-            <div className="sidemenu">
+      return (
+        <div className="app">
+          <Wrapper className="pure-g">
+            <SideMenu className="pure-u-7-24">
+              <OptionGroup name="Environments">
+                <CheckList
+                  name="env"
+                  keys={Environments}
+                  defaultChecked={env}
+                  onChange={(checked) => {
+                    dispatch(EnvActions.change(checked));
+                  }}
+                  />
+              </OptionGroup>
 
-              <div>
-                <h2>ecmaFeatures or parser</h2>
+              <OptionGroup name="Globals" defaultOpened={true}>
+                <GlobalsOption
+                  globals={[
+                    { name: 'react', value: true },
+                    { name: 'eslint', value: false }
+                  ]}/>
+              </OptionGroup>
 
-                <ul>
-                  <li>
-                    <label htmlFor="radio-ecma-features">
-                      <input id="radio-ecma-features" type="radio" name="ecma-features-or-parser"/>
-                      use ecmaFeatures
-                    </label>
-                  </li>
-                  <li>
-                    <label htmlFor="radio-parser">
-                      <input id="radio-parser" type="radio" name="ecma-features-or-parser"/>
-                      use parser
-                    </label>
-                  </li>
-                </ul>
+              <OptionGroup name="ecmaFeatures | parser">
+                <RadioSet
+                  name="ecma-or-parser"
+                  options={[
+                    {value: "", label: "none"},
+                    {value: "ecmaFeatures", label: "use ecmaFeatures option"},
+                    {value: "parser", label: "use parser option"}
+                  ]}
+                  defaultValue=""
+                  />
 
-                <EcmaFeatures/>
+                <div className="option">
+                  <h4 className="option__title">ecmaFeatures</h4>
 
-                <h3>parser</h3>
-
-                <div className="pure-form">
-                  <select id="" name="">
-                    <option value="esprima">esprima</option>
-                    <option value="esprima-fb">esprima-fb</option>
-                    <option value="babel-eslint">babel-eslint</option>
-                  </select>
+                  <CheckList
+                      id="ecma-features"
+                      name="ecmaFeatures"
+                      keys={ECMAFeatures}/>
                 </div>
-              </div>
 
-              <SideMenu title="Globals">
-                <Globals/>
-              </SideMenu>
+                <div className="option parser-option">
+                  <h4 className="option__title">parser</h4>
 
-              <div>
-                <h2>Rules</h2>
-
-                <div className="rule rule--selected">
-                  <header className="rule__header rule-header">
-                    <h3 className="rule-header__name">command-dangle</h3>
-                  </header>
-
-                  <div className="rule__content">
-                    <form className="pure-form">
-
-
-                      <label htmlFor="status-off">
-                        <input id="status-off" type="radio" name="status" value="off"/>
-                        off
-                      </label>
-                      <label htmlFor="status-warn">
-                        <input id="status-warn" type="radio" name="status" value="warn"/>
-                        warning
-                      </label>
-                      <label htmlFor="status-error">
-                        <input id="status-error" type="radio" name="status" value="error"/>
-                        error
-                      </label>
-
-                      <div className="rule-options">
-                        <h4>Options</h4>
-
-                        <div className="rule-options__option rule-option">
-                          <label htmlFor="">option1</label>
-                          <select id="" name="">
-                            <option value="never">never(default)</option>
-                            <option value="always">always</option>
-                            <option value="always-multiline">always-multiline</option>
-                          </select>
-                        </div>
-                      </div>
-                    </form>
+                  <div className="pure-form">
+                    <select className="parser-option__pulldown pure-input-1-2" name="parser">
+                      <option value=""></option>
+                      <option value="babel-parser">babel-parser</option>
+                    </select>
                   </div>
                 </div>
 
-              </div>
-            </div>
-          </div>
+              </OptionGroup>
 
-          <div className="pure-u-18-24">
-            <Doc name={doc.get('name')} />
-          </div>
+              <OptionGroup name="Rules">
+                <RuleList />
+              </OptionGroup>
+            </SideMenu>
+            <Main className="pure-u-17-24">
+              <Header selectedTabName={app.get('selectedTabName')}/>
+              <Preview target={{ env, globals: {}, ecmaFeatures: {}, rules: {} }} hidden={app.selectedTabName=='preview'}/>
+              <Document url="docs/user-guide/configuring.md" hidden={app.selectedTabName=='document'}/>
+            </Main>
+          </Wrapper>
         </div>
-      </div>
-    );
+      );
+    }
   }
-}

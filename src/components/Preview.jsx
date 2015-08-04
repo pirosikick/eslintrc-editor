@@ -9,10 +9,9 @@ export default
 
     render() {
       let {target, hidden, indent} = this.props;
-      let className = cx("preview", { hidden })
 
       return (
-        <div className={className}>
+        <div className={cx("preview", { hidden })}>
           <pre className="preview__json">{
             JSON.stringify(target, null, indent)
           }</pre>
