@@ -1,6 +1,7 @@
 'use strict';
 import cx from 'classnames';
 import React, {Component} from "react";
+import {Map} from 'immutable';
 
 import Header from './Header.jsx';
 import Wrapper from './Wrapper.jsx';
@@ -31,10 +32,10 @@ export default
 
               <OptionGroup name="Globals" defaultOpened={true}>
                 <GlobalsOption
-                  globals={[
-                    { name: 'react', value: true },
-                    { name: 'eslint', value: false }
-                  ]}/>
+                  globals={Map({
+                    react: true,
+                    eslint: false,
+                  })}/>
               </OptionGroup>
 
               <OptionGroup name="ecmaFeatures | parser">
