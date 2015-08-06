@@ -30,7 +30,8 @@ export default
         this.linkTags.forEach(this.unbindClickLinkListener, this);
       }
 
-      this.linkTags = this.getLinks().map(this.bindClickLinkListener, this);
+      this.linkTags = this.getLinks();
+      this.linkTags.map(this.bindClickLinkListener, this);
     }
 
     bindClickLinkListener(link) {
