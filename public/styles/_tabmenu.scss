@@ -1,0 +1,46 @@
+$selectedColor: white;
+$selectedBackgroundColor: #aaa;
+$hoverColor: white;
+$hoverBackgroundColor: #ccc;
+
+.tabmenu {
+}
+
+.tabmenu-list {
+  list-style: none;
+  overflow: hidden;
+  padding: 0;
+
+  @at-root {
+    #{&}__item--is-selected {
+      border-color: $selectedBackgroundColor;
+      background-color: $selectedBackgroundColor;
+    }
+
+    #{&}__item {
+      float: left;
+      margin-right: .5em;
+      border: 1px solid $hoverBackgroundColor;
+
+      &:hover {
+        color: $hoverColor;
+        background-color: $hoverBackgroundColor;
+      }
+    }
+
+    #{&}__link {
+      color: black;
+      text-decoration: none;
+      display: inline-block;
+      padding: .5em 1em;
+    }
+
+    #{&}__item--is-selected #{&}__link {
+      color: $selectedColor;
+    }
+
+    #{&}__item:hover #{&}__link {
+      color: $hoverColor;
+    }
+  }
+}
