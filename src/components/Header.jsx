@@ -6,7 +6,7 @@ export default
   class Header extends Component {
     render () {
       let {selectedTabName} = this.props;
-console.log(selectedTabName);
+
       return (
         <header className="nav">
           <div className="pure-menu pure-menu-horizontal">
