@@ -36,13 +36,11 @@ export default
                   name="env"
                   keys={Environments}
                   defaultChecked={env}
-                  onChange={(checked) => {
-                    dispatch(EnvActions.change(checked));
-                  }}
+                  onChange={(env) => dispatch(EnvActions.change(env))}
                   />
               </OptionGroup>
 
-              <OptionGroup name="Globals" defaultOpened={true}>
+              <OptionGroup name="Globals">
                 <GlobalsOption
                   globals={globals}
                   {...bindActionCreators(GlobalsActions, dispatch)} />
