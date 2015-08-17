@@ -14,6 +14,7 @@ import GlobalsOption from './GlobalsOption.jsx';
 import Document from './Document.jsx';
 import Preview from './Preview.jsx';
 import RuleList from './RuleList.jsx';
+import TabMenu from './TabMenu.jsx';
 import {Environments, ECMAFeatures} from '../constants'
 
 @connect(state => ({
@@ -84,9 +85,21 @@ export default
               </OptionGroup>
             </SideMenu>
             <Main className="pure-u-17-24">
-              <Header selectedTabName={app.get('selectedTabName')}/>
-              <Preview target={{ env, globals: globals.toObject(), ecmaFeatures: {}, rules: {} }} hidden={app.selectedTabName=='preview'}/>
-              <Document url="docs/user-guide/configuring.md" hidden={app.selectedTabName=='document'}/>
+              <TabMenu
+                tabs={[
+                  {
+                    name: 'Preview',
+                    component:
+                      <Preview
+                        target={{ env, globals: globals.toObject(), ecmaFeatures: {}, rules: {} }} />
+                  },
+                  {
+                    name: 'Document',
+                    component:
+                      <Document url="docs/user-guide/configuring.md" />
+
+                  }
+                ]}/>
             </Main>
           </Wrapper>
         </div>

@@ -1,4 +1,6 @@
 .preview {
+  padding: 0 1em;
+
   @at-root {
     #{&}__json {
       background-color: #f7f7f7;

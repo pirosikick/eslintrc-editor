@@ -10,6 +10,7 @@ $hoverBackgroundColor: #ccc;
   list-style: none;
   overflow: hidden;
   padding: 0;
+  margin-left: 1em;
 
   @at-root {
     #{&}__item--is-selected {
