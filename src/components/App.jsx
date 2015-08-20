@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from "react";
 import {bindActionCreators} from 'redux';
 import {EnvActions, GlobalsActions} from '../actions/app';
-import {connect} from 'redux/react';
+import {connect} from 'react-redux';
 
 import Header from './Header.jsx';
 import Wrapper from './Wrapper.jsx';

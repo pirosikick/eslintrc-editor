@@ -28,7 +28,7 @@ export const getActionIds = (actionCreators) => {
 };
 
 // Replace switch statements in stores (taken from the Redux README)
-export const createStore = (initialState, handlers) => {
+export const createReducer = (initialState, handlers) => {
   return (state = initialState, action) =>
   handlers[action.type] ?
   handlers[action.type](state, action) :

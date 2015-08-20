@@ -1,16 +1,16 @@
 "use strict";
 import React, {Component} from "react";
-import {createRedux} from 'redux';
-import {Provider} from 'redux/react';
-import * as stores from './stores/app';
+import {createStore} from 'redux';
+import {Provider} from 'react-redux';
+import reducers from './reducers';
 import App from "./components/App.jsx";
 
-const redux = createRedux(stores);
+const store = createStore(reducers);
 
 class Outer extends Component {
   render () {
     return (
-      <Provider redux={redux}>
+      <Provider store={store}>
         {() => <App/>}
       </Provider>
     );
