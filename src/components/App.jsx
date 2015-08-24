@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from "react";
 import {bindActionCreators} from 'redux';
-import {EnvActions, GlobalsActions} from '../actions/app';
+import {EnvActions, GlobalsActions, RulesActions} from '../actions/app';
 import {connect} from 'react-redux';
 
 import Header from './Header.jsx';
@@ -21,12 +21,13 @@ import {Environments, ECMAFeatures} from '../constants'
   app: state.app,
   doc: state.doc,
   env: state.env,
+  rules: state.rules,
   globals: state.globals,
 }))
 export default
   class App extends Component {
     render () {
-      let {app, doc, env, globals, dispatch} = this.props;
+      let {app, doc, env, rules, globals, dispatch} = this.props;
 
       return (
         <div className="app">
@@ -81,7 +82,7 @@ export default
               </OptionGroup>
 
               <OptionGroup name="Rules">
-                <RuleList />
+                <RuleList onChange={rules => dispatch(RulesActions.change(rules))}/>
               </OptionGroup>
             </SideMenu>
             <Main className="pure-u-17-24">
@@ -91,7 +92,7 @@ export default
                     name: 'Preview',
                     component:
                       <Preview
-                        target={{ env, globals: globals.toObject(), ecmaFeatures: {}, rules: {} }} />
+                        target={{ env, globals: globals.toObject(), ecmaFeatures: {}, rules: rules }} />
                   },
                   {
                     name: 'Document',

@@ -14,3 +14,7 @@ export const GlobalsActions = createActions({
   change: (name, value) => ({ name, value }),
   remove: (name) => ({ name })
 });
+
+export const RulesActions = createActions({
+  change: rules => ({ rules })
+});

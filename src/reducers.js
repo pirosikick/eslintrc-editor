@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux';
 import {createReducer, getActionIds} from './util/redux';
-import {EnvActions, GlobalsActions} from './actions/app';
+import {EnvActions, GlobalsActions, RulesActions} from './actions/app';
 import Immutable, {Map, Set} from 'immutable';
 
 const envActions = getActionIds(EnvActions);
@@ -25,6 +25,11 @@ const globals = createReducer(Map({}), {
   }
 });
 
-const app = combineReducers({ env, globals });
+const rulesActions = getActionIds(RulesActions);
+const rules = createReducer({}, {
+  [rulesActions.change]: (state, action) => action.rules
+});
+
+const app = combineReducers({ env, globals, rules });
 
 export default app;
