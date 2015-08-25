@@ -50,7 +50,8 @@ export default
       this.state = { args: new Array(argLen) }
     }
 
-    onChangeArg(index, value) {
+    onChangeArg(e) {
+      let {index, value} = e;
       let {name} = this.props;
       let {args} = this.state;
 
@@ -61,7 +62,7 @@ export default
     }
 
     onChangeStatus(e) {
-      this.onChangeArg(0, e.value);
+      this.onChangeArg({ index: 0, value: e.value });
     }
 
     render() {
@@ -69,11 +70,14 @@ export default
 
       schema = isArray(schema) ? schema : [];
 
+      let onChangeArg = this.onChangeArg.bind(this);
       let args = schema.map((options, index) => (
         <RuleArgument
           ruleName={name}
-          index={index}
-          options={options} />
+          index={index + 1}
+          options={options}
+          onChange={onChangeArg}
+          />
       ));
 
       return (
