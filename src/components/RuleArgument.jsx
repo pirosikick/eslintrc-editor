@@ -5,6 +5,12 @@ import cx from 'classnames';
 
 export default
   class RuleArgument extends Component {
+    constructor(props) {
+      super(props);
+
+      this.onChange = this.onChange.bind(this);
+    }
+
     onChange(value) {
       this.props.onChange({ index: this.props.index, value });
     }
@@ -18,7 +24,7 @@ export default
             <span className="rule-arg__index-no">{index}</span>
           </div>
           <div className="rule-arg__input">
-            <RuleArgumentInput options={options} onChange={this.onChange.bind(this)} />
+            <RuleArgumentInput options={options} onChange={this.onChange} />
           </div>
         </div>
       );
@@ -26,16 +32,21 @@ export default
   }
 
 class RuleArgumentInput extends Component {
+  constructor(props) {
+    super(props);
+
+    this.onChange = this.onChange.bind(this);
+  }
+
   onChange(value) {
     this.props.onChange(value);
   }
 
   render() {
     let {options} = this.props;
-    let onChange = this.onChange.bind(this);
 
     if (options.enum) {
-      return <RuleArgumentEnum values={options.enum}/>;
+      return <RuleArgumentEnum values={options.enum} onChange={this.onChange}/>;
     } else if (options.oneOf) {
       return <RuleArgumentOneOf args={options.oneOf} />
     }
@@ -43,16 +54,16 @@ class RuleArgumentInput extends Component {
     if (isObject(options)) {
       switch (options.type) {
       case 'object':
-        return <RuleArgumentObject properties={options.properties} />;
+        return <RuleArgumentObject properties={options.properties} onChange={this.onChange}/>;
       case 'integer':
-        return <RuleArgumentInteger onChange={onChange} />;
+        return <RuleArgumentInteger onChange={this.onChange} />;
       case 'string':
-        return <RuleArgumentString onChange={onChange} />;
+        return <RuleArgumentString onChange={this.onChange} />;
       case 'bool':
       case 'boolean':
-        return <RuleArgumentBool onChange={onChange} />;
+        return <RuleArgumentBool onChange={this.onChange} />;
       case 'array':
-        return <RuleArgumentArray />;
+        return <RuleArgumentArray onChange={this.onChange}/>;
       }
     }
 
@@ -92,18 +103,30 @@ class RuleArgumentString extends Component {
 }
 
 class RuleArgumentObject extends Component {
+  constructor(props) {
+    super(props);
+    this.object = {};
+  }
+
+  onChange(key, value) {
+    this.object[key] = value;
+    this.props.onChange(this.object);
+  }
+
   render() {
     let {properties} = this.props;
 
     let lines = [];
     each(properties, (options, key) => {
+      let onChange = this.onChange.bind(this, key);
+
       lines.push(
         <tr>
           <td className="rule-arg-object__name-column">
             <span className="rule-arg-object__name">{key}</span>
           </td>
           <td className="rule-arg-object__input-column">
-            <RuleArgumentInput options={options}/>
+            <RuleArgumentInput options={options} onChange={onChange}/>
           </td>
         </tr>
       );
@@ -118,11 +141,15 @@ class RuleArgumentObject extends Component {
 }
 
 class RuleArgumentEnum extends Component {
+  onChange(e) {
+    this.props.onChange(e.target.value);
+  }
+
   render() {
     let {values} = this.props;
 
     return (
-      <select className="rule-arg-options">
+      <select className="rule-arg-options" onChange={this.onChange.bind(this)}>
         {values.map(v => <option value={v}>{v}</option>)}
       </select>
     );
@@ -174,12 +201,15 @@ class RuleArgumentArray extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { plusDisabled: true };
+    let {values} = props;
+
+    this.state = { value: "", values: values, plusDisabled: true };
+    this.onInput = this.onInput.bind(this);
+    this.onPlus = this.onPlus.bind(this);
   }
 
   render() {
-    let {values} = this.props;
-    let {plusDisabled} = this.state;
+    let {value, values, plusDisabled} = this.state;
 
     return (
       <div className="rule-arg-array">
@@ -189,14 +219,15 @@ class RuleArgumentArray extends Component {
             className="rule-arg-array__string"
             type="text"
             placeholder="string"
-            onInput={this.onInput.bind(this)} />
+            defaultValue={value}
+            onInput={this.onInput} />
           <a
             className={cx(
               "rule-arg-array__plus",
               { disabled: plusDisabled }
             )}
             href="javascript:void(0)"
-            onClick={this.onPlus.bind(this)}>
+            onClick={this.onPlus}>
             <i className="fa fa-plus"></i>
           </a>
         </div>
@@ -211,19 +242,24 @@ class RuleArgumentArray extends Component {
 
   onInput(e) {
     let {value} = e.target;
+    let plusDisabled = true;
 
-    if (value && this.props.values.indexOf(value) === -1) {
-      this.setState({ plusDisabled: false });
-    } else {
-      this.setState({ plusDisabled: true });
+    if (value && this.state.values.indexOf(value) === -1) {
+      plusDisabled =  false;
     }
+
+    this.setState({ value, plusDisabled });
   }
 
   onPlus(e) {
     if (this.state.plusDisabled) return;
-
     let input = findDOMNode(this.refs.input);
-    console.log(input.value);
+    let {values} = this.state;
+
+    values.push(input.value);
+    this.setState({ values });
+    this.props.onChange(values);
+
     input.value = "";
   }
 }
