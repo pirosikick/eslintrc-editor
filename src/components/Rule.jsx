@@ -45,28 +45,38 @@ export default
       super(props);
 
       let {schema} = props;
-      let argLen = isArray(schema) ? schema.length : 0;
-
-      this.state = { args: new Array(argLen) }
+      this.argLen = isArray(schema) ? schema.length : 0;
+      this.state = { currentArgs: new Array(this.argLen + 1) }
     }
 
     onChangeArg(e) {
       let {index, value} = e;
       let {name} = this.props;
-      let {args} = this.state;
+      let {currentArgs} = this.state;
 
-      args[index] = value;
+      currentArgs[index] = value;
 
-      this.props.onChange({ name, args });
-      this.setState({ args });
+      if (this.argLen == 0 || currentArgs[0] == 0) {
+        this.emitChange(name, currentArgs[0]);
+      } else if (currentArgs[0]) {
+        this.emitChange(name, currentArgs);
+      }
+
+      this.setState({ currentArgs });
+    }
+
+    emitChange(name, args) {
+      setTimeout(() => this.props.onChange({ name, args }));
     }
 
     onChangeStatus(e) {
-      this.onChangeArg({ index: 0, value: e.value });
+      this.onChangeArg({ index: 0, value: e.value - 0 });
     }
 
     render() {
       let {name, schema} = this.props;
+      let {currentArgs} = this.state;
+      let disabled = !currentArgs[0];
 
       schema = isArray(schema) ? schema : [];
 
@@ -76,6 +86,7 @@ export default
           ruleName={name}
           index={index + 1}
           options={options}
+          disabled={disabled}
           onChange={onChangeArg}
           />
       ));
@@ -86,7 +97,7 @@ export default
             <span className="rule-list__name">{name}</span>
             <RuleStatus name={name} onChange={this.onChangeStatus.bind(this)} />
           </header>
-          <RuleBody name={name} args={args} />
+          <RuleBody name={name} args={args} disabled={disabled}/>
         </div>
       );
     }
@@ -94,7 +105,7 @@ export default
 
 class RuleBody extends Component {
   render() {
-    let {name, args} = this.props;
+    let {name, args, disabled} = this.props;
 
     if (!args.length) {
       return null;
@@ -102,7 +113,7 @@ class RuleBody extends Component {
 
     return (
       <article
-        className="rule__body">
+        className={cx('rule__body', {'rule__body--is-disabled': disabled})}>
         <header className="rule-arg__header">
           <h5 className="rule-arg__title">{name} arguments</h5>
         </header>

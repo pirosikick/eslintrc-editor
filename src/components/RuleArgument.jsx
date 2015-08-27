@@ -16,7 +16,7 @@ export default
     }
 
     render() {
-      let {ruleName, index, options, onChange} = this.props;
+      let {ruleName, index, options, disabled, onChange} = this.props;
 
       return (
         <div className="rule-arg">
@@ -24,7 +24,11 @@ export default
             <span className="rule-arg__index-no">{index}</span>
           </div>
           <div className="rule-arg__input">
-            <RuleArgumentInput options={options} onChange={this.onChange} />
+            <RuleArgumentInput
+              options={options}
+              disabled={disabled}
+              onChange={this.onChange}
+              />
           </div>
         </div>
       );
@@ -35,35 +39,37 @@ class RuleArgumentInput extends Component {
   constructor(props) {
     super(props);
 
+    this.currentValue = props.defaultValue || null;
     this.onChange = this.onChange.bind(this);
   }
 
   onChange(value) {
+    this.currentValue = value;
     this.props.onChange(value);
   }
 
   render() {
-    let {options} = this.props;
+    let {options, disabled} = this.props;
 
     if (options.enum) {
-      return <RuleArgumentEnum values={options.enum} onChange={this.onChange}/>;
+      return <RuleArgumentEnum values={options.enum} disabled={disabled} onChange={this.onChange}/>;
     } else if (options.oneOf) {
-      return <RuleArgumentOneOf args={options.oneOf} />
+      return <RuleArgumentOneOf args={options.oneOf} disabled={disabled} onChange={this.onChange}/>
     }
 
     if (isObject(options)) {
       switch (options.type) {
       case 'object':
-        return <RuleArgumentObject properties={options.properties} onChange={this.onChange}/>;
+        return <RuleArgumentObject properties={options.properties} disabled={disabled} onChange={this.onChange}/>;
       case 'integer':
-        return <RuleArgumentInteger onChange={this.onChange} />;
+        return <RuleArgumentInteger disabled={disabled} onChange={this.onChange} />;
       case 'string':
-        return <RuleArgumentString onChange={this.onChange} />;
+        return <RuleArgumentString disabled={disabled} onChange={this.onChange} />;
       case 'bool':
       case 'boolean':
-        return <RuleArgumentBool onChange={this.onChange} />;
+        return <RuleArgumentBool disabled={disabled} onChange={this.onChange} />;
       case 'array':
-        return <RuleArgumentArray onChange={this.onChange}/>;
+        return <RuleArgumentArray disabled={disabled} onChange={this.onChange}/>;
       }
     }
 
@@ -77,7 +83,7 @@ class RuleArgumentInteger extends Component {
   }
 
   render() {
-    return <input className="rule-arg-integer" type="number" placeholder="integer" onChange={this.onChange.bind(this)}/>;
+    return <input className="rule-arg-integer" type="number" placeholder="integer" disabled={this.props.disabled} onChange={this.onChange.bind(this)}/>;
   }
 }
 
@@ -88,7 +94,7 @@ class RuleArgumentBool extends Component {
 
   render() {
     let {name} = this.props;
-    return <input className="rule-arg-bool" type="checkbox" onChange={this.onChange.bind(this)}/>;
+    return <input className="rule-arg-bool" type="checkbox" disabled={this.props.disabled} onChange={this.onChange.bind(this)}/>;
   }
 }
 
@@ -98,7 +104,7 @@ class RuleArgumentString extends Component {
   }
 
   render() {
-    return <input className="rule-arg-string" type="text" placeholder="string" onChange={this.onChange.bind(this)}/>;
+    return <input className="rule-arg-string" type="text" placeholder="string" disabled={this.props.disabled} onChange={this.onChange.bind(this)}/>;
   }
 }
 
@@ -114,7 +120,7 @@ class RuleArgumentObject extends Component {
   }
 
   render() {
-    let {properties} = this.props;
+    let {properties, disabled} = this.props;
 
     let lines = [];
     each(properties, (options, key) => {
@@ -126,7 +132,7 @@ class RuleArgumentObject extends Component {
             <span className="rule-arg-object__name">{key}</span>
           </td>
           <td className="rule-arg-object__input-column">
-            <RuleArgumentInput options={options} onChange={onChange}/>
+            <RuleArgumentInput options={options} disabled={disabled} onChange={onChange}/>
           </td>
         </tr>
       );
@@ -142,14 +148,15 @@ class RuleArgumentObject extends Component {
 
 class RuleArgumentEnum extends Component {
   onChange(e) {
-    this.props.onChange(e.target.value);
+    this.props.onChange(e.target.value || null);
   }
 
   render() {
     let {values} = this.props;
 
     return (
-      <select className="rule-arg-options" onChange={this.onChange.bind(this)}>
+      <select className="rule-arg-options" disabled={this.props.disabled} onChange={this.onChange.bind(this)}>
+        <option value="">-</option>
         {values.map(v => <option value={v}>{v}</option>)}
       </select>
     );
@@ -157,11 +164,23 @@ class RuleArgumentEnum extends Component {
 }
 
 class RuleArgumentOneOf extends Component {
-  render() {
-    let {args} = this.props;
+  constructor(props) {
+    super(props);
 
-    let name = uniqueid({ prefix: 'rule-arg-oneof-radio' })
-    let lists = args.reduce((lists, arg) => {
+    this.radioName = uniqueid({ prefix: 'rule-arg-oneof-radio' });
+  }
+
+  onClickRadio(e) {
+    let index = e.target.getAttribute('data-arg-index')
+      , input = this.refs[`input-${index}`];
+
+    this.props.onChange(input.currentValue);
+  }
+
+  render() {
+    let {args, disabled} = this.props;
+
+    let lists = args.reduce((lists, arg, index) => {
       if (lists.length) {
         lists.push(
           <span className="rule-arg-oneof__or">OR</span>
@@ -173,10 +192,13 @@ class RuleArgumentOneOf extends Component {
           <input
             className="rule-arg-oneof__radio"
             type="radio"
-            name={name}/>
+            data-arg-index={index}
+            name={this.radioName}
+            disabled={disabled}
+            onClick={this.onClickRadio.bind(this)} />
         </div>,
         <div className="rule-arg-oneof__input-column">
-          <RuleArgumentInput options={arg} />
+          <RuleArgumentInput options={arg} ref={`input-${index}`} disabled={disabled} onChange={() => {}}/>
         </div>
       ]);
 
@@ -220,6 +242,7 @@ class RuleArgumentArray extends Component {
             type="text"
             placeholder="string"
             defaultValue={value}
+            disabled={this.props.disabled}
             onInput={this.onInput} />
           <a
             className={cx(

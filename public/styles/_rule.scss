@@ -11,6 +11,10 @@
       border-top: 1px dashed rgba(0, 0, 0, .2);
       padding-bottom: 1.5em;
     }
+
+    #{&}__body--is-disabled {
+      color: rgba(0, 0, 0, .5);
+    }
   }
 }
 
