@@ -22,7 +22,7 @@ import {Environments, ECMAFeatures} from '../constants'
   doc: state.doc,
   env: state.env,
   rules: state.rules,
-  globals: state.globals,
+  globals: state.globals
 }))
 export default
   class App extends Component {
@@ -97,7 +97,7 @@ export default
                   {
                     name: 'Document',
                     component:
-                      <Document url="docs/user-guide/configuring.md" />
+                      <Document url={doc.url} />
 
                   }
                 ]}/>

@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux';
 import {createReducer, getActionIds} from './util/redux';
-import {EnvActions, GlobalsActions, RulesActions} from './actions/app';
+import {EnvActions, GlobalsActions, RulesActions, DocActions} from './actions/app';
 import Immutable, {Map, Set} from 'immutable';
 
 const envActions = getActionIds(EnvActions);
@@ -30,6 +30,15 @@ const rules = createReducer({}, {
   [rulesActions.change]: (state, action) => action.rules
 });
 
-const app = combineReducers({ env, globals, rules });
+
+const docActions = getActionIds(DocActions);
+const doc = createReducer(
+  { url: "docs/user-guide/configuring.md" },
+  {
+    [docActions.open]: (state, action) => ({ url: action.url })
+  }
+);
+
+const app = combineReducers({ env, globals, rules, doc });
 
 export default app;

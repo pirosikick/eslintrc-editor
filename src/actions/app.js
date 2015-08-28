@@ -18,3 +18,7 @@ export const GlobalsActions = createActions({
 export const RulesActions = createActions({
   change: rules => ({ rules })
 });
+
+export const DocActions = createActions({
+  open: url => ({ url })
+});
