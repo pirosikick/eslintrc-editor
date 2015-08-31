@@ -94,7 +94,8 @@ export default
       return (
         <div className="rule">
           <header className="rule__header">
-            <span className="rule-list__name">{name}</span>
+            <span className="rule__name">{name}</span>
+            <a className="rule__help" href="#"><i className="fa fa-info-circle"></i></a>
             <RuleStatus name={name} onChange={this.onChangeStatus.bind(this)} />
           </header>
           <RuleBody name={name} args={args} disabled={disabled}/>

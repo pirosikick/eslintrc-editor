@@ -15,6 +15,20 @@
     #{&}__body--is-disabled {
       color: rgba(0, 0, 0, .5);
     }
+
+    #{&}__name {
+      display: inline-block;
+      padding-left: .5em;
+      margin-right: .5em;
+    }
+
+    #{&}__help {
+      color: rgba(0, 0, 0, .5);
+
+      &:hover {
+        color: rgba(0, 0, 0, .7);
+      }
+    }
   }
 }
 
@@ -30,11 +44,6 @@
 
     #{&}__item {
       overflow: hidden;
-    }
-
-    #{&}__name {
-      display: inline-block;
-      padding-left: .5em;
     }
 
     #{&}__radio {
