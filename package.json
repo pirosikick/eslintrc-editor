@@ -38,8 +38,8 @@
     "md2react": "^0.6.4",
     "on-resize": "^2.0.0",
     "react": "^0.13.3",
-    "react-redux": "^0.9.0",
-    "redux": "^1.0.1",
+    "react-redux": "^2.0.0",
+    "redux": "^2.0.0",
     "uniqueid": "^0.1.0"
   },
   "scripts": {
