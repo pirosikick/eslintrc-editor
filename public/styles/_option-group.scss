@@ -26,19 +26,17 @@ $hover-background-color: #eee;
 
 .option-group-header {
   display: block;
-  padding: 1em 1em;
+  padding: 0 1em;
   text-decoration: none;
   color: black;
 
   @at-root {
-    #{&}__icon {
-      opacity: .7;
-    }
-
     #{&}__title {
       display: inline-block;
       margin: 0;
-      margin-left: 1em;
+      margin-left: .5em;
+      font-size: 100%;
+      font-weight: normal;
     }
   }
 }

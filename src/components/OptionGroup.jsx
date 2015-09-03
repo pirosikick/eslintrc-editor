@@ -27,7 +27,7 @@ export default
       let {opened} = this.state;
       let {name, children} = this.props;
       let className = cx(prefix, { [`${prefix}-is-opened`]: opened })
-      let iconType = opened ? "chevron-up" : "chevron-down";
+      let iconType = opened ? "angle-down" : "angle-right";
 
       return (
         <div className={className}>
