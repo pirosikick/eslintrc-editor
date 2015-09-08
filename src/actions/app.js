@@ -16,7 +16,7 @@ export const GlobalsActions = createActions({
 });
 
 export const RulesActions = createActions({
-  change: rules => ({ rules })
+  change: (name, args) => ({ name, args })
 });
 
 export const DocActions = createActions({

@@ -26,8 +26,10 @@ const globals = createReducer(Map({}), {
 });
 
 const rulesActions = getActionIds(RulesActions);
-const rules = createReducer({}, {
-  [rulesActions.change]: (state, action) => action.rules
+const rules = createReducer(Map({}), {
+  [rulesActions.change]: (state, action) => {
+    return state.set(action.name, action.args);
+  }
 });
 
 

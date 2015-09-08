@@ -1,7 +1,5 @@
 import React, {Component} from "react";
 import {Map} from 'immutable';
-import Rule from './Rule.jsx';
-import ruleSchema from "../constants/eslintRuleSchema.json";
 
 export default
   class RuleList extends Component {
@@ -17,6 +15,8 @@ export default
     }
 
     render() {
+      let {rules} = this.props;
+
       return (
         <ul className="rule-list">
           <li className="rule-list__item rule-list__header">
@@ -32,11 +32,9 @@ export default
               </li>
             </ul>
           </li>
-          {ruleSchema.map((rule) => (
-            <li key={rule.name} className="rule-list__item">
-              <Rule name={rule.name} schema={rule.schema} onChange={this.onChangeRule.bind(this)}/>
-            </li>
-          ))}
+            {rules.map(rule =>
+              <li key={rule.name} className="rule-list__item">{rule}</li>
+            )}
         </ul>
       );
     }

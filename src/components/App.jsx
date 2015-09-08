@@ -16,6 +16,8 @@ import Preview from './Preview.jsx';
 import RuleList from './RuleList.jsx';
 import TabMenu from './TabMenu.jsx';
 import {Environments, ECMAFeatures} from '../constants'
+import Rule from './Rule.jsx';
+import ruleSchema from "../constants/eslintRuleSchema.json";
 
 @connect(state => ({
   app: state.app,
@@ -28,6 +30,14 @@ export default
   class App extends Component {
     render () {
       let {app, doc, env, rules, globals, dispatch} = this.props;
+console.log(rules);
+      let _rules = ruleSchema.map(schema =>
+        <Rule
+          name={schema.name}
+          schema={schema.schema}
+          onChange={e =>
+            dispatch(RulesActions.change(e.name, e.args))} />
+      );
 
       return (
         <div className="app">
@@ -82,8 +92,9 @@ export default
               </OptionGroup>
 
               <OptionGroup name="Rules">
-                <RuleList onChange={rules => dispatch(RulesActions.change(rules))}/>
+                <RuleList rules={_rules} />
               </OptionGroup>
+
             </SideMenu>
             <Main className="pure-u-17-24">
               <TabMenu
@@ -92,7 +103,7 @@ export default
                     name: 'Preview',
                     component:
                       <Preview
-                        target={{ env, globals: globals.toObject(), ecmaFeatures: {}, rules: rules }} />
+                        target={{ env, globals: globals.toObject(), ecmaFeatures: {}, rules: rules.toObject() }} />
                   },
                   {
                     name: 'Document',
