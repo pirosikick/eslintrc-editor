@@ -1,3 +1,11 @@
 .main {
+  position: relative;
   height: 100%;
+  overflow: scroll;
+
+  @at-root {
+    #{&}__contents {
+      padding-top: calc(50px + 1em);
+    }
+  }
 }

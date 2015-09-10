@@ -1,8 +1,9 @@
 .sidemenu {
   //padding: 1em 2em;
   overflow: scroll;
-  box-shadow: 1px 0px #ccc;
+  box-shadow: 1px 0px gray;
   font-size: 90%;
+  z-index: 100;
 
   @at-root {
     #{&}__header {
