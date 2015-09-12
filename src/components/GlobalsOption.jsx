@@ -18,8 +18,8 @@ export default
       this.setState({ isPlusButtonDisabled: disabled });
     }
 
-    onChange(name, value) {
-      this.props.change(name, !!parseInt(value))
+    onChange(name, value = true) {
+      this.props.onChange(name, !!parseInt(value))
     }
 
     onAdd(e) {
@@ -27,12 +27,12 @@ export default
       let name = input.value;
 
       input.value = '';
-      this.props.add(name)
+      this.props.onChange(name, true)
     }
 
     onRemove(e) {
       let name = e.currentTarget.getAttribute('data-global-name');
-      this.props.remove(name)
+      this.props.onRemove(name)
     }
 
     render () {
@@ -64,7 +64,7 @@ export default
                 <th className="global-list__value-col">value</th>
               </tr>
             </thead>
-            <tbody>{map(globals.toObject(), (value, name) => (
+            <tbody>{map(globals, (value, name) => (
               <tr key={`globals-${name}`}>
                 <td>
                   <a onClick={this.onRemove.bind(this)}

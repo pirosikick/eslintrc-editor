@@ -10,7 +10,13 @@ let intialState = Map({
   rules: OrderedMap()
 });
 
-let {setEnv, setEcmaFeatures, setGlobal, changeRule} = getActionIds(actions);
+let {
+  setEnv,
+  setEcmaFeatures,
+  setGlobal,
+  removeGlobal,
+  changeRule
+} = getActionIds(actions);
 
 export default createReducer(intialState, {
   [setEnv]: (state, action) =>
@@ -21,6 +27,9 @@ export default createReducer(intialState, {
 
   [setGlobal]: (state, action) =>
     state.setIn(['globals', action.name], action.value),
+
+  [removeGlobal]: (state, action) =>
+    state.deleteIn(['globals', action.name]),
 
   [changeRule]: (state, action) =>
     state.setIn(['rules', action.name], action.args),

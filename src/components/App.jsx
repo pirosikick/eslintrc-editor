@@ -1,7 +1,9 @@
 import React, {Component, PropTypes} from "react";
 import {bindActionCreators} from 'redux';
-import {EnvActions, GlobalsActions, RulesActions} from '../actions/app';
 import {connect} from 'react-redux';
+import {EnvActions, GlobalsActions, RulesActions} from '../actions/app';
+import {showPreview, openDocument} from '../actions/view';
+import {setEnv, setECMAFeatures, setGlobal, removeGlobal, changeRule} from '../actions/output';
 
 import Header from './Header.jsx';
 import Wrapper from './Wrapper.jsx';
@@ -17,26 +19,24 @@ import RuleList from './RuleList.jsx';
 import TabMenu from './TabMenu.jsx';
 import {Environments, ECMAFeatures} from '../constants'
 import Rule from './Rule.jsx';
+import {Menu, MenuList, MenuItem, MenuItemLink} from './Menu.jsx';
 import ruleSchema from "../constants/eslintRuleSchema.json";
 
 @connect(state => ({
-  app: state.app,
-  doc: state.doc,
-  env: state.env,
-  rules: state.rules,
-  globals: state.globals
+  view: state.view.toJS(),
+  output: state.output.toJS(),
 }))
 export default
   class App extends Component {
     render () {
-      let {app, doc, env, rules, globals, dispatch} = this.props;
-console.log(rules);
-      let _rules = ruleSchema.map(schema =>
+      let {view, output, dispatch} = this.props;
+
+      let rules = ruleSchema.map(schema =>
         <Rule
           name={schema.name}
           schema={schema.schema}
           onChange={e =>
-            dispatch(RulesActions.change(e.name, e.args))} />
+            dispatch(changeRule(e.name, e.args))} />
       );
 
       return (
@@ -47,15 +47,17 @@ console.log(rules);
                 <CheckList
                   name="env"
                   keys={Environments}
-                  defaultChecked={env}
-                  onChange={(env) => dispatch(EnvActions.change(env))}
+                  defaultChecked={output.env}
+                  onChange={(env) => dispatch(setEnv(env))}
                   />
               </OptionGroup>
 
               <OptionGroup name="Globals">
                 <GlobalsOption
-                  globals={globals}
-                  {...bindActionCreators(GlobalsActions, dispatch)} />
+                  globals={output.globals}
+                  onAdd={name => dispatch(setGlobal(name))}
+                  onChange={(name, value) => dispatch(setGlobal(name, value))}
+                  onRemove={name => dispatch(removeGlobal(name))} />
               </OptionGroup>
 
               <OptionGroup name="ecmaFeatures | parser">
@@ -92,23 +94,33 @@ console.log(rules);
               </OptionGroup>
 
               <OptionGroup name="Rules">
-                <RuleList rules={_rules} />
+                <RuleList rules={rules} />
               </OptionGroup>
 
             </SideMenu>
             <Main className="pure-u-17-24">
+              <Menu horizontal={true}>
+                <MenuList>
+                  <MenuItem>
+                    <MenuItemLink href="#" onClick={() => dispatch(showPreview())}>Preview</MenuItemLink>
+                  </MenuItem>
+                  <MenuItem>
+                    <MenuItemLink href="#" onClick={() => console.log('click')}>Document</MenuItemLink>
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+
               <TabMenu
                 tabs={[
                   {
                     name: 'Preview',
                     component:
-                      <Preview
-                        target={{ env, globals: globals.toObject(), ecmaFeatures: {}, rules: rules.toObject() }} />
+                      <Preview target={output} />
                   },
                   {
                     name: 'Document',
                     component:
-                      <Document url={doc.url} />
+                      <Document url={view.documentUrl} />
 
                   }
                 ]}/>
