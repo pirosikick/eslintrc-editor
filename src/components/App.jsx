@@ -1,7 +1,5 @@
 import React, {Component, PropTypes} from "react";
-import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {EnvActions, GlobalsActions, RulesActions} from '../actions/app';
 import {showPreview, openDocument} from '../actions/view';
 import {setEnv, setECMAFeatures, setGlobal, removeGlobal, changeRule} from '../actions/output';
 

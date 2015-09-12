@@ -5,7 +5,7 @@ import actions from '../actions/view';
 
 let {showPreview, openDocument} = getActionIds(actions);
 
-let intialState = Map({
+let initialState = Map({
   mainContents: 'preview',
   documentUrl: "docs/user-guide/configuring.md"
 });
