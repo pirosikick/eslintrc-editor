@@ -3,5 +3,6 @@ import {createActions} from '../util/redux';
 
 export default createActions({
   showPreview: () => ({}),
-  openDocument: url => ({ url })
+  openDocument: url => ({ url }),
+  setEcmaOrParser: value => ({ value })
 });

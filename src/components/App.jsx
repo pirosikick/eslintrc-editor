@@ -37,6 +37,7 @@ export default
             dispatch(changeRule(e.name, e.args))} />
       );
 
+
       return (
         <div className="app">
           <Wrapper className="pure-g">
@@ -66,8 +67,8 @@ export default
                     {value: "ecmaFeatures", label: "use ecmaFeatures option"},
                     {value: "parser", label: "use parser option"}
                   ]}
-                  defaultValue=""
-                  />
+                  defaultValue={view.ecmaOrParser}
+                  onChange={value => dispatch(setEcmaOrParser(value))} />
 
                 <div className="option">
                   <h4 className="option__title">ecmaFeatures</h4>
