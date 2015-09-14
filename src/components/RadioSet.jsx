@@ -1,6 +1,7 @@
 'use strict';
 import React, {Component} from "react";
 import uniqueid from 'uniqueid';
+import cx from 'classnames';
 
 export default
   class RadioSet extends Component {
@@ -8,41 +9,57 @@ export default
       defaultValue: "",
       horizontal: false,
       onChange: function () {}
-    }
+    };
 
     constructor(props) {
       super(props);
 
-      this.idPrefix = uniqueid({ prefix: 'radio-set' });
+      this.radioName = uniqueid({ prefix: 'radio-set' });
     }
 
     onChange (e) {
-      let {value} = e.target;
-      this.props.onChange(this.props.name, value);
+      this.props.onChange({ name: this.props.name, value: e.target.value });
     }
 
     render () {
-      let {name, options, defaultValue, horizontal} = this.props;
-      let pre = horizontal ? "radioset-horizontal" : "radioset"
-      let radioName = `${this.idPrefix}-${name}`;
+      let {options, defaultValue, horizontal} = this.props;
+      let className = cx("radioset", { "radioset--is-horizontal": horizontal });
 
       return (
-        <ul className={pre} onChange={this.onChange.bind(this)}>{
-          options.map((o, i) => (
-            <li key={`radioset-${name}-${i}`} className={`${pre}__item`}>
-              <label htmlFor={`${this.idPrefix}-${o.value}`}>
-                <input
-                  className={`${pre}__radio`}
-                  id={`${this.idPrefix}-${o.value}`}
-                  type="radio"
-                  name={radioName}
-                  value={o.value}
-                  defaultChecked={o.value == defaultValue}/>
-                <span className={`${pre}__label-text`}>{o.label}</span>
-              </label>
-            </li>
-          ))
-        }</ul>
+        <ul className={className}>
+          {
+            options.map(({value, label}, i) => (
+              <li key={`radioset-${name}-${i}`} className="radioset__item">
+                <Radio
+                  name={this.radioName}
+                  value={value}
+                  label={label}
+                  defaultChecked={value === defaultValue}
+                  onChange={this.onChange.bind(this)} />
+              </li>
+            ))
+          }
+        </ul>
       );
     }
   }
+
+class Radio extends Component {
+  render() {
+    let {name, value, label, defaultChecked, onChange} = this.props;
+
+    return (
+      <label>
+        <input
+          className="radioset__radio"
+          type="radio"
+          name={name}
+          value={value}
+          defaultChecked={defaultChecked}
+          onChange={onChange} />
+        <span className="radioset__label-text">{label}</span>
+      </label>
+    );
+  }
+
+}

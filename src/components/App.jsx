@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from "react";
 import {connect} from 'react-redux';
-import {showPreview, openDocument} from '../actions/view';
+import {showPreview, openDocument, setEcmaOrParser} from '../actions/view';
 import {setEnv, setECMAFeatures, setGlobal, removeGlobal, changeRule} from '../actions/output';
 
 import Header from './Header.jsx';
@@ -67,27 +67,37 @@ export default
                     {value: "parser", label: "use parser option"}
                   ]}
                   defaultValue={view.ecmaOrParser}
-                  onChange={value => dispatch(setEcmaOrParser(value))} />
+                  onChange={e => dispatch(setEcmaOrParser(e.value))} />
 
-                <div className="option">
-                  <h4 className="option__title">ecmaFeatures</h4>
+                {
+                  (ecmaOrParser => {
+                    if (ecmaOrParser === 'ecmaFeatures') {
+                      return (
+                        <div className="option">
+                          <h4 className="option__title">ecmaFeatures</h4>
 
-                  <CheckList
-                      id="ecma-features"
-                      name="ecmaFeatures"
-                      keys={ECMAFeatures}/>
-                </div>
+                          <CheckList
+                              id="ecma-features"
+                              name="ecmaFeatures"
+                              keys={ECMAFeatures}/>
+                        </div>
+                      );
+                    } else if (ecmaOrParser === 'parser') {
+                      return (
+                        <div className="option parser-option">
+                          <h4 className="option__title">parser</h4>
 
-                <div className="option parser-option">
-                  <h4 className="option__title">parser</h4>
-
-                  <div className="pure-form">
-                    <select className="parser-option__pulldown pure-input-1-2" name="parser">
-                      <option value=""></option>
-                      <option value="babel-parser">babel-parser</option>
-                    </select>
-                  </div>
-                </div>
+                          <div className="pure-form">
+                            <select className="parser-option__pulldown pure-input-1-2" name="parser">
+                              <option value=""></option>
+                              <option value="babel-parser">babel-parser</option>
+                            </select>
+                          </div>
+                        </div>
+                      );
+                    }
+                  })(view.ecmaOrParser)
+                }
 
               </OptionGroup>
 
@@ -114,7 +124,6 @@ export default
               <div className="main__contents">
               {
                 (selectedMenuItem => {
-                  console.log(selectedMenuItem);
                   if (selectedMenuItem === 'preview') {
                     return <Preview target={output} />;
                   } else {
