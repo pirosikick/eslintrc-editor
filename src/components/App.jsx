@@ -101,28 +101,29 @@ export default
               <Menu horizontal={true}>
                 <MenuList>
                   <MenuItem>
-                    <MenuItemLink href="#" onClick={() => dispatch(showPreview())}>Preview</MenuItemLink>
+                    <MenuItemLink
+                      onClick={() => dispatch(showPreview())}
+                    >Preview</MenuItemLink>
                   </MenuItem>
                   <MenuItem>
-                    <MenuItemLink href="#" onClick={() => console.log('click')}>Document</MenuItemLink>
+                    <MenuItemLink
+                      onClick={() => dispatch(openDocument())}
+                    >Document</MenuItemLink>
                   </MenuItem>
                 </MenuList>
               </Menu>
-
-              <TabMenu
-                tabs={[
-                  {
-                    name: 'Preview',
-                    component:
-                      <Preview target={output} />
-                  },
-                  {
-                    name: 'Document',
-                    component:
-                      <Document url={view.documentUrl} />
-
+              <div className="main__contents">
+              {
+                (selectedMenuItem => {
+                  console.log(selectedMenuItem);
+                  if (selectedMenuItem === 'preview') {
+                    return <Preview target={output} />;
+                  } else {
+                    return <Document url={view.documentUrl} />;
                   }
-                ]}/>
+                })(view.selectedMenuItem)
+              }
+              </div>
             </Main>
           </Wrapper>
         </div>

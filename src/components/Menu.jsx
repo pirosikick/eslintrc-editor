@@ -3,13 +3,8 @@ import {Component, PropTypes} from "react";
 import cx from "classnames";
 
 class Menu extends Component {
-  static propTypes = {
-    horizontal: PropTypes.bool
-  };
-
-  getDefaultProps() {
-    return { horizontal: false };
-  }
+  static propTypes = { horizontal: PropTypes.bool };
+  static defaultProps = { horizontal: false };
 
   render() {
     let {horizontal, children} = this.props;
@@ -47,7 +42,10 @@ class MenuItem extends Component {
 }
 
 class MenuItemLink extends Component {
+  static defaultProps = { href: 'javascript:void(0);' };
+
   render() {
+    let {href, className, onClick} = this.props;
     return <a {...this.props} className="pure-menu-link menu__link"/>;
   }
 }

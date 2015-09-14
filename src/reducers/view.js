@@ -6,16 +6,20 @@ import actions from '../actions/view';
 let {showPreview, openDocument, setEcmaOrParser} = getActionIds(actions);
 
 let initialState = Map({
-  mainContents: 'preview',
+  selectedMenuItem: 'preview',
   documentUrl: "docs/user-guide/configuring.md",
   ecmaOrParser: "parser"
 });
 
 export default createReducer(initialState, {
-  [showPreview]: (state, action) => state.set({ mainContents: 'preview' }),
+  [showPreview]: (state, action) =>
+    state.set('selectedMenuItem', 'preview'),
 
   [openDocument]: (state, action) =>
-    state.merge({ mainContents: 'document', documentUrl: action.url }),
+    state.merge({
+      selectedMenuItem: 'document',
+      documentUrl: action.url || state.get('documentUrl')
+    }),
 
   [setEcmaOrParser]: (state, action) =>
     state.set('ecmaOrParser', action.value)
