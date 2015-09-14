@@ -14,7 +14,6 @@ import GlobalsOption from './GlobalsOption.jsx';
 import Document from './Document.jsx';
 import Preview from './Preview.jsx';
 import RuleList from './RuleList.jsx';
-import TabMenu from './TabMenu.jsx';
 import {Environments, ECMAFeatures} from '../constants'
 
 export default

@@ -14,7 +14,6 @@ import GlobalsOption from './GlobalsOption.jsx';
 import Document from './Document.jsx';
 import Preview from './Preview.jsx';
 import RuleList from './RuleList.jsx';
-import TabMenu from './TabMenu.jsx';
 import {Environments, ECMAFeatures} from '../constants'
 import Rule from './Rule.jsx';
 import {Menu, MenuList, MenuItem, MenuItemLink} from './Menu.jsx';
