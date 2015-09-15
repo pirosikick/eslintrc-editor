@@ -109,12 +109,12 @@ export default
             <Main className="pure-u-17-24">
               <Menu horizontal={true}>
                 <MenuList>
-                  <MenuItem>
+                  <MenuItem selected={view.selectedMenuItem === 'preview'}>
                     <MenuItemLink
                       onClick={() => dispatch(showPreview())}
                     >Preview</MenuItemLink>
                   </MenuItem>
-                  <MenuItem>
+                  <MenuItem selected={view.selectedMenuItem === 'document'}>
                     <MenuItemLink
                       onClick={() => dispatch(openDocument())}
                     >Document</MenuItemLink>
