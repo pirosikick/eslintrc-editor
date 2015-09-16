@@ -24,15 +24,35 @@ class MenuList extends Component {
 
 class MenuItem extends Component {
   static propTypes = {
-    selected: PropTypes.bool,
+    selected: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.func
+    ]),
     hasChildren: PropTypes.bool,
     allowHover: PropTypes.bool
   };
 
+  constructor(props) {
+    super(props);
+
+    if (typeof props.selected === 'function') {
+    }
+  }
+
+  isSelected() {
+    let {selected} = this.props;
+
+    if (typeof selected === 'function') {
+      return selected(this.props);
+    }
+
+    return selected;
+  }
+
   render() {
-    let {selected, hasChildren, allowHover} = this.props;
+    let {hasChildren, allowHover} = this.props;
     let className = cx("pure-menu-item menu__item", this.props.className, {
-      "pure-menu-selected": selected,
+      "pure-menu-selected": this.isSelected(),
       "pure-menu-has-children": hasChildren,
       "pure-menu-allow-hover": allowHover
     });

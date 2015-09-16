@@ -19,6 +19,7 @@ import Rule from './Rule.jsx';
 import {Menu, MenuList, MenuItem, MenuItemLink} from './Menu.jsx';
 import ruleSchema from "../constants/eslintRuleSchema.json";
 
+
 @connect(state => ({
   view: state.view.toJS(),
   output: state.output.toJS(),
@@ -36,6 +37,7 @@ export default
             dispatch(changeRule(e.name, e.args))} />
       );
 
+      const isMenuItemSelected = ({name}) => name === view.selectedMenuItem;
 
       return (
         <div className="app">
@@ -109,12 +111,12 @@ export default
             <Main className="pure-u-17-24">
               <Menu horizontal={true}>
                 <MenuList>
-                  <MenuItem selected={view.selectedMenuItem === 'preview'}>
+                  <MenuItem name="preview" selected={isMenuItemSelected}>
                     <MenuItemLink
                       onClick={() => dispatch(showPreview())}
                     >Preview</MenuItemLink>
                   </MenuItem>
-                  <MenuItem selected={view.selectedMenuItem === 'document'}>
+                  <MenuItem name="document" selected={isMenuItemSelected}>
                     <MenuItemLink
                       onClick={() => dispatch(openDocument())}
                     >Document</MenuItemLink>
