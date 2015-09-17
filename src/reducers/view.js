@@ -3,7 +3,12 @@ import {Map} from 'immutable';
 import {createReducer, getActionIds} from '../util/redux';
 import actions from '../actions/view';
 
-let {showPreview, openDocument, setEcmaOrParser} = getActionIds(actions);
+let {
+  selectMenuItem,
+  showPreview,
+  openDocument,
+  setEcmaOrParser
+} = getActionIds(actions);
 
 let initialState = Map({
   selectedMenuItem: 'preview',
@@ -12,6 +17,9 @@ let initialState = Map({
 });
 
 export default createReducer(initialState, {
+  [selectMenuItem]: (state, action) =>
+    state.set('selectedMenuItem', action.name),
+
   [showPreview]: (state, action) =>
     state.set('selectedMenuItem', 'preview'),
 

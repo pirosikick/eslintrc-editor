@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from "react";
 import {connect} from 'react-redux';
-import {showPreview, openDocument, setEcmaOrParser} from '../actions/view';
+import {selectMenuItem, showPreview, openDocument, setEcmaOrParser} from '../actions/view';
 import {setEnv, setECMAFeatures, setGlobal, removeGlobal, changeRule} from '../actions/output';
 
 import Header from './Header.jsx';
@@ -16,7 +16,7 @@ import Preview from './Preview.jsx';
 import RuleList from './RuleList.jsx';
 import {Environments, ECMAFeatures} from '../constants'
 import Rule from './Rule.jsx';
-import {Menu, MenuList, MenuItem, MenuItemLink} from './Menu.jsx';
+import {Menu} from './Menu.jsx';
 import ruleSchema from "../constants/eslintRuleSchema.json";
 
 
@@ -109,20 +109,15 @@ export default
 
             </SideMenu>
             <Main className="pure-u-17-24">
-              <Menu horizontal={true}>
-                <MenuList>
-                  <MenuItem name="preview" selected={isMenuItemSelected}>
-                    <MenuItemLink
-                      onClick={() => dispatch(showPreview())}
-                    >Preview</MenuItemLink>
-                  </MenuItem>
-                  <MenuItem name="document" selected={isMenuItemSelected}>
-                    <MenuItemLink
-                      onClick={() => dispatch(openDocument())}
-                    >Document</MenuItemLink>
-                  </MenuItem>
-                </MenuList>
-              </Menu>
+              <Menu
+                items={[
+                  { name: 'preview', label: 'Preview' },
+                  { name: 'document', label: 'Document' }
+                ]}
+                selectedItem={view.selectedMenuItem}
+                onClickItem={({name}) => dispatch(selectMenuItem(name))}
+                horizontal={true}
+                />
               <div className="main__contents">
               {
                 (selectedMenuItem => {
