@@ -73,6 +73,11 @@ export default
       this.onChangeArg({ index: 0, value: e.value - 0 });
     }
 
+    onClickHelp(e) {
+      e.preventDefault();
+      this.props.onClickHelp(this.props);
+    }
+
     render() {
       let {name, schema} = this.props;
       let {currentArgs} = this.state;
@@ -95,7 +100,12 @@ export default
         <div className="rule">
           <header className="rule__header">
             <span className="rule__name">{name}</span>
-            <a className="rule__help" href="#"><i className="fa fa-info-circle"></i></a>
+            <a
+              className="rule__help"
+              href="javascript:void(0);"
+              onClick={this.onClickHelp.bind(this)}>
+              <i className="fa fa-info-circle"></i>
+            </a>
             <RuleStatus name={name} onChange={this.onChangeStatus.bind(this)} />
           </header>
           <RuleBody name={name} args={args} disabled={disabled}/>

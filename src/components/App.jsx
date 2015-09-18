@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from "react";
 import {connect} from 'react-redux';
-import {selectMenuItem, showPreview, openDocument, setEcmaOrParser} from '../actions/view';
+import {selectMenuItem, showPreview, openDocument, openRuleDocument, setEcmaOrParser} from '../actions/view';
 import {setEnv, setECMAFeatures, setGlobal, removeGlobal, changeRule} from '../actions/output';
 
 import Header from './Header.jsx';
@@ -33,12 +33,11 @@ export default
         <Rule
           name={schema.name}
           schema={schema.schema}
-          onChange={e =>
-            dispatch(changeRule(e.name, e.args))} />
+          onChange={e => dispatch(changeRule(e.name, e.args))}
+          onClickHelp={({name}) => dispatch(openRuleDocument(name))} />
       );
 
       const isMenuItemSelected = ({name}) => name === view.selectedMenuItem;
-
       return (
         <div className="app">
           <Wrapper className="pure-g">

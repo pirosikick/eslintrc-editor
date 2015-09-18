@@ -7,6 +7,7 @@ let {
   selectMenuItem,
   showPreview,
   openDocument,
+  openRuleDocument,
   setEcmaOrParser
 } = getActionIds(actions);
 
@@ -24,6 +25,12 @@ export default createReducer(initialState, {
     state.set('selectedMenuItem', 'preview'),
 
   [openDocument]: (state, action) =>
+    state.merge({
+      selectedMenuItem: 'document',
+      documentUrl: action.url || state.get('documentUrl')
+    }),
+
+  [openRuleDocument]: (state, action) =>
     state.merge({
       selectedMenuItem: 'document',
       documentUrl: action.url || state.get('documentUrl')
