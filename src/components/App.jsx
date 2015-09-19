@@ -11,7 +11,7 @@ import OptionGroup from './OptionGroup.jsx';
 import CheckList from './CheckList.jsx';
 import RadioSet from './RadioSet.jsx';
 import GlobalsOption from './GlobalsOption.jsx';
-import Document from './Document.jsx';
+import MarkdownViewer from './MarkdownViewer.jsx';
 import Preview from './Preview.jsx';
 import RuleList from './RuleList.jsx';
 import {Environments, ECMAFeatures} from '../constants'
@@ -36,7 +36,7 @@ export default
           onChange={e => dispatch(changeRule(e.name, e.args))}
           onClickHelp={({name}) => dispatch(openRuleDocument(name))} />
       );
-
+console.info(view);
       const isMenuItemSelected = ({name}) => name === view.selectedMenuItem;
       return (
         <div className="app">
@@ -123,7 +123,7 @@ export default
                   if (selectedMenuItem === 'preview') {
                     return <Preview target={output} />;
                   } else {
-                    return <Document url={view.documentUrl} />;
+                    return <MarkdownViewer md={view.documentMarkdown} />;
                   }
                 })(view.selectedMenuItem)
               }

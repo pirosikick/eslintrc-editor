@@ -1,10 +1,22 @@
 'use strict';
 import {createActions} from '../util/redux';
 
-export default createActions({
+const actions = createActions({
   selectMenuItem: (name) => ({ name }),
   showPreview: () => ({}),
-  openDocument: url => ({ url }),
-  openRuleDocument: name => ({ url: `docs/rules/${name}.md` }),
+  openDocument: (url = "docs/user-guide/configuring.md") => {
+    return dispatch => {
+      fetch(url)
+        .then(res => res.text())
+        .then(md => {
+          dispatch(actions.setDocumentMarkdown(md));
+          dispatch(actions.selectMenuItem('document'));
+        });
+    }
+  },
+  setDocumentMarkdown: md => ({ md }),
+  openRuleDocument: name => actions.openDocument(`docs/rules/${name}.md`),
   setEcmaOrParser: value => ({ value })
 });
+
+export default actions;

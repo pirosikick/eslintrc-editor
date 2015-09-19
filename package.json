@@ -40,6 +40,7 @@
     "react": "^0.13.3",
     "react-redux": "^2.0.0",
     "redux": "^2.0.0",
+    "redux-thunk": "^1.0.0",
     "uniqueid": "^0.1.0"
   },
   "scripts": {

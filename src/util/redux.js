@@ -10,10 +10,12 @@ export const createActions = (actionObj) => {
     const actionId = `${baseId}-${key}`;
     const method = (...args) => {
       const result = actionCreator(...args);
-      return {
-        type: actionId,
-        ...(result || {})
-      };
+
+      if (typeof result === 'function') {
+        return result;
+      }
+
+      return { type: actionId, ...(result || {}) };
     };
     method._id = actionId;
     return [key, method];
