@@ -104,7 +104,7 @@ export default
               className="rule__help"
               href="javascript:void(0);"
               onClick={this.onClickHelp.bind(this)}>
-              <i className="fa fa-info-circle"></i>
+              <i className="fa fa-question-circle"></i>
             </a>
             <RuleStatus name={name} onChange={this.onChangeStatus.bind(this)} />
           </header>
