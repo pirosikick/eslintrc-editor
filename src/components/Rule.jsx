@@ -1,43 +1,10 @@
 import {isArray} from 'lodash';
 import cx from 'classnames';
 import uniqueid from 'uniqueid';
-import React, {Component, findDOMNode} from "react";
+import React, {Component, findDOMNode, PropTypes} from "react";
 import RuleArgument from './RuleArgument.jsx';
 
-class RuleStatus extends Component {
-  constructor(props) {
-    super(props);
-    this.inputName = uniqueid({ prefix: this.props.name });
-  }
-
-  onClick(e) {
-    let {name} = this.props;
-    let {value} = e.target;
-
-    this.props.onChange({ name, value });
-  }
-
-  render() {
-    let {name} = this.props;
-
-    return (
-      <ul className="rule-status">
-        {
-          [0, 1, 2].map((value) => (
-            <li key={`rule-status-${name}-${value}`}
-                className="rule-status__item">
-              <input
-                type="radio"
-                name={this.inputName}
-                value={value}
-                onClick={this.onClick.bind(this)} />
-            </li>
-          ))
-        }
-      </ul>
-    );
-  }
-}
+const NOOP = function () {};
 
 export default
   class Rule extends Component {
@@ -98,21 +65,73 @@ export default
 
       return (
         <div className="rule">
-          <header className="rule__header">
+          <RuleHeader>
             <span className="rule__name">{name}</span>
-            <a
-              className="rule__help"
-              href="javascript:void(0);"
-              onClick={this.onClickHelp.bind(this)}>
-              <i className="fa fa-question-circle"></i>
-            </a>
+            <RuleHelpLink onClick={this.onClickHelp.bind(this)} />
             <RuleStatus name={name} onChange={this.onChangeStatus.bind(this)} />
-          </header>
+          </RuleHeader>
           <RuleBody name={name} args={args} disabled={disabled}/>
         </div>
       );
     }
   }
+
+class RuleHeader extends Component {
+  render() {
+    return <header className="rule__header">{this.props.children}</header>;
+  }
+}
+
+class RuleHelpLink extends Component {
+  static propTypes = { onClick: PropTypes.func };
+  static defaultProps = { onClick: NOOP };
+
+  render() {
+    return (
+      <a
+        className="rule__help"
+        href="javascript:void(0);"
+        onClick={this.props.onClick}>
+        <i className="fa fa-question-circle"></i>
+      </a>
+    );
+  }
+}
+
+class RuleStatus extends Component {
+  constructor(props) {
+    super(props);
+    this.inputName = uniqueid({ prefix: this.props.name });
+  }
+
+  onClick(e) {
+    let {name} = this.props;
+    let {value} = e.target;
+
+    this.props.onChange({ name, value });
+  }
+
+  render() {
+    let {name} = this.props;
+
+    return (
+      <ul className="rule-status">
+        {
+          [0, 1, 2].map((value) => (
+            <li key={`rule-status-${name}-${value}`}
+                className="rule-status__item">
+              <input
+                type="radio"
+                name={this.inputName}
+                value={value}
+                onClick={this.onClick.bind(this)} />
+            </li>
+          ))
+        }
+      </ul>
+    );
+  }
+}
 
 class RuleBody extends Component {
   render() {
