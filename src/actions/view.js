@@ -2,7 +2,14 @@
 import {createActions} from '../util/redux';
 
 const actions = createActions({
-  selectMenuItem: (name) => ({ name }),
+  selectMenuItem: (name, afterLoadDocument = false) => {
+    if (name !== 'document' || afterLoadDocument) {
+      return { name }
+    }
+
+    return actions.openDocument();
+  },
+
   showPreview: () => ({}),
   openDocument: (url = "docs/user-guide/configuring.md") => {
     return dispatch => {
@@ -10,7 +17,7 @@ const actions = createActions({
         .then(res => res.text())
         .then(md => {
           dispatch(actions.setDocumentMarkdown(md));
-          dispatch(actions.selectMenuItem('document'));
+          dispatch(actions.selectMenuItem('document', true));
         });
     }
   },
