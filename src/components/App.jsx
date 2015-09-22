@@ -36,8 +36,9 @@ export default
           onChange={e => dispatch(changeRule(e.name, e.args))}
           onClickHelp={({name}) => dispatch(openRuleDocument(name))} />
       );
-console.info(view);
+
       const isMenuItemSelected = ({name}) => name === view.selectedMenuItem;
+
       return (
         <div className="app">
           <Wrapper className="pure-g">
