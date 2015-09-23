@@ -13,7 +13,12 @@ const $ = gulpLoadPlugins();
 let src = {
   sass: 'public/styles/**/*.{scss,sass}',
   html: 'public/*.html',
-  font: 'bower_components/font-awesome/fonts/**'
+  font: 'bower_components/font-awesome/fonts/**',
+  eslintDocs: 'eslint/docs/**/*.md',
+  ghPages: [
+    'public/index.html',
+    '.tmp/**/*.{js,css,otf,eot,svg,ttf,woff,woff2,md}'
+  ]
 };
 
 let dest = {
@@ -24,7 +29,8 @@ let dest = {
   bower: '.tmp/lib',
   eslintdoc: 'src/docs',
   font: '.tmp/fonts',
-  eslintRuleSchema: 'src/constants/eslintRuleSchema.json'
+  eslintRuleSchema: 'src/constants/eslintRuleSchema.json',
+  deploy: '.deploy/'
 }
 
 let port = process.env.NODE_PORT || 3000;
@@ -83,6 +89,7 @@ gulp.task('html', ['main-bower-files', 'webpack', 'sass', 'copy-font'], () => {
 
 gulp.task('eslint-rule-schema', (done) => {
   let schema = [];
+
   _.each(loadRules(), (data, name) => {
     schema.push({ name, schema: data.schema });
   });
@@ -102,15 +109,13 @@ gulp.task('serve', ['watch'], () => {
   });
 });
 
-gulp.task('start', ['build'], () => {
-  browserSync({
-    server: {
-      baseDir: ['build']
-    },
-    port: port,
-    ghostMode: false
-  });
+gulp.task('deploy', ['copy:eslintDocs'], () => {
+  return gulp.src(src.ghPages).pipe($.ghPages());
 });
+
+gulp.task('copy:eslintDocs', () => {
+  return gulp.src(src.eslintDocs, { base: 'eslint' }).pipe(gulp.dest('.tmp'));
+})
 
 gulp.task('default', ['serve']);
 
