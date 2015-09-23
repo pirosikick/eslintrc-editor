@@ -1,9 +1,0 @@
-.checklist {
-  padding-left: 0px;
-
-  @at-root {
-    #{&}__item {
-      list-style: none;
-    }
-  }
-}

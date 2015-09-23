@@ -1,0 +1,316 @@
+* {
+  font-family: "YuGothic", "san-seif"; }
+
+.pure-menu-list-right {
+  float: right; }
+
+.option-group__header {
+  border-bottom: 1px solid #ccc; }
+  .option-group__header:hover {
+    background-color: #eee; }
+
+.option-group__body {
+  display: none;
+  border-bottom: 1px solid #ccc;
+  padding-top: 1em;
+  padding-bottom: 2em; }
+
+.option-group-is-opened .option-group__body {
+  display: block; }
+
+.option-group-header {
+  display: block;
+  padding: 0 1em;
+  text-decoration: none;
+  color: black; }
+  .option-group-header__title {
+    display: inline-block;
+    margin: 0;
+    margin-left: .5em;
+    font-size: 100%;
+    font-weight: normal; }
+
+.option__title {
+  padding-left: 1em;
+  margin: 1em 0; }
+
+.checklist {
+  padding-left: 0px; }
+  .checklist__item {
+    list-style: none; }
+
+.checklist-table {
+  width: 100%; }
+  .checklist-table th {
+    padding: .5em 2em;
+    text-align: left; }
+  .checklist-table td {
+    padding: .2em 2em;
+    text-align: left; }
+  .checklist-table tbody tr:first-child td {
+    padding-top: .5em; }
+  .checklist-table__header {
+    border-bottom: 1px solid #eee; }
+  .checklist-table .checkbox__label {
+    margin-left: 1.5em; }
+
+.checkbox__label {
+  display: inline-block;
+  margin-left: .5em; }
+
+.sidemenu {
+  overflow: scroll;
+  box-shadow: 1px 0px gray;
+  font-size: 90%;
+  z-index: 100; }
+  .sidemenu__header {
+    padding-left: .5em; }
+
+  .sidemenu__contents {
+    padding-left: 1em; }
+  .sidemenu .pure-table {
+    width: 100%; }
+
+.radioset {
+  list-style: none;
+  padding-left: 2em; }
+  .radioset__label-text {
+    margin-left: 1em; }
+
+.radioset-horizontal {
+  padding-left: 0;
+  margin: 0;
+  overflow: hidden;
+  list-style: none; }
+  .radioset-horizontal__item {
+    float: left;
+    margin-right: 1em; }
+    .radioset-horizontal__item:first-child {
+      margin-left: 1px; }
+
+  .radioset-horizontal__label-text {
+    margin-left: .5em; }
+
+.globals-option__form {
+  padding-left: 1em;
+  margin-bottom: 1em; }
+
+.globals-option__plus {
+  margin-left: .5em; }
+
+.parser-option__pulldown {
+  margin-left: 1em; }
+
+.global-list {
+  width: 100%; }
+  .global-list__remove-col {
+    width: 15px; }
+
+  .global-list__value-col {
+    width: 145px; }
+
+  .global-list__head {
+    border-bottom: 1px solid #eee; }
+
+  .global-list__remove {
+    color: red;
+    opacity: .4;
+    font-size: 120%; }
+    .global-list__remove:hover {
+      opacity: 1; }
+  .global-list th, .global-list td {
+    text-align: left;
+    padding-left: .5em; }
+
+.document {
+  padding: 0 1.5em;
+  height: 100%;
+  overflow: scroll; }
+
+.preview {
+  padding: 0 1em; }
+  .preview__json {
+    background-color: #f7f7f7;
+    padding: .5em 1em; }
+
+.rule {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2); }
+  .rule__header {
+    padding: .5em 0;
+    overflow: hidden; }
+
+  .rule__body {
+    border-top: 1px dashed rgba(0, 0, 0, 0.2);
+    padding-bottom: 1.5em; }
+
+  .rule__body--is-disabled {
+    color: rgba(0, 0, 0, 0.5); }
+
+  .rule__name {
+    display: inline-block;
+    padding-left: .5em;
+    margin-right: .5em; }
+
+  .rule__help {
+    color: rgba(0, 0, 0, 0.5); }
+    .rule__help:hover {
+      color: rgba(0, 0, 0, 0.7); }
+
+.rule-list {
+  width: 100%;
+  list-style: none;
+  padding: 0; }
+  .rule-list__header {
+    border-bottom: 1px solid gray; }
+
+  .rule-list__item {
+    overflow: hidden; }
+
+  .rule-list__radio {
+    text-align: center; }
+
+.rule-status {
+  display: inline-block;
+  list-style: none;
+  padding: 0;
+  overflow: hidden;
+  float: right;
+  width: 30%; }
+  .rule-status__item {
+    width: 33%;
+    float: left;
+    text-align: center; }
+
+  .rule-status__label {
+    font-size: 75%; }
+
+.rule-arg-list {
+  list-style: none;
+  padding: 0; }
+
+.rule-arg {
+  overflow: hidden; }
+  .rule-arg__index {
+    float: left;
+    width: 10%;
+    text-align: center; }
+
+  .rule-arg__index-no {
+    font-size: 80%; }
+
+  .rule-arg__input {
+    float: left;
+    width: 90%; }
+
+  .rule-arg__title {
+    margin: .5em;
+    font-weight: normal; }
+
+  .rule-arg__body {
+    padding-left: 1em; }
+
+  .rule-arg__name {
+    display: inline-block;
+    padding: 0 1em;
+    font-size: 80%; }
+
+  .rule-arg__options {
+    width: 80%; }
+  .rule-arg input[type="text"], .rule-arg input[type="number"] {
+    padding: 0 .5em;
+    font-size: 80%; }
+
+.rule-arg-object__name-column {
+  width: 40%;
+  vertical-align: top; }
+
+.rule-arg-object__name {
+  font-size: 90%; }
+
+.rule-arg-object__input-column {
+  padding-left: .5em; }
+
+.rule-arg-bool__checkbox {
+  margin-right: .5em; }
+
+.rule-arg-oneof {
+  list-style: none;
+  padding: 0; }
+  .rule-arg-oneof__item {
+    overflow: hidden;
+    clear: both; }
+
+  .rule-arg-oneof__radio-column {
+    float: left; }
+
+  .rule-arg-oneof__input-column {
+    float: left; }
+
+  .rule-arg-oneof__radio {
+    margin-left: 1px;
+    margin-right: 1em; }
+
+  .rule-arg-oneof__or {
+    font-size: 80%; }
+
+.rule-arg-array {
+  margin-bottom: .5em; }
+  .rule-arg-array__input {
+    display: inline-block; }
+
+  .rule-arg-array__string {
+    width: 50%;
+    margin-right: .3em;
+    vertical-align: middle; }
+
+  .rule-arg-array__plus {
+    padding: .5em;
+    font-size: 80%; }
+
+  .rule-arg-array__list {
+    padding-left: 1.5em;
+    font-size: 80%; }
+
+.main {
+  position: relative;
+  height: 100%;
+  overflow: scroll; }
+  .main__contents {
+    padding-top: calc(50px + 1em); }
+
+.tabmenu-list {
+  list-style: none;
+  overflow: hidden;
+  padding: 0;
+  margin-left: 1em; }
+  .tabmenu-list__item--is-selected {
+    border-color: #aaa;
+    background-color: #aaa; }
+
+  .tabmenu-list__item {
+    float: left;
+    margin-right: .5em;
+    border: 1px solid #ccc; }
+    .tabmenu-list__item:hover {
+      color: white;
+      background-color: #ccc; }
+
+  .tabmenu-list__link {
+    color: black;
+    text-decoration: none;
+    display: inline-block;
+    padding: .5em 1em; }
+
+  .tabmenu-list__item--is-selected .tabmenu-list__link {
+    color: white; }
+
+  .tabmenu-list__item:hover .tabmenu-list__link {
+    color: white; }
+
+.menu {
+  position: fixed;
+  top: 0;
+  background-color: white;
+  padding-left: 1em;
+  border-bottom: 1px solid gray;
+  z-index: 99; }
