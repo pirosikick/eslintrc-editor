@@ -19,7 +19,6 @@ import Rule from './Rule.jsx';
 import {Menu} from './Menu.jsx';
 import ruleSchema from "../constants/eslintRuleSchema.json";
 
-
 @connect(state => ({
   view: state.view.toJS(),
   output: state.output.toJS(),
@@ -42,6 +41,29 @@ export default
       return (
         <div className="app">
           <Wrapper className="pure-g">
+            <Main className="pure-u-17-24">
+              <Menu
+                items={[
+                  { name: 'preview', label: 'Preview' },
+                  { name: 'document', label: 'Document' }
+                ]}
+                selectedItem={view.selectedMenuItem}
+                onClickItem={({name}) => dispatch(selectMenuItem(name))}
+                horizontal={true}
+                />
+              <div className="main__contents">
+              {
+                (selectedMenuItem => {
+                  if (selectedMenuItem === 'preview') {
+                    return <Preview target={output} />;
+                  } else {
+                    return <MarkdownViewer md={view.documentMarkdown} />;
+                  }
+                })(view.selectedMenuItem)
+              }
+              </div>
+            </Main>
+
             <SideMenu className="pure-u-7-24">
               <OptionGroup name="Environments">
                 <CheckList
@@ -108,28 +130,7 @@ export default
               </OptionGroup>
 
             </SideMenu>
-            <Main className="pure-u-17-24">
-              <Menu
-                items={[
-                  { name: 'preview', label: 'Preview' },
-                  { name: 'document', label: 'Document' }
-                ]}
-                selectedItem={view.selectedMenuItem}
-                onClickItem={({name}) => dispatch(selectMenuItem(name))}
-                horizontal={true}
-                />
-              <div className="main__contents">
-              {
-                (selectedMenuItem => {
-                  if (selectedMenuItem === 'preview') {
-                    return <Preview target={output} />;
-                  } else {
-                    return <MarkdownViewer md={view.documentMarkdown} />;
-                  }
-                })(view.selectedMenuItem)
-              }
-              </div>
-            </Main>
+
           </Wrapper>
         </div>
       );
