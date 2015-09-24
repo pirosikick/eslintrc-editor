@@ -60,9 +60,10 @@
 
 .sidemenu {
   overflow: scroll;
-  box-shadow: 1px 0px gray;
+  box-shadow: -1px 0px gray;
   font-size: 90%;
-  z-index: 100; }
+  z-index: 100;
+  background-color: white; }
   .sidemenu__header {
     padding-left: .5em; }
 
@@ -77,25 +78,26 @@
   .radioset__label-text {
     margin-left: 1em; }
 
-.radioset-horizontal {
-  padding-left: 0;
-  margin: 0;
-  overflow: hidden;
-  list-style: none; }
-  .radioset-horizontal__item {
+  .radioset--is-horizontal {
+    padding-left: 0;
+    margin: 0;
+    overflow: hidden;
+    list-style: none; }
+
+  .radioset--is-horizontal .radioset__item {
     float: left;
     margin-right: 1em; }
-    .radioset-horizontal__item:first-child {
-      margin-left: 1px; }
+    .radioset--is-horizontal .radioset__item:first-child {
+      margin-left: 3px; }
 
-  .radioset-horizontal__label-text {
+  .radioset--is-horizontal .radioset__label-text {
     margin-left: .5em; }
 
-.globals-option__form {
+.globals__form {
   padding-left: 1em;
   margin-bottom: 1em; }
 
-.globals-option__plus {
+.globals__plus {
   margin-left: .5em; }
 
 .parser-option__pulldown {
