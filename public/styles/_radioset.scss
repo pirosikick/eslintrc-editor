@@ -6,26 +6,24 @@
     #{&}__label-text {
       margin-left: 1em;
     }
-  }
-}
 
-.radioset-horizontal {
-  padding-left: 0;
-  margin: 0;
-  overflow: hidden;
-  list-style: none;
+    #{&}--is-horizontal {
+      padding-left: 0;
+      margin: 0;
+      overflow: hidden;
+      list-style: none;
+    }
 
-  @at-root {
-    #{&}__item {
+    #{&}--is-horizontal #{&}__item {
       float: left;
       margin-right: 1em;
 
       &:first-child {
-        margin-left: 1px;
+        margin-left: 3px;
       }
     }
 
-    #{&}__label-text {
+    #{&}--is-horizontal #{&}__label-text {
       margin-left: .5em;
     }
   }

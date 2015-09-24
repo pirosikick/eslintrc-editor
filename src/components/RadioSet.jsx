@@ -15,34 +15,54 @@ export default
       super(props);
 
       this.radioName = uniqueid({ prefix: 'radio-set' });
+      this.onChange = this.onChange.bind(this);
     }
 
-    onChange (e) {
-      this.props.onChange({ name: this.props.name, value: e.target.value });
+    onChange (value) {
+      this.props.onChange({ name: this.props.name, value });
     }
 
     render () {
       let {options, defaultValue, horizontal} = this.props;
-      let className = cx("radioset", { "radioset--is-horizontal": horizontal });
-
-      return (
-        <ul className={className}>
-          {
-            options.map(({value, label}, i) => (
-              <li key={`radioset-${name}-${i}`} className="radioset__item">
-                <Radio
-                  name={this.radioName}
-                  value={value}
-                  label={label}
-                  defaultChecked={value === defaultValue}
-                  onChange={this.onChange.bind(this)} />
-              </li>
-            ))
-          }
-        </ul>
+      let className = cx("radioset", {
+        "radioset--is-horizontal": horizontal
+      });
+      let items = options.map(({value, label}) =>
+        <Radio
+          name={this.radioName}
+          value={value}
+          label={label}
+          defaultChecked={value === defaultValue}
+          onChange={this.onChange} />
       );
+
+      return <List horizontal={horizontal} items={items} />;
     }
   }
+
+class List extends Component {
+  render() {
+    let {name, horizontal, items} = this.props;
+    let className = cx("radioset", { "radioset--is-horizontal": horizontal });
+    let lists = items.map(this.wrapListItem, this);
+
+    return <ul className={className}>{lists}</ul>;
+  }
+
+  wrapListItem(children, index) {
+    let {name} = this.props;
+    return <ListItem name={name} index={index}>{children}</ListItem>;
+  }
+}
+
+class ListItem extends Component {
+  render() {
+    let {name, index} = this.props;
+    let key = `radioset-${name}-${index}`;
+
+    return <li key={key} className="radioset__item">{this.props.children}</li>;
+  }
+}
 
 class Radio extends Component {
   render() {
@@ -54,9 +74,8 @@ class Radio extends Component {
           className="radioset__radio"
           type="radio"
           name={name}
-          value={value}
           defaultChecked={defaultChecked}
-          onChange={onChange} />
+          onChange={() => onChange(value)} />
         <span className="radioset__label-text">{label}</span>
       </label>
     );

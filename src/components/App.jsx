@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from "react";
 import {connect} from 'react-redux';
 import {selectMenuItem, showPreview, openDocument, openRuleDocument, setEcmaOrParser} from '../actions/view';
-import {setEnv, setECMAFeatures, setGlobal, removeGlobal, changeRule} from '../actions/output';
+import {setEnv, setECMAFeatures, setGlobals, changeRule} from '../actions/output';
 
 import Header from './Header.jsx';
 import Wrapper from './Wrapper.jsx';
@@ -10,7 +10,7 @@ import SideMenu from './SideMenu.jsx';
 import OptionGroup from './OptionGroup.jsx';
 import CheckList from './CheckList.jsx';
 import RadioSet from './RadioSet.jsx';
-import GlobalsOption from './GlobalsOption.jsx';
+import Globals from './Globals.jsx';
 import MarkdownViewer from './MarkdownViewer.jsx';
 import Preview from './Preview.jsx';
 import RuleList from './RuleList.jsx';
@@ -70,16 +70,14 @@ export default
                   name="env"
                   keys={Environments}
                   defaultChecked={output.env}
-                  onChange={(env) => dispatch(setEnv(env))}
-                  />
+                  onChange={(env) => dispatch(setEnv(env))} />
               </OptionGroup>
 
               <OptionGroup name="Globals">
-                <GlobalsOption
-                  globals={output.globals}
-                  onAdd={name => dispatch(setGlobal(name))}
-                  onChange={(name, value) => dispatch(setGlobal(name, value))}
-                  onRemove={name => dispatch(removeGlobal(name))} />
+                <Globals
+                  defaultValue={output.globals}
+                  onChange={globals => dispatch(setGlobals(globals))}/>
+
               </OptionGroup>
 
               <OptionGroup name="ecmaFeatures | parser">
