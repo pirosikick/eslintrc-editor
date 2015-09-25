@@ -6,7 +6,7 @@ import actions from '../actions/output';
 let intialState = Map({
   env: [],
   globals: {},
-  ecmaFeatures: {},
+  ecmaFeatures: [],
   rules: OrderedMap()
 });
 

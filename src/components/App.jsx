@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from "react";
 import {connect} from 'react-redux';
 import {selectMenuItem, showPreview, openDocument, openRuleDocument, setEcmaOrParser} from '../actions/view';
-import {setEnv, setECMAFeatures, setGlobals, changeRule} from '../actions/output';
+import {setEnv, setEcmaFeatures, setGlobals, changeRule} from '../actions/output';
 
 import Header from './Header.jsx';
 import Wrapper from './Wrapper.jsx';
@@ -101,7 +101,9 @@ export default
                           <CheckList
                               id="ecma-features"
                               name="ecmaFeatures"
-                              keys={ECMAFeatures}/>
+                              keys={ECMAFeatures}
+                              defaultChecked={output.ecmaFeatures}
+                              onChange={v => dispatch(setEcmaFeatures(v))}/>
                         </div>
                       );
                     } else if (ecmaOrParser === 'parser') {
