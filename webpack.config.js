@@ -3,8 +3,7 @@
 module.exports = {
   context: __dirname + '/src',
   entry: {
-    client: './client',
-    mock: './mock'
+    client: './client'
   },
   output: {
     path: __dirname + "/.tmp/scripts",
