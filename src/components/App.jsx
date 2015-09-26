@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from "react";
 import {connect} from 'react-redux';
 import {selectMenuItem, showPreview, openDocument, openRuleDocument, setEcmaOrParser} from '../actions/view';
-import {setEnv, setEcmaFeatures, setGlobals, changeRule} from '../actions/output';
+import {setEnv, setEcmaFeatures, setParser, setGlobals, changeRule} from '../actions/output';
 
 import Header from './Header.jsx';
 import Wrapper from './Wrapper.jsx';
@@ -17,6 +17,7 @@ import RuleList from './RuleList.jsx';
 import {Environments, ECMAFeatures} from '../constants'
 import Rule from './Rule.jsx';
 import {Menu} from './Menu.jsx';
+import Parser from './Parser.jsx';
 import ruleSchema from "../constants/eslintRuleSchema.json";
 
 @connect(state => ({
@@ -110,13 +111,10 @@ export default
                       return (
                         <div className="option parser-option">
                           <h4 className="option__title">parser</h4>
-
-                          <div className="pure-form">
-                            <select className="parser-option__pulldown pure-input-1-2" name="parser">
-                              <option value=""></option>
-                              <option value="babel-parser">babel-parser</option>
-                            </select>
-                          </div>
+                          <Parser
+                            values={["esprima", "esprima-fb", "babel-parser"]}
+                            defaultValues={output.parser}
+                            onChange={v => dispatch(setParser(v))}/>
                         </div>
                       );
                     }
