@@ -1,7 +1,7 @@
 import {isArray} from 'lodash';
+import React, {Component, findDOMNode, PropTypes} from "react";
 import cx from 'classnames';
 import uniqueid from 'uniqueid';
-import React, {Component, findDOMNode, PropTypes} from "react";
 import RuleArgument from './RuleArgument.jsx';
 
 const NOOP = function () {};
