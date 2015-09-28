@@ -269,6 +269,10 @@
     padding: .5em;
     font-size: 80%; }
 
+  .rule-arg-array__plus--is-disabled {
+    color: rgba(1, 1, 1, 0.3);
+    cursor: normal; }
+
   .rule-arg-array__list {
     padding-left: 1.5em;
     font-size: 80%; }
