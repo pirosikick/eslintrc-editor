@@ -33,7 +33,8 @@ export default
         <Rule
           name={schema.name}
           schema={schema.schema}
-          onChange={e => dispatch(changeRule(e.name, e.args))}
+          value={output.rules[schema.name]}
+          onChange={e => dispatch(changeRule(e.name, e.value))}
           onClickHelp={({name}) => dispatch(openRuleDocument(name))} />
       );
 

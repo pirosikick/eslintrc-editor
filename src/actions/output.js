@@ -6,5 +6,11 @@ export default createActions({
   setEcmaFeatures: (ecmaFeatures = []) => ({ ecmaFeatures }),
   setParser: (parser) => ({ parser }),
   setGlobals: globals => ({ globals }),
-  changeRule: (name, args) => ({ name, args })
+  changeRule: (name, value) => {
+    if (value.length === 1) {
+      value = value[0];
+    }
+
+    return { name, value };
+  }
 });

@@ -1,5 +1,6 @@
-import {isArray} from 'lodash';
 import React, {Component, findDOMNode, PropTypes} from "react";
+import isArray from "lodash/lang/isArray";
+import clone from "lodash/lang/clone";
 import cx from 'classnames';
 import uniqueid from 'uniqueid';
 import RuleArgument from './RuleArgument.jsx';
@@ -8,60 +9,38 @@ const NOOP = function () {};
 
 export default
   class Rule extends Component {
+    static propTypes = {
+      name: PropTypes.string.isRequired,
+      schema: PropTypes.any,
+      value: PropTypes.any,
+      onChange: PropTypes.func
+    };
+    static defaultProps = {
+      value: 0,
+      onChange: NOOP
+    };
+
     constructor(props) {
       super(props);
-
-      let {schema} = props;
-      this.argLen = isArray(schema) ? schema.length : 0;
-      this.state = { currentArgs: new Array(this.argLen + 1) }
-    }
-
-    onChangeArg(e) {
-      let {index, value} = e;
-      let {name} = this.props;
-      let {currentArgs} = this.state;
-
-      currentArgs[index] = value;
-
-      if (this.argLen == 0 || currentArgs[0] == 0) {
-        this.emitChange(name, currentArgs[0]);
-      } else if (currentArgs[0]) {
-        this.emitChange(name, currentArgs);
-      }
-
-      this.setState({ currentArgs });
-    }
-
-    emitChange(name, args) {
-      setTimeout(() => this.props.onChange({ name, args }));
-    }
-
-    onChangeStatus(e) {
-      this.onChangeArg({ index: 0, value: e.value - 0 });
-    }
-
-    onClickHelp(e) {
-      e.preventDefault();
-      this.props.onClickHelp(this.props);
+      this.onChangeArg = this.onChangeArg.bind(this);
     }
 
     render() {
-      let {name, schema} = this.props;
-      let {currentArgs} = this.state;
-      let disabled = !currentArgs[0];
+      let {name} = this.props;
+      let [status, ...argValues] = this.getValue();
+      let schema = this.getSchema();
+      let disabled = !status;
 
-      schema = isArray(schema) ? schema : [];
+      let args = schema.map((options, index) => {
 
-      let onChangeArg = this.onChangeArg.bind(this);
-      let args = schema.map((options, index) => (
-        <RuleArgument
+        return <RuleArgument
           ruleName={name}
-          index={index + 1}
+          index={index}
+          value={argValues[index]}
           options={options}
           disabled={disabled}
-          onChange={onChangeArg}
-          />
-      ));
+          onChange={this.onChangeArg} />
+      });
 
       return (
         <div className="rule">
@@ -73,6 +52,44 @@ export default
           <RuleBody name={name} args={args} disabled={disabled}/>
         </div>
       );
+    }
+
+    getValue() {
+      let value = clone(this.props.value);
+      if (!isArray(value)) {
+        value = [value];
+      }
+      return value;
+    }
+
+    getSchema() {
+      let schema = clone(this.props.schema);
+      if (!isArray(schema)) {
+        schema = [];
+      }
+      return schema;
+    }
+
+    onChange(index, value) {
+      let newValue = this.getValue();
+      newValue[index] = value;
+      this.props.onChange({
+        name: this.props.name,
+        value: newValue
+      });
+    }
+
+    onChangeArg(e) {
+      this.onChange(e.index + 1, e.value)
+    }
+
+    onChangeStatus(e) {
+      this.onChange(0, e.value - 0)
+    }
+
+    onClickHelp(e) {
+      e.preventDefault();
+      this.props.onClickHelp(this.props);
     }
   }
 

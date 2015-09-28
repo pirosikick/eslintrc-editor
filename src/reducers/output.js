@@ -33,5 +33,5 @@ export default createReducer(intialState, {
     state.set('globals', action.globals),
 
   [changeRule]: (state, action) =>
-    state.setIn(['rules', action.name], action.args),
+    state.setIn(['rules', action.name], action.value),
 });
