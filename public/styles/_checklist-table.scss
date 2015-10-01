@@ -1,13 +1,17 @@
+$checklist-table-border-color: #C1C1C1;
+
 .checklist-table {
   width: 100%;
+  font-size: 80%;
 
   th {
-    padding: .5em 2em;
+    padding: .5em 1.5em;
     text-align: left;
+    border-bottom: 1px solid $checklist-table-border-color;
   }
 
   td {
-    padding: .2em 2em;
+    padding: .2em 1.5em;
     text-align: left;
   }
 
@@ -22,6 +26,6 @@
   }
 
   .checkbox__label {
-    margin-left: 1.5em;
+    margin-left: .5em;
   }
 }

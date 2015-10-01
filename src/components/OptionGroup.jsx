@@ -36,8 +36,8 @@ export default
             className="option-group__header option-group-header"
             onClick={this.toggle.bind(this)}>
             <div>
-              <Icon type={iconType} className="option-group-header__icon"/>
               <h3 className="option-group-header__title">{name}</h3>
+              <Icon type={iconType} className="option-group-header__icon"/>
             </div>
           </a>
           <article className="option-group__body">{children}</article>
