@@ -1,9 +1,11 @@
 $hover-background-color: #eee;
 
 .option-group {
+  background-color: #EFEFEF;
+  border-bottom: 1px solid #A4A4A4;
+
   @at-root {
     #{&}__header {
-      border-bottom: 1px solid #ccc;
 
       &:hover {
         background-color: $hover-background-color;
@@ -35,8 +37,8 @@ $hover-background-color: #eee;
       display: inline-block;
       margin: 0;
       margin-left: .5em;
-      font-size: 100%;
-      font-weight: normal;
+      font-size: 80%;
+      font-weight: bold;
     }
   }
 }

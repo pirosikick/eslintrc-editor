@@ -1,14 +1,15 @@
+$rule-border-color: #C1C1C1;
+
 .rule {
-  border-bottom: 1px solid rgba(0, 0, 0, .2);
+  border-bottom: 1px solid $rule-border-color;
 
   @at-root {
     #{&}__header {
-      padding: .5em 0;
       overflow: hidden;
     }
 
     #{&}__body {
-      border-top: 1px dashed rgba(0, 0, 0, .2);
+      border-top: 1px dashed $rule-border-color;
       padding-bottom: 1.5em;
     }
 
@@ -20,6 +21,7 @@
       display: inline-block;
       padding-left: .5em;
       margin-right: .5em;
+      font-size: 80%;
     }
 
     #{&}__help {
@@ -39,7 +41,7 @@
 
   @at-root {
     #{&}__header {
-      border-bottom: 1px solid gray;
+      border-bottom: 3px double $rule-border-color;
     }
 
     #{&}__item {
