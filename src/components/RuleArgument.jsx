@@ -191,7 +191,7 @@ class Enum extends Component {
 
     return (
       <select className="rule-arg-options" disabled={disabled} onChange={this.onChange.bind(this)}>
-        <option>---</option>
+        <option value="">---</option>
         {options}
       </select>
     );
