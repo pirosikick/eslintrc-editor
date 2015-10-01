@@ -186,11 +186,11 @@ class ObjectValue extends Component {
 
 class Enum extends Component {
   render() {
-    let {values} = this.props;
+    let {values, disabled} = this.props;
     let options = values.map(v => <option value={v}>{v}</option>);
 
     return (
-      <select className="rule-arg-options" disabled={this.props.disabled} onChange={this.onChange.bind(this)}>
+      <select className="rule-arg-options" disabled={disabled} onChange={this.onChange.bind(this)}>
         <option>---</option>
         {options}
       </select>
@@ -222,6 +222,7 @@ class OneOf extends Component {
           radioName={this.radioName}
           index={index}
           options={arg}
+          disabled={disabled}
           onChange={this.onChange}/>
       );
 
