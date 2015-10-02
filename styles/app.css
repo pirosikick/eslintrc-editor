@@ -12,7 +12,7 @@
 
   .option-group__body {
     display: none;
-    padding: 1em 1em 2em; }
+    padding: 1em .5em 2em; }
 
   .option-group-is-opened .option-group__body {
     display: block; }
@@ -183,14 +183,26 @@
   padding: 0;
   overflow: hidden;
   float: right;
-  width: 30%; }
+  width: 35%;
+  min-width: 90px;
+  max-width: 115px; }
   .rule-status__item {
     width: 33%;
     float: left;
     text-align: center; }
 
   .rule-status__label {
-    font-size: 75%; }
+    font-size: 80%; }
+
+  .rule-status__radio {
+    margin-right: .3em; }
+
+  .rule-status__radio:first-child {
+    margin-left: 1px; }
+
+  .rule-status__text {
+    margin-right: .3em;
+    font-size: 80%; }
 
 .rule-arg-list {
   list-style: none;
