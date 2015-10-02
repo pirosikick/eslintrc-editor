@@ -137,11 +137,15 @@ class RuleStatus extends Component {
           [0, 1, 2].map((value) => (
             <li key={`rule-status-${name}-${value}`}
                 className="rule-status__item">
-              <input
-                type="radio"
-                name={this.inputName}
-                value={value}
-                onClick={this.onClick.bind(this)} />
+              <label>
+                <input
+                  className="rule-status__radio"
+                  type="radio"
+                  name={this.inputName}
+                  value={value}
+                  onClick={this.onClick.bind(this)} />
+                <span className="rule-status__text">{value}</span>
+              </label>
             </li>
           ))
         }
