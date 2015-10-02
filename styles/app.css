@@ -12,9 +12,7 @@
 
   .option-group__body {
     display: none;
-    border-bottom: 1px solid #ccc;
-    padding-top: 1em;
-    padding-bottom: 2em; }
+    padding: 1em 1em 2em; }
 
   .option-group-is-opened .option-group__body {
     display: block; }
@@ -32,8 +30,8 @@
     font-weight: bold; }
 
 .option__title {
-  padding-left: 1em;
-  margin: 1em 0; }
+  margin: 1em 0;
+  font-size: 80%; }
 
 .checklist {
   padding-left: 0px; }
@@ -44,18 +42,18 @@
   width: 100%;
   font-size: 80%; }
   .checklist-table th {
-    padding: .5em 1.5em;
+    padding: .5em 1em;
     text-align: left;
-    border-bottom: 1px solid #C1C1C1; }
+    border-bottom: 3px double #C1C1C1; }
   .checklist-table td {
-    padding: .2em 1.5em;
+    padding: .2em 1em;
     text-align: left; }
   .checklist-table tbody tr:first-child td {
     padding-top: .5em; }
   .checklist-table__header {
     border-bottom: 1px solid #eee; }
   .checklist-table .checkbox__label {
-    margin-left: .5em; }
+    margin-left: 1em; }
 
 .checkbox__label {
   display: inline-block;
@@ -77,7 +75,8 @@
 
 .radioset {
   list-style: none;
-  padding-left: 2em; }
+  padding-left: .5em;
+  font-size: 80%; }
   .radioset__label-text {
     margin-left: 1em; }
 
@@ -97,35 +96,39 @@
     margin-left: .5em; }
 
 .globals__form {
-  padding-left: 1em;
-  margin-bottom: 1em; }
+  margin-bottom: 1.5em;
+  font-size: 80%; }
 
 .globals__plus {
   margin-left: .5em; }
 
 .parser-option__pulldown {
-  margin-left: 1em; }
+  font-size: 80%; }
 
 .global-list {
   width: 100%; }
-  .global-list__remove-col {
-    width: 15px; }
-
-  .global-list__value-col {
-    width: 145px; }
-
   .global-list__head {
-    border-bottom: 1px solid #eee; }
+    border-bottom: 3px double #C1C1C1;
+    font-size: 80%; }
 
   .global-list__remove {
     color: red;
     opacity: .4;
-    font-size: 120%; }
+    font-size: 80%;
+    margin-right: .5em; }
     .global-list__remove:hover {
       opacity: 1; }
+
+  .global-list__var-name {
+    font-size: 80%; }
   .global-list th, .global-list td {
-    text-align: left;
-    padding-left: .5em; }
+    text-align: left; }
+  .global-list thead th {
+    padding-bottom: .3em; }
+  .global-list tbody tr:first-child td {
+    padding-top: .3em; }
+  .global-list th:first-child {
+    padding-left: 1em; }
 
 .document {
   padding: 0 1.5em;
@@ -194,14 +197,13 @@
   padding: 0; }
 
 .rule-arg {
-  overflow: hidden; }
+  overflow: hidden;
+  font-size: 80%;
+  margin-bottom: .5em; }
   .rule-arg__index {
     float: left;
     width: 10%;
     text-align: center; }
-
-  .rule-arg__index-no {
-    font-size: 80%; }
 
   .rule-arg__input {
     float: left;
