@@ -82,6 +82,8 @@ $rule-border-color: #C1C1C1;
 
 .rule-arg {
   overflow: hidden;
+  font-size: 80%;
+  margin-bottom: .5em;
 
   @at-root {
     #{&}__header {
@@ -94,7 +96,7 @@ $rule-border-color: #C1C1C1;
     }
 
     #{&}__index-no {
-      font-size: 80%;
+//      font-size: 80%;
     }
 
     #{&}__input {

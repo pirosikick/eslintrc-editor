@@ -2,14 +2,6 @@
   width: 100%;
 
   @at-root {
-    #{&}__remove-col {
-      width: 15px;
-    }
-
-    #{&}__value-col {
-      width: 145px;
-    }
-
     #{&}__head {
       border-bottom: 3px double #C1C1C1;
       font-size: 80%;

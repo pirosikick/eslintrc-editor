@@ -7,7 +7,7 @@ $checklist-table-border-color: #C1C1C1;
   th {
     padding: .5em 1em;
     text-align: left;
-    border-bottom: 1px solid $checklist-table-border-color;
+    border-bottom: 3px double $checklist-table-border-color;
   }
 
   td {

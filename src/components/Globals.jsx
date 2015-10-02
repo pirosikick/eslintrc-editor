@@ -127,7 +127,6 @@ class Table extends Component {
       <table className="global-list">
         <thead className="global-list__head">
           <tr>
-            <th className="global-list__remove-col"></th>
             <th className="global-list__var-name-col">name</th>
             <th className="global-list__value-col">value</th>
           </tr>
@@ -157,8 +156,6 @@ class TableRow extends Component {
              className="global-list__remove">
             <i className="fa fa-times"></i>
           </a>
-        </td>
-        <td>
           <span className="global-list__var-name">{name}</span>
         </td>
         <td>
