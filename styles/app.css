@@ -21,13 +21,13 @@
 
 .option-group-header {
   display: block;
-  padding: 0 1em;
+  padding: 0 .5em;
   text-decoration: none;
   color: black; }
   .option-group-header__title {
     display: inline-block;
     margin: 0;
-    margin-left: .5em;
+    margin-right: .5em;
     font-size: 80%;
     font-weight: bold; }
 
@@ -41,19 +41,21 @@
     list-style: none; }
 
 .checklist-table {
-  width: 100%; }
+  width: 100%;
+  font-size: 80%; }
   .checklist-table th {
-    padding: .5em 2em;
-    text-align: left; }
+    padding: .5em 1.5em;
+    text-align: left;
+    border-bottom: 1px solid #C1C1C1; }
   .checklist-table td {
-    padding: .2em 2em;
+    padding: .2em 1.5em;
     text-align: left; }
   .checklist-table tbody tr:first-child td {
     padding-top: .5em; }
   .checklist-table__header {
     border-bottom: 1px solid #eee; }
   .checklist-table .checkbox__label {
-    margin-left: 1.5em; }
+    margin-left: .5em; }
 
 .checkbox__label {
   display: inline-block;
