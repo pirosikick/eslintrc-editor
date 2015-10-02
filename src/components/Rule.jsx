@@ -54,6 +54,10 @@ export default
       );
     }
 
+    shouldComponentUpdate(nextProps) {
+      return this.props.value !== nextProps.value;
+    }
+
     getValue() {
       let value = clone(this.props.value);
       if (!isArray(value)) {

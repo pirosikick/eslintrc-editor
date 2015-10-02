@@ -52,6 +52,10 @@ export default
       );
     }
 
+    shouldComponentUpdate(nextProps) {
+      return this.props.defaultChecked !== nextProps.defaultChecked;
+    }
+
     toggleAll (e) {
       let {checked} = e.target;
       this.props.onChange(checked ? this.props.keys : []);
