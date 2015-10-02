@@ -11,13 +11,15 @@
     }
 
     #{&}__head {
-      border-bottom: 1px solid #eee;
+      border-bottom: 3px double #C1C1C1;
+      font-size: 80%;
     }
 
     #{&}__remove {
       color: red;
       opacity: .4;
-      font-size: 120%;
+      font-size: 80%;
+      margin-right: .5em;
 
       &:hover {
         opacity: 1;
@@ -25,12 +27,24 @@
     }
 
     #{&}__var-name {
+      font-size: 80%;
       //margin-left: .5em;
     }
   }
 
   th, td {
     text-align: left;
-    padding-left: .5em;
+  }
+
+  thead th {
+    padding-bottom: .3em;
+  }
+
+  tbody tr:first-child td {
+    padding-top: .3em;
+  }
+
+  th:first-child {
+    padding-left: 1em;
   }
 }

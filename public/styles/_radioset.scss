@@ -1,6 +1,7 @@
 .radioset {
   list-style: none;
-  padding-left: 2em;
+  padding-left: 1em;
+  font-size: 80%;
 
   @at-root {
     #{&}__label-text {
