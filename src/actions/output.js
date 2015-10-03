@@ -1,5 +1,7 @@
 'use strict';
 import {createActions} from '../util/redux';
+import forEachRight from 'lodash/collection/forEachRight';
+import isNull from 'lodash/lang/isNull';
 
 export default createActions({
   setEnv: (env = []) => ({ env }),
@@ -7,10 +9,15 @@ export default createActions({
   setParser: (parser) => ({ parser }),
   setGlobals: globals => ({ globals }),
   changeRule: (name, value) => {
-    if (value.length === 1) {
-      value = value[0];
+    let newValue = [];
+    forEachRight(value, (v, i) => {
+      if (!isNull(v)) {
+        newValue[i] = v
+      }
+    });
+    if (newValue.length === 1) {
+      newValue = newValue[0];
     }
-
-    return { name, value };
+    return { name, value: newValue };
   }
 });
