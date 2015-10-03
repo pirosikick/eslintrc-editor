@@ -19,7 +19,7 @@ class Parser extends Component {
   }
 
   onChange(e) {
-    this.props.onChange(e.target.value);
+    this.props.onChange(e.target.value || null);
   }
 
   render() {
@@ -29,7 +29,7 @@ class Parser extends Component {
     return (
       <div className="pure-form">
         <select className="parser-option__pulldown" onChange={this.onChange}>
-          <option>select parser</option>
+          <option value="">select parser</option>
           {options}
         </select>
       </div>
