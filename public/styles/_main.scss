@@ -2,6 +2,7 @@
   position: relative;
   height: 100%;
   overflow: scroll;
+  z-index: 0;
 
   @at-root {
     #{&}__contents {
