@@ -61,10 +61,12 @@
 
 .sidemenu {
   overflow: scroll;
-  box-shadow: -1px 0px gray;
+  border-left: 1px solid #A4A4A4;
   font-size: 90%;
   z-index: 100;
-  background-color: #EFEFEF; }
+  background-color: #EFEFEF;
+  box-sizing: border-box;
+  height: 100%; }
   .sidemenu__header {
     padding-left: .5em; }
 
@@ -297,7 +299,8 @@
 .main {
   position: relative;
   height: 100%;
-  overflow: scroll; }
+  overflow: scroll;
+  z-index: 0; }
   .main__contents {
     padding-top: calc(50px + 1em); }
 
@@ -336,4 +339,5 @@
   background-color: white;
   padding-left: 1em;
   border-bottom: 1px solid gray;
-  z-index: 99; }
+  z-index: 99;
+  width: 70.8333%; }
