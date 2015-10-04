@@ -1,53 +1,56 @@
 import React, {Component, findDOMNode, PropTypes} from "react";
 import isArray from "lodash/lang/isArray";
 import clone from "lodash/lang/clone";
+import isNull from 'lodash/lang/isNull';
+import isUndefined from 'lodash/lang/isUndefined';
+import forEachRight from "lodash/collection/forEachRight";
+import noop from 'lodash/utility/noop';
 import cx from 'classnames';
 import uniqueid from 'uniqueid';
 import RuleArgument from './RuleArgument.jsx';
-
-const NOOP = function () {};
 
 export default
   class Rule extends Component {
     static propTypes = {
       name: PropTypes.string.isRequired,
       schema: PropTypes.any,
-      value: PropTypes.any,
+      arg: PropTypes.any,
       onChange: PropTypes.func
     };
     static defaultProps = {
-      value: 0,
-      onChange: NOOP
+      arg: 0,
+      onChange: noop
     };
 
     constructor(props) {
       super(props);
-      this.onChangeArg = this.onChangeArg.bind(this);
+      this.onChangeArgValue = this.onChangeArgValue.bind(this);
+      this.onChangeStatus = this.onChangeStatus.bind(this);
+      this.onClickHelp = this.onClickHelp.bind(this);
     }
 
     render() {
       let {name} = this.props;
-      let [status, ...argValues] = this.getValue();
+      let [status, ...argValues] = this.getArg();
       let schema = this.getSchema();
       let disabled = !status;
 
-      let args = schema.map((options, index) => {
-
-        return <RuleArgument
+      let args = schema.map((options, index) =>
+        <RuleArgument
           ruleName={name}
           index={index}
           value={argValues[index]}
           options={options}
           disabled={disabled}
-          onChange={this.onChangeArg} />
-      });
+          onChange={this.onChangeArgValue} />
+      );
 
       return (
         <div className="rule">
           <RuleHeader>
             <span className="rule__name">{name}</span>
-            <RuleHelpLink onClick={this.onClickHelp.bind(this)} />
-            <RuleStatus name={name} onChange={this.onChangeStatus.bind(this)} />
+            <RuleHelpLink onClick={this.onClickHelp} />
+            <RuleStatus name={name} onChange={this.onChangeStatus} />
           </RuleHeader>
           <RuleBody name={name} args={args} disabled={disabled}/>
         </div>
@@ -55,15 +58,15 @@ export default
     }
 
     shouldComponentUpdate(nextProps) {
-      return this.props.value !== nextProps.value;
+      return this.props.arg !== nextProps.arg;
     }
 
-    getValue() {
-      let value = clone(this.props.value);
-      if (!isArray(value)) {
-        value = [value];
+    getArg() {
+      let arg = clone(this.props.arg);
+      if (!isArray(arg)) {
+        arg = [arg];
       }
-      return value;
+      return arg;
     }
 
     getSchema() {
@@ -75,15 +78,15 @@ export default
     }
 
     onChange(index, value) {
-      let newValue = this.getValue();
-      newValue[index] = value;
+      let newArg = this.getArg();
+      newArg[index] = value;
       this.props.onChange({
         name: this.props.name,
-        value: newValue
+        arg: this.minifyArg(newArg)
       });
     }
 
-    onChangeArg(e) {
+    onChangeArgValue(e) {
       this.onChange(e.index + 1, e.value)
     }
 
@@ -95,6 +98,28 @@ export default
       e.preventDefault();
       this.props.onClickHelp(this.props);
     }
+
+    minifyArg(arg) {
+      let newArg = [];
+      // [0, argValue1, argValue2] -> 0
+      if (arg[0] === 0) {
+        newArg = 0;
+      } else {
+        // [1, argValue1, null] -> [1, argValue1]
+        forEachRight(arg, (value, i) => {
+          if (isNull(value)) {
+            return;
+          }
+          newArg[i] = value;
+        });
+        // [1] -> 1
+        if (newArg.length === 1) {
+          newArg = newArg[0];
+        }
+      }
+
+      return newArg;
+    }
   }
 
 class RuleHeader extends Component {
@@ -105,7 +130,7 @@ class RuleHeader extends Component {
 
 class RuleHelpLink extends Component {
   static propTypes = { onClick: PropTypes.func };
-  static defaultProps = { onClick: NOOP };
+  static defaultProps = { onClick: noop };
 
   render() {
     return (

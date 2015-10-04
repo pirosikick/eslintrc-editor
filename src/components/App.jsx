@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from "react";
 import {connect} from 'react-redux';
 import {selectMenuItem, showPreview, openDocument, openRuleDocument, setEcmaOrParser} from '../actions/view';
-import {setEnv, setEcmaFeatures, setParser, setGlobals, changeRule} from '../actions/output';
+import {setEnv, setEcmaFeatures, setParser, setGlobals, setRules} from '../actions/output';
 
 import Header from './Header.jsx';
 import Wrapper from './Wrapper.jsx';
@@ -13,9 +13,8 @@ import RadioSet from './RadioSet.jsx';
 import Globals from './Globals.jsx';
 import MarkdownViewer from './MarkdownViewer.jsx';
 import Preview from './Preview.jsx';
-import RuleList from './RuleList.jsx';
 import {Environments, ECMAFeatures} from '../constants'
-import Rule from './Rule.jsx';
+import Rules from './Rules.jsx';
 import {Menu} from './Menu.jsx';
 import Parser from './Parser.jsx';
 import ruleSchema from "../constants/eslintRuleSchema.json";
@@ -28,15 +27,6 @@ export default
   class App extends Component {
     render () {
       let {view, output, dispatch} = this.props;
-
-      let rules = ruleSchema.map(schema =>
-        <Rule
-          name={schema.name}
-          schema={schema.schema}
-          value={output.rules[schema.name]}
-          onChange={e => dispatch(changeRule(e.name, e.value))}
-          onClickHelp={({name}) => dispatch(openRuleDocument(name))} />
-      );
 
       const isMenuItemSelected = ({name}) => name === view.selectedMenuItem;
 
@@ -125,7 +115,11 @@ export default
               </OptionGroup>
 
               <OptionGroup name="Rules">
-                <RuleList rules={rules} />
+                <Rules
+                  rules={output.rules}
+                  schema={ruleSchema}
+                  onChange={rules => dispatch(setRules(rules))}
+                  onClickHelp={name => dispatch(openRuleDocument(name))} />
               </OptionGroup>
 
             </SideMenu>

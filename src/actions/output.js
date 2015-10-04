@@ -8,16 +8,5 @@ export default createActions({
   setEcmaFeatures: (ecmaFeatures = []) => ({ ecmaFeatures }),
   setParser: (parser) => ({ parser }),
   setGlobals: globals => ({ globals }),
-  changeRule: (name, value) => {
-    let newValue = [];
-    forEachRight(value, (v, i) => {
-      if (!isNull(v)) {
-        newValue[i] = v
-      }
-    });
-    if (newValue.length === 1) {
-      newValue = newValue[0];
-    }
-    return { name, value: newValue };
-  }
+  setRules: rules => ({ rules })
 });

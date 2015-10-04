@@ -8,7 +8,7 @@ let intialState = Map({
   globals: {},
   ecmaFeatures: [],
   parser: null,
-  rules: OrderedMap()
+  rules: {}
 });
 
 let {
@@ -16,7 +16,7 @@ let {
   setEcmaFeatures,
   setParser,
   setGlobals,
-  changeRule
+  setRules
 } = getActionIds(actions);
 
 export default createReducer(intialState, {
@@ -32,6 +32,6 @@ export default createReducer(intialState, {
   [setGlobals]: (state, action) =>
     state.set('globals', action.globals),
 
-  [changeRule]: (state, action) =>
-    state.setIn(['rules', action.name], action.value),
+  [setRules]: (state, action) =>
+    state.set('rules', action.rules)
 });
