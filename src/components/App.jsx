@@ -1,7 +1,8 @@
 import React, {Component, PropTypes} from "react";
+import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {selectMenuItem, showPreview, openDocument, openRuleDocument, setEcmaOrParser} from '../actions/view';
-import {setEnv, setEcmaFeatures, setParser, setGlobals, setRules} from '../actions/output';
+import viewActionCreators from '../actions/view';
+import outputActionCreators from '../actions/output';
 
 import Header from './Header.jsx';
 import Wrapper from './Wrapper.jsx';
@@ -25,10 +26,25 @@ import ruleSchema from "../constants/eslintRuleSchema.json";
 }))
 export default
   class App extends Component {
+    constructor(props) {
+      super(props);
+
+      const actionCreators = {...viewActionCreators, ...outputActionCreators};
+      this.actions = bindActionCreators(actionCreators, props.dispatch);
+
+      this.onChangeEnv = this.onChangeEnv.bind(this);
+      this.onChangeGlobals = this.onChangeGlobals.bind(this);
+      this.onChangeEcmaFeatures = this.onChangeEcmaFeatures.bind(this);
+      this.onChangeParser = this.onChangeParser.bind(this);
+      this.onChangeRules = this.onChangeRules.bind(this);
+      this.onClickHelp = this.onClickHelp.bind(this);
+    }
+
     render () {
       let {view, output, dispatch} = this.props;
 
       const isMenuItemSelected = ({name}) => name === view.selectedMenuItem;
+      const {setEcmaOrParser, selectMenuItem} = this.actions;
 
       return (
         <div className="app">
@@ -40,7 +56,7 @@ export default
                   { name: 'document', label: 'Document' }
                 ]}
                 selectedItem={view.selectedMenuItem}
-                onClickItem={({name}) => dispatch(selectMenuItem(name))}
+                onClickItem={({name}) => selectMenuItem(name)}
                 horizontal={true}
                 />
               <div className="main__contents">
@@ -62,13 +78,13 @@ export default
                   name="env"
                   keys={Environments}
                   defaultChecked={output.env}
-                  onChange={(env) => dispatch(setEnv(env))} />
+                  onChange={this.onChangeEnv} />
               </OptionGroup>
 
               <OptionGroup name="Globals">
                 <Globals
                   defaultValue={output.globals}
-                  onChange={globals => dispatch(setGlobals(globals))}/>
+                  onChange={this.onChangeGlobals}/>
 
               </OptionGroup>
 
@@ -81,7 +97,7 @@ export default
                     {value: "parser", label: "use parser option"}
                   ]}
                   defaultValue={view.ecmaOrParser}
-                  onChange={e => dispatch(setEcmaOrParser(e.value))} />
+                  onChange={({value}) => setEcmaOrParser(value)} />
 
                 {
                   (ecmaOrParser => {
@@ -95,7 +111,7 @@ export default
                               name="ecmaFeatures"
                               keys={ECMAFeatures}
                               defaultChecked={output.ecmaFeatures}
-                              onChange={v => dispatch(setEcmaFeatures(v))}/>
+                              onChange={this.onChangeEcmaFeatures}/>
                         </div>
                       );
                     } else if (ecmaOrParser === 'parser') {
@@ -105,7 +121,7 @@ export default
                           <Parser
                             values={["esprima", "esprima-fb", "babel-parser"]}
                             defaultValues={output.parser}
-                            onChange={v => dispatch(setParser(v))}/>
+                            onChange={this.onChangeParser}/>
                         </div>
                       );
                     }
@@ -118,8 +134,8 @@ export default
                 <Rules
                   rules={output.rules}
                   schema={ruleSchema}
-                  onChange={rules => dispatch(setRules(rules))}
-                  onClickHelp={name => dispatch(openRuleDocument(name))} />
+                  onChange={this.onChangeRules}
+                  onClickHelp={this.onClickHelp} />
               </OptionGroup>
 
             </SideMenu>
@@ -127,5 +143,29 @@ export default
           </Wrapper>
         </div>
       );
+    }
+
+    onChangeEnv(value) {
+      this.actions.setEnv(value);
+    }
+
+    onChangeGlobals(value) {
+      this.actions.setGlobals(value);
+    }
+
+    onChangeEcmaFeatures(value) {
+      this.actions.setEcmaFeatures(value);
+    }
+
+    onChangeParser(value) {
+      this.actions.setParser(value);
+    }
+
+    onChangeRules(rules) {
+      this.actions.setRules(rules);
+    }
+
+    onClickHelp(e) {
+      this.actions.openRuleDocument(e.name);
     }
   }
