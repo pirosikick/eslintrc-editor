@@ -1,6 +1,7 @@
 'use strict';
 import {Component, PropTypes} from "react";
 import cx from "classnames";
+import isArray from 'lodash/lang/isArray';
 
 const NOOP = function () {};
 
@@ -8,14 +9,16 @@ export class Menu extends Component {
   static propsTypes = {
     horizotal: PropTypes.bool,
     items: PropTypes.array,
-    selectedItem: PropTypes.string
+    selectedItem: PropTypes.string,
+    allowHover: PropTypes.bool
   };
 
   static defaultProps = {
     horizotal: false,
     items: [],
     selectedItem: "",
-    onClickItem: NOOP
+    onClickItem: NOOP,
+    allowHover: true
   };
 
   constructor(props) {
@@ -31,9 +34,10 @@ export class Menu extends Component {
     props.onClick = this.onClickItem;
     props.selected = selectedItem === name;
 
-    if (typeof children === 'array' && children.length) {
+    if (isArray(children) && children.length) {
+      props.allowHover = this.props.allowHover;
       props.children = [
-        <MenuChildren>{children.map(this.menuItem)}</MenuChildren>
+        <MenuChildren>{children.map(this.menuItem, this)}</MenuChildren>
       ];
     }
 

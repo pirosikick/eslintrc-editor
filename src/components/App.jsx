@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from "react";
+import {Component, PropTypes} from "react";
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import viewActionCreators from '../actions/view';
@@ -32,6 +32,7 @@ export default
       const actionCreators = {...viewActionCreators, ...outputActionCreators};
       this.actions = bindActionCreators(actionCreators, props.dispatch);
 
+      this.onClickMenuItem = this.onClickMenuItem.bind(this);
       this.onChangeEnv = this.onChangeEnv.bind(this);
       this.onChangeGlobals = this.onChangeGlobals.bind(this);
       this.onChangeEcmaFeatures = this.onChangeEcmaFeatures.bind(this);
@@ -53,10 +54,16 @@ export default
               <Menu
                 items={[
                   { name: 'preview', label: 'Preview' },
-                  { name: 'document', label: 'Document' }
+                  {
+                    name: 'document',
+                    label: 'Document',
+                    children: [
+                      { name: 'document.rules', label: 'Rules' }
+                    ]
+                  }
                 ]}
                 selectedItem={view.selectedMenuItem}
-                onClickItem={({name}) => selectMenuItem(name)}
+                onClickItem={this.onClickMenuItem}
                 horizontal={true}
                 />
               <div className="main__contents">
@@ -143,6 +150,15 @@ export default
           </Wrapper>
         </div>
       );
+    }
+
+    onClickMenuItem({name}) {
+      let [menuItem, documentName] = name.split('.');
+      if (documentName == 'rules') {
+        this.actions.openRuleDocument('README');
+      } else {
+        this.actions.selectedItem(menuItem);
+      }
     }
 
     onChangeEnv(value) {

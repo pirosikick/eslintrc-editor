@@ -23,6 +23,11 @@ const actions = createActions({
   },
   setDocumentMarkdown: md => ({ md }),
   openRuleDocument: name => actions.openDocument(`docs/rules/${name}.md`),
+  openUserGuide: name => {
+    if (name === 'rules') {
+      return actions.openDocument('docs/rules/README.md');
+    }
+  },
   setEcmaOrParser: value => ({ value })
 });
 
