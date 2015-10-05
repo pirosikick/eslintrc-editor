@@ -7,6 +7,7 @@ const NOOP = function () {};
 
 export class Menu extends Component {
   static propsTypes = {
+    heading: PropTypes.string,
     horizotal: PropTypes.bool,
     items: PropTypes.array,
     selectedItem: PropTypes.string,
@@ -14,6 +15,7 @@ export class Menu extends Component {
   };
 
   static defaultProps = {
+    heading: "",
     horizotal: false,
     items: [],
     selectedItem: "",
@@ -23,8 +25,21 @@ export class Menu extends Component {
 
   constructor(props) {
     super(props);
-
     this.onClickItem = this.props.onClickItem.bind(this);
+  }
+
+  render() {
+    let {heading, horizontal, items, selectedItem} = this.props;
+    let className = cx("pure-menu menu", {
+      "pure-menu-horizontal": horizontal
+    });
+
+    return (
+      <div className={className}>
+        <Heading>{heading}</Heading>
+        <MenuList>{items.map(this.menuItem, this)}</MenuList>
+      </div>
+    );
   }
 
   menuItem(props) {
@@ -47,17 +62,14 @@ export class Menu extends Component {
   onClickItem(props) {
     this.props.onClickItem(props);
   }
+}
 
+class Heading extends Component {
   render() {
-    let {horizontal, items, selectedItem} = this.props;
-    let className = cx("pure-menu menu", {
-      "pure-menu-horizontal": horizontal
-    });
-
     return (
-      <div className={className}>
-        <MenuList>{items.map(this.menuItem, this)}</MenuList>
-      </div>
+      <a href="/" className="pure-menu-link pure-menu-heading menu__heading">
+        {this.props.children}
+      </a>
     );
   }
 }
