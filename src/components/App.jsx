@@ -52,13 +52,16 @@ export default
           <Wrapper className="pure-g">
             <Main className="pure-u-17-24">
               <Menu
+                heading=".eslintrc editor"
                 items={[
                   { name: 'preview', label: 'Preview' },
                   {
                     name: 'document',
                     label: 'Document',
                     children: [
-                      { name: 'document.rules', label: 'Rules' }
+                      { name: 'document.docs/user-guide/configuring', label: 'Configure ESLint' },
+                      { name: 'document.docs/user-guide/command-line-interface', label: 'Command Line Interface' },
+                      { name: 'document.docs/rules/README', label: 'Rules' }
                     ]
                   }
                 ]}
@@ -153,11 +156,11 @@ export default
     }
 
     onClickMenuItem({name}) {
-      let [menuItem, documentName] = name.split('.');
-      if (documentName == 'rules') {
-        this.actions.openRuleDocument('README');
+      let [itemName, documentName] = name.split('.');
+      if (documentName) {
+        this.actions.openDocument(`${documentName}.md`);
       } else {
-        this.actions.selectedItem(menuItem);
+        this.actions.selectMenuItem(itemName);
       }
     }
 
