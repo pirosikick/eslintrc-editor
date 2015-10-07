@@ -14,7 +14,7 @@ let {
 
 let initialState = Map({
   selectedMenuItem: 'preview',
-  documentUrl: "docs/user-guide/configuring.md",
+  documentUrl: "",
   documentMarkdown: "",
   ecmaOrParser: "parser"
 });
@@ -27,12 +27,9 @@ export default createReducer(initialState, {
     state.set('selectedMenuItem', 'preview'),
 
   [setDocumentMarkdown]: (state, action) =>
-    state.merge({ documentMarkdown: action.md }),
-
-  [openDocument]: (state, action) =>
     state.merge({
-      selectedMenuItem: 'document',
-      documentUrl: action.url || state.get('documentUrl')
+      documentUrl: action.url,
+      documentMarkdown: action.md
     }),
 
   [openRuleDocument]: (state, action) =>

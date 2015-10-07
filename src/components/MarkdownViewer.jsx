@@ -7,43 +7,66 @@ const NOOP = function () {};
 export default class MarkdownViewer extends Component {
   static propTypes = {
     md: PropTypes.string,
+    url: PropTypes.string,
     onClickLink: PropTypes.func
   };
 
   static defaultProps = {
+    url: "",
     md: "",
     onClickLink: NOOP
   };
+
+  constructor(props) {
+    super(props);
+    this.link = this.link.bind(this);
+    this.onClick = this.onClick.bind(this);
+  }
+
+  render() {
+    let customComponents = { link: this.link };
+
+    return (
+      <div className="document markdown-body">
+        {md2react(this.props.md, {customComponents})}
+      </div>
+    );
+  }
+
+  link(node, defs, key) {
+    return <Link
+      node={node}
+      key={key}
+      baseUrl={this.getBaseUrl()}
+      onClick={this.onClick}/>;
+  }
+
+  getBaseUrl() {
+    let {url} = this.props;
+    return url.split('/').slice(0, -1).join('/');
+  }
 
   onClick(e) {
     if (e.target.isExternal) {
       return;
     }
 
+    let documentUrl = e.currentTarget.getAttribute('data-document-url');
+
     e.preventDefault();
-    this.props.onClickLink(e);
-  }
-
-  render() {
-    let link = (node, defs, key) => <Link node={node} key={key} />;
-    let options = { customComponents: { link } };
-
-    return (
-      <div className="document markdown-body">
-        {md2react(this.props.md, options)}
-      </div>
-    );
+    this.props.onClickLink(documentUrl);
   }
 }
 
 class Link extends Component {
   static propTypes = {
+    baseUrl: PropTypes.string,
     node: PropTypes.object,
     key: PropTypes.string,
     onClick: PropTypes.func
   };
-
   static defaultProps = {
+    baseUrl: PropTypes.string,
     node: {},
     key: "",
     onClick: NOOP
@@ -51,15 +74,16 @@ class Link extends Component {
 
   constructor(props) {
     super(props);
-
-    this.isExternal = /^http/.test(props.node.href || "");
+    let href = props.node.href || "";
+    this.isExternal = /^http/.test(href);
+    this.isAbsolute = /^\//.test(href);
   }
 
   render() {
     let {node, key} = this.props;
     let props = {
       key,
-      href: node.href,
+      href: this.getHref(),
       title: node.title,
       onClick: this.props.onClick,
       children: [node.children[0].value]
@@ -67,8 +91,31 @@ class Link extends Component {
 
     if (this.isExternal) {
       props.target = '_blank';
+    } else {
+      props['data-document-url'] = this.getDocumentUrl();
     }
 
     return <a {...props}/>;
+  }
+
+  getHref() {
+    let {node, baseUrl} = this.props;
+
+    if (this.isExternal) {
+      return node.href;
+    }
+
+    return 'javascript:void(0);';
+  }
+
+  getDocumentUrl() {
+    let {node, baseUrl} = this.props;
+
+    if (this.isExternal) {
+      return "";
+    } else if (this.isAbsolute) {
+      return node.href;
+    }
+    return `${baseUrl}/${node.href}`;
   }
 }

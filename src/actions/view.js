@@ -14,7 +14,7 @@ const actions = createActions({
       return fetch(url)
         .then(res => res.text())
         .then(md => {
-          dispatch(actions.setDocumentMarkdown(md));
+          dispatch(actions.setDocumentMarkdown(url, md));
         })
     };
   },
@@ -22,11 +22,11 @@ const actions = createActions({
     return dispatch => {
       return actions.loadDocument(url)(dispatch)
         .then(md => {
-          dispatch(actions.selectMenuItem('document', true));
+          dispatch(actions.selectMenuItem('document'));
         });
     }
   },
-  setDocumentMarkdown: md => ({ md }),
+  setDocumentMarkdown: (url, md) => ({ url, md }),
   openRuleDocument: name => actions.openDocument(`docs/rules/${name}.md`),
   openUserGuide: name => {
     if (name === 'rules') {

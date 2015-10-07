@@ -39,6 +39,7 @@ export default
       this.onChangeParser = this.onChangeParser.bind(this);
       this.onChangeRules = this.onChangeRules.bind(this);
       this.onClickHelp = this.onClickHelp.bind(this);
+      this.onClickLinkInMarkdown = this.onClickLinkInMarkdown.bind(this);
     }
 
     render () {
@@ -67,15 +68,17 @@ export default
                 ]}
                 selectedItem={view.selectedMenuItem}
                 onClickItem={this.onClickMenuItem}
-                horizontal={true}
-                />
+                horizontal={true} />
               <div className="main__contents">
               {
                 (selectedMenuItem => {
                   if (selectedMenuItem === 'preview') {
                     return <Preview target={output} />;
                   } else {
-                    return <MarkdownViewer md={view.documentMarkdown} />;
+                    return <MarkdownViewer
+                      url={view.documentUrl}
+                      md={view.documentMarkdown}
+                      onClickLink={this.onClickLinkInMarkdown}/>;
                   }
                 })(view.selectedMenuItem)
               }
@@ -186,5 +189,12 @@ export default
 
     onClickHelp(e) {
       this.actions.openRuleDocument(e.name);
+    }
+
+    onClickLinkInMarkdown(documentUrl) {
+      if (!documentUrl.match(/\.md$/)) {
+        documentUrl += '.md';
+      }
+      this.actions.openDocument(documentUrl);
     }
   }
