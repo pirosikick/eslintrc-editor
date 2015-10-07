@@ -10,19 +10,23 @@ var foo = /^abc[]/;
 
 This rule is aimed at highlighting possible typos and unexpected behavior in regular expressions which may arise from the use of empty character classes.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
-var foo = /^abc[]/;
+/*eslint no-empty-character-class: 2*/
 
-/^abc[]/.test(foo);
+var foo = /^abc[]/;  /*error Empty class.*/
 
-bar.match(/^abc[]/);
+/^abc[]/.test(foo);  /*error Empty class.*/
+
+bar.match(/^abc[]/); /*error Empty class.*/
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
+/*eslint no-empty-character-class: 2*/
+
 var foo = /^abc/;
 
 var foo = /^abc[a-z]/;
@@ -32,4 +36,4 @@ var bar = new RegExp("^abc[]");
 
 ## Related Rules
 
-* [no-empty-class](no-empty-class.md) (deprecated)
+* [no-empty-class](no-empty-class.md) (removed)

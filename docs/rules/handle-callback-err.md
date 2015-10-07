@@ -1,7 +1,7 @@
-# Ensures Callback Error Handling (handle-callback-err)
+# Enforce Callback Error Handling (handle-callback-err)
 
 In node, a common pattern for dealing with asynchronous behavior is called the callback pattern.
-This pattern expects as the first argument of the callback an `Error` object, which may be `null`.
+This pattern expects an `Error` object or `null` as the first argument of the callback.
 Forgetting to handle these errors can lead to some really strange behavior in your application.
 
 ```js
@@ -15,18 +15,22 @@ function loadData (err, data) {
 This rule expects that when you're using the callback pattern in node you'll handle the error and
 requires that you specify the name of your error object. The name of the argument will default to `err`.
 
-The following are considered warnings:
+The following are considered problems:
 
 ```js
-function loadData (err, data) {
-    doSomething(); // forgot to handle error
+/*eslint handle-callback-err: 2*/
+
+function loadData (err, data) { /*error Expected error to be handled.*/
+    doSomething();
 }
 
 ```
 
-The following are not considered warnings:
+The following are not considered problems:
 
 ```js
+/*eslint handle-callback-err: 2*/
+
 function loadData (err, data) {
     if (err) {
         console.log(err.stack);
@@ -42,7 +46,8 @@ function generateError (err) {
 You can also customize the name of the error object:
 
 ```js
-// missing-err: [2, "error"]
+/*eslint handle-callback-err: [2, "error"]*/
+
 function loadData (error, data) {
     if (error) {
        console.log(error.stack);
@@ -61,7 +66,7 @@ Examples for valid configurations:
 
 1. Rule configured to warn if an unhandled error is detected where the name of the error variable can be `err`, `error` or `anySpecificError`.
 
-    ```js
+    ```json
     // ...
     "handle-callback-err": [2, "^(err|error|anySpecificError)$" ]
     // ...
@@ -69,7 +74,7 @@ Examples for valid configurations:
 
 2. Rule configured to warn if an unhandled error is detected where the name of the error variable ends with `Error` (e. g. `connectionError` or `validationError` will match).
 
-    ```js
+    ```json
     // ...
     "handle-callback-err": [2, "^.+Error$" ]
     // ...
@@ -77,7 +82,7 @@ Examples for valid configurations:
 
 3. Rule configured to warn if an unhandled error is detected where the name of the error variable matches any string that contains `err` or `Err` (e. g. `err`, `error`, `anyError`, `some_err` will match).
 
-    ```js
+    ```json
     // ...
     "handle-callback-err": [2, "^.*(e|E)rr" ]
     // ...

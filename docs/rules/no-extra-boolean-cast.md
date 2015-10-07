@@ -16,37 +16,41 @@ if (foo) {
 
 This rule aims to eliminate the use of double-negation Boolean casts in an already Boolean context.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
-var foo = !!!bar;
+/*eslint no-extra-boolean-cast: 2*/
 
-var foo = !!bar ? baz : bat;
+var foo = !!!bar;             /*error Redundant multiple negation.*/
 
-var foo = Boolean(!!bar);
+var foo = !!bar ? baz : bat;  /*error Redundant double negation in a ternary condition.*/
 
-var foo = new Boolean(!!bar);
+var foo = Boolean(!!bar);     /*error Redundant double negation in call to Boolean().*/
 
-if (!!foo) {
+var foo = new Boolean(!!bar); /*error Redundant double negation in Boolean constructor call.*/
+
+if (!!foo) {                  /*error Redundant double negation in an if statement condition.*/
     // ...
 }
 
-while (!!foo) {
+while (!!foo) {               /*error Redundant double negation in a while loop condition.*/
     // ...
 }
 
 do {
     // ...
-} while (!!foo);
+} while (!!foo);              /*error Redundant double negation in a do while loop condition.*/
 
-for (; !!foo; ) {
+for (; !!foo; ) {             /*error Redundant double negation in a for loop condition.*/
     // ...
 }
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
+/*eslint no-extra-boolean-cast: 2*/
+
 var foo = !!bar;
 
 function foo() {

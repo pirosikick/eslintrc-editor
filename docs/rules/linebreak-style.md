@@ -12,37 +12,50 @@ Many versioning systems (like git and subversion) can automatically ensure the c
 
 This rule aims to ensure having consistent line endings independent of operating system, VCS or editor used.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
-    var a = 'a',\r\n
-        b = 'b';\n
+/*eslint linebreak-style: 2*/
 
-    // option 'unix'
-    var a = 'a';\r\n
-
-    // option 'windows'
-    var a = 'a';\n
+var a = 'a', // \r\n /*error Expected linebreaks to be 'LF' but found 'CRLF'.*/
+    b = 'b'; // \n
 ```
 
-The following patterns are not warnings:
+```js
+/*eslint linebreak-style: [2, "unix"]*/
+
+var a = 'a'; // \r\n /*error Expected linebreaks to be 'LF' but found 'CRLF'.*/
+
+```
 
 ```js
-    // option 'unix'
-    var a = 'a',\n
-        b = 'b';\n
-    \n
-    function foo(params) {\n
-        // do stuff \n
-    }\n
+/*eslint linebreak-style: [2, "windows"]*/
 
-    // option 'windows'
-    var a = 'a',\r\n
-        b = 'b';\r\n
-    \r\n
-    function foo(params) {\r\n
-        // do stuff \r\n
-    }\r\n
+var a = 'a';// \n    /*error Expected linebreaks to be 'CRLF' but found 'LF'.*/
+```
+
+The following patterns are not considered problems:
+
+```js
+/*eslint linebreak-style: [2, "unix"]*/
+
+var a = 'a', // \n
+    b = 'b'; // \n
+// \n
+function foo(params) {// \n
+    // do stuff \n
+}// \n
+```
+
+```js
+/*eslint linebreak-style: [2, "windows"]*/
+
+var a = 'a', // \r\n
+    b = 'b'; // \r\n
+// \r\n
+function foo(params) { // \r\n
+    // do stuff \r\n
+} // \r\n
 ```
 
 ### Options
@@ -52,3 +65,7 @@ This rule may take one option which is either `unix` (LF) or `windows` (CRLF). W
 ## When Not To Use It
 
 If you aren't concerned about having different line endings within you code, then you can safely turn this rule off.
+
+## Compatibility
+
+* **JSCS**: `validateLineBreaks`

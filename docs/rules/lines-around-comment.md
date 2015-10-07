@@ -33,12 +33,14 @@ var y = 10;
 
 ### Options
 
-This rule has 4 options:
+This rule has 6 options:
 
 1. `beforeBlockComment` (enabled by default)
 2. `afterBlockComment`
 3. `beforeLineComment`
 4. `afterLineComment`
+5. `allowBlockStart`
+6. `allowBlockEnd`
 
 Any combination of these rules may be applied at the same time.
 
@@ -60,6 +62,8 @@ With both `beforeBlockComment` and `afterBlockComment` set to `true` the followi
 would not warn:
 
 ```js
+/*eslint lines-around-comment: [2, { "beforeBlockComment": true, "afterBlockComment": true }]*/
+
 var night = "long";
 
 /* what a great and wonderful day */
@@ -70,8 +74,10 @@ var day = "great"
 This however would provide 2 warnings:
 
 ```js
+/*eslint lines-around-comment: [2, { "beforeBlockComment": true, "afterBlockComment": true }]*/
+
 var night = "long";
-/* what a great and wonderful day */
+/* what a great and wonderful day */  /*error Expected line before comment.*/ /*error Expected line after comment.*/
 var day = "great"
 ```
 
@@ -79,6 +85,8 @@ With only `beforeBlockComment` set to `true` the following code
 would not warn:
 
 ```js
+/*eslint lines-around-comment: [2, { "beforeBlockComment": true }]*/
+
 var night = "long";
 
 /* what a great and wonderful day */
@@ -88,8 +96,10 @@ var day = "great"
 But this would cause 1 warning:
 
 ```js
+/*eslint lines-around-comment: [2, { "beforeBlockComment": true }]*/
+
 var night = "long";
-/* what a great and wonderful day */
+/* what a great and wonderful day */     /*error Expected line before comment.*/
 var day = "great"
 ```
 
@@ -101,6 +111,8 @@ With both `beforeLineComment` and `afterLineComment` set to `true` the following
 would not warn:
 
 ```js
+/*eslint lines-around-comment: [2, { "beforeLineComment": true, "afterLineComment": true }]*/
+
 var night = "long";
 
 // what a great and wonderful day
@@ -112,6 +124,8 @@ With only `beforeLineComment` set to `true` the following code
 would not warn:
 
 ```js
+/*eslint lines-around-comment: [2, { "beforeLineComment": true }]*/
+
 var night = "long";
 
 // what a great and wonderful day
@@ -120,11 +134,77 @@ var day = "great"
 
 ### Exceptions
 
+#### `allowBlockStart` option
+
+When this option is set to `true`, it allows the comment to be present at the start of any block statement without any space above it. This option can be useful when combined with options `beforeLineComment` and `beforeBlockComment` only.
+
+With both `beforeLineComment` and `allowBlockStart` set to `true` the following code
+would not warn:
+
+```js
+/*eslint lines-around-comment: [2, { "beforeLineComment": true, "allowBlockStart": true }]*/
+
+function foo(){
+    // what a great and wonderful day
+    var day = "great"
+    return day;
+}
+```
+
+With both `beforeBlockComment` and `allowBlockStart` set to `true` the following code
+would not warn:
+
+```js
+/*eslint lines-around-comment: [2, { "beforeBlockComment": true, "allowBlockStart": true }]*/
+
+function foo(){
+    /* what a great and wonderful day */
+    var day = "great"
+    return day;
+}
+```
+
+#### `allowBlockEnd` option
+
+When this option is set to `true`, it allows the comment to be present at the end of any block statement without any space below it. This option can be useful when combined with options `afterLineComment` and `afterBlockComment` only.
+
+With both `afterLineComment` and `allowBlockEnd` set to `true` the following code
+would not warn:
+
+```js
+/*eslint lines-around-comment: [2, { "afterLineComment": true, "allowBlockEnd": true }]*/
+
+function foo(){
+    var day = "great"
+    return day;
+    // what a great and wonderful day
+}
+```
+
+With both `afterBlockComment` and `allowBlockEnd` set to `true` the following code
+would not warn:
+
+```js
+/*eslint lines-around-comment: [2, { "afterBlockComment": true, "allowBlockEnd": true }]*/
+
+function foo(){
+    var day = "great"
+    return day;
+
+    /* what a great and wonderful day */
+}
+```
+
+
+#### Inline comments
+
 Inline comments are always excluded from the rule.
 
 The following would be acceptable:
 
 ```js
+/*eslint lines-around-comment: 2*/
+
 var x = 0;
 var y = 10; /* the vertical position */
 ```
@@ -139,4 +219,5 @@ fall into that category this rule is not for you.
 ## Related Rules
 
 * [space-before-blocks](space-before-blocks.md)
-* [spaced-line-comment](spaced-line-comment.md)
+* [spaced-comment](spaced-comment.md)
+* [spaced-line-comment](spaced-line-comment.md) (deprecated)

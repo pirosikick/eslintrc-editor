@@ -36,25 +36,29 @@ Taking all of this into account, some style guides forbid the use of `undefined`
 
 This rule aims to eliminate the use of `undefined`, and as such, generates a warning whenever it is used.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
-var foo = undefined;
+/*eslint no-undefined: 2*/
 
-var undefined = "foo";
+var foo = undefined;      /*error Unexpected use of undefined.*/
 
-if (foo === undefined) {
+var undefined = "foo";    /*error Unexpected use of undefined.*/
+
+if (foo === undefined) {  /*error Unexpected use of undefined.*/
     // ...
 }
 
-function foo(undefined) {
+function foo(undefined) { /*error Unexpected use of undefined.*/
     // ...
 }
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
+/*eslint no-undefined: 2*/
+
 var foo = void 0;
 
 var Undefined = "foo";

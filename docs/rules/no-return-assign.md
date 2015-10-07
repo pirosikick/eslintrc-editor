@@ -16,21 +16,78 @@ Because of this ambiguity, it's considered a best practice to not use assignment
 
 This rule aims to eliminate assignments from `return` statements. As such, it will warn whenever an assignment is found as part of `return`.
 
-The following patterns are considered warnings:
+### Options
+
+The rule takes one option, a string, which must contain one of the following values:
+
+* `except-parens` (default): Disallow assignments unless they are enclosed in parentheses.
+* `always`: Disallow all assignments.
+
+#### "except-parens"
+
+This is the default option.
+It disallows assignments unless they are enclosed in parentheses.
+
+The following patterns are considered problems:
 
 ```js
+/*eslint no-return-assign: 2*/
+
 function doSomething() {
-    return foo = bar + 2;
+    return foo = bar + 2; /*error Return statement should not contain assignment.*/
 }
 
 function doSomething() {
-    return foo += 2;
+    return foo += 2;      /*error Return statement should not contain assignment.*/
 }
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
+/*eslint no-return-assign: 2*/
+
+function doSomething() {
+    return foo == bar + 2;
+}
+
+function doSomething() {
+    return foo === bar + 2;
+}
+
+function doSomething() {
+    return (foo = bar + 2);
+}
+```
+
+#### "always"
+
+This option disallows all assignments in `return` statements.
+All assignments are treated as problems.
+
+The following patterns are considered problems:
+
+```js
+/*eslint no-return-assign: [2, "always"]*/
+
+function doSomething() {
+    return foo = bar + 2;   /*error Return statement should not contain assignment.*/
+}
+
+function doSomething() {
+    return foo += 2;        /*error Return statement should not contain assignment.*/
+}
+
+function doSomething() {
+    return (foo = bar + 2); /*error Return statement should not contain assignment.*/
+}
+```
+
+The following patterns are not considered problems:
+
+```js
+/*eslint no-return-assign: [2, "always"]*/
+
 function doSomething() {
     return foo == bar + 2;
 }
@@ -43,4 +100,3 @@ function doSomething() {
 ## When Not To Use It
 
 If you want to allow the use of assignment operators in a `return` statement, then you can safely disable this rule.
-

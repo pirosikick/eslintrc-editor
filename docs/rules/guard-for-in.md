@@ -12,17 +12,21 @@ for (key in foo) {
 
 This rule is aimed at preventing unexpected behavior that could arise from using a `for in` loop without filtering the results in the loop. As such, it will warn when `for in` loops do not filter their results with an `if` statement.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
-for (key in foo) {
+/*eslint guard-for-in: 2*/
+
+for (key in foo) {    /*error The body of a for-in should be wrapped in an if statement to filter unwanted properties from the prototype.*/
     doSomething(key);
 }
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
+/*eslint guard-for-in: 2*/
+
 for (key in foo) {
     if ({}.hasOwnProperty.call(foo, key)) {
         doSomething(key);

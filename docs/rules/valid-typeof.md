@@ -6,23 +6,25 @@ For a vast majority of use-cases, the only valid results of the `typeof` operato
 
 This rule aims to prevent errors from likely typos by ensuring that when the result of a `typeof` operation is compared against a string, that the string is a valid value.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
-typeof foo === "strnig"
-typeof foo == "undefimed"
-typeof bar != "nunber"
-typeof bar !== "fucntion"
+/*eslint valid-typeof: 2*/
+
+typeof foo === "strnig"   /*error Invalid typeof comparison value*/
+typeof foo == "undefimed" /*error Invalid typeof comparison value*/
+typeof bar != "nunber"    /*error Invalid typeof comparison value*/
+typeof bar !== "fucntion" /*error Invalid typeof comparison value*/
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
+/*eslint valid-typeof: 2*/
+
 typeof foo === "string"
 typeof bar == "undefined"
-
 typeof foo === baz
-
 typeof bar === typeof qux
 ```
 

@@ -4,31 +4,27 @@ This rule validates string arguments passed to the `RegExp` constructor.
 
 ## Rule Details
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
-RegExp('['])
+/*eslint no-invalid-regexp: 2*/
+
+RegExp('[')      /*error Invalid regular expression: /[/: Unterminated character class*/
+
+RegExp('.', 'z') /*error Invalid flags supplied to RegExp constructor 'z'*/
+
+new RegExp('\\') /*error Invalid regular expression: /\/: \ at end of pattern*/
 ```
 
-```js
-RegExp('.', 'z') // invalid flags
-```
+The following patterns are not considered problems:
 
 ```js
-new RegExp('\\')
-```
+/*eslint no-invalid-regexp: 2*/
 
-The following patterns are not considered warnings:
-
-```js
 RegExp('.')
-```
 
-```js
 new RegExp
-```
 
-```js
 this.RegExp('[')
 ```
 
@@ -36,7 +32,7 @@ this.RegExp('[')
 
 ECMAScript 6 adds the "u" ([unicode](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-get-regexp.prototype.unicode)) and "y" ([sticky](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-get-regexp.prototype.sticky)) flags. You can enable these to be recognized as valid by adding the following to your `.eslintrc` file:
 
-```js
+```json
 "ecmaFeatures": {
   "regexYFlag": true,
   "regexUFlag": true

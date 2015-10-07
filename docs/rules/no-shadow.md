@@ -15,51 +15,57 @@ In this case, the variable `a` inside of `b()` is shadowing the variable `a` in 
 
 This rule aims to eliminate shadowed variable declarations.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
+/*eslint no-shadow: 2*/
+/*eslint-env es6*/
+
 var a = 3;
 function b() {
-    var a = 10;
+    var a = 10;       /*error a is already declared in the upper scope.*/
 }
-```
 
-```js
-var a = 3;
 var b = function () {
-    var a = 10;
+    var a = 10;       /*error a is already declared in the upper scope.*/
 }
-```
 
-```js
-var a = 3;
-function b(a) {
+function b(a) {       /*error a is already declared in the upper scope.*/
     a = 10;
 }
 b(a);
-```
-
-```js
-var a = 3;
 
 if (true) {
-    let a = 5;
+    let a = 5;        /*error a is already declared in the upper scope.*/
 }
 ```
 
-## Options
+### Options
 
-This rule has a option for the hoisting behavior.
+This rule takes one option, an object, with properties `"builtinGlobals"` and `"hoist"`.
 
 ```json
 {
-    "rules": {
-        "no-shadow": [2, {"hoist": "functions"}]
-    }
+    "no-shadow": [2, {"builtinGlobals": false, "hoist": "functions"}]
 }
 ```
 
-### hoist
+#### builtinGlobals
+
+`false` by default.
+If this is `true`, this rule checks with built-in global variables such as `Object`, `Array`, `Number`, ...
+
+When `{"builtinGlobals": true}`, the following patterns are considered problems:
+
+```js
+/*eslint no-shadow: [2, { "builtinGlobals": true }]*/
+
+function foo() {
+    var Object = 0; /*error Object is already declared in the upper scope.*/
+}
+```
+
+#### hoist
 
 The option has three settings:
 
@@ -67,9 +73,48 @@ The option has three settings:
 * `functions` (by default) - reports shadowing before the outer functions are defined.
 * `never` - never report shadowing before the outer variables/functions are defined.
 
-Thought with the following codes:
+##### { "hoist": "all" }
+
+With `"hoist"` set to `"all"`, both `let a` and `let b` in the `if` statement are considered problems.
 
 ```js
+/*eslint no-shadow: [2, { "hoist": "all" }]*/
+/*eslint-env es6*/
+
+if (true) {
+    let a = 3;    /*error a is already declared in the upper scope.*/
+    let b = 6;    /*error b is already declared in the upper scope.*/
+}
+
+let a = 5;
+function b() {}
+```
+
+##### { "hoist": "functions" } (default)
+
+With `"hoist"` set to `"functions"`, `let b` is considered a warning. But `let a` in the `if` statement is not considered a warning, because it is before `let a` of the outer scope.
+
+```js
+/*eslint no-shadow: [2, { "hoist": "functions" }]*/
+/*eslint-env es6*/
+
+if (true) {
+    let a = 3;
+    let b = 6;    /*error b is already declared in the upper scope.*/
+}
+
+let a = 5;
+function b() {}
+```
+
+##### { "hoist": "never" }
+
+With `"hoist"` set to `"never"`, neither `let a` nor `let b` in the `if` statement are considered problems, because they are before the declarations of the outer scope.
+
+```js
+/*eslint no-shadow: [2, { "hoist": "never" }]*/
+/*eslint-env es6*/
+
 if (true) {
     let a = 3;
     let b = 6;
@@ -79,9 +124,6 @@ let a = 5;
 function b() {}
 ```
 
-* `all` - Both `let a` and `let b` in the `if` statement are considered warnings.
-* `functions` - `let b` is considered warnings. But `let a` in the `if` statement is not considered warnings. Because there is it before `let a` of the outer scope.
-* `never` - Both `let a` and `let b` in the `if` statement are not considered warnings. Because there are those before each declaration of the outer scope.
 
 ## Further Reading
 

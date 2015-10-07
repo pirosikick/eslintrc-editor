@@ -1,6 +1,6 @@
 # Require or disallow spaces before function parentheses (space-before-function-parentheses)
 
-**Deprecation notice**: This rule is deprecated, as it has been renamed to [space-before-function-paren](space-before-function-paren.md) for consistency with other rules' names, which used "parens" instead of "parentheses". This rule, by the old name, will be removed in ESLint v1.0. The new rule is identical in everything except name.
+**Replacement notice**: This rule was removed in ESLint v1.0 and has been renamed to [space-before-function-paren](space-before-function-paren.md) for consistency with other rules' names, which used "parens" instead of "parentheses". The new rule is identical in everything except name.
 
 When formatting a function, whitespace is allowed between the function name or `function` keyword and the opening paren. Named functions also require a space between the `function` keyword and the function name, but anonymous functions require no whitespace. For example:
 
@@ -28,14 +28,16 @@ This rule takes one argument. If it is `"always"` then all named functions and a
 
 The default configuration is `"always"`.
 
-The following patterns are considered warnings when configured `"always"`:
+The following patterns are considered problems when configured `"always"`:
 
 ```js
+/*eslint-env es6*/
+
 function foo() {
     // ...
 }
 
-var bar function() {
+var bar = function() {
     // ...
 };
 
@@ -56,14 +58,16 @@ var foo = {
 };
 ```
 
-The following patterns are not considered warnings when configured `"always"`:
+The following patterns are not considered problems when configured `"always"`:
 
 ```js
+/*eslint-env es6*/
+
 function foo () {
     // ...
 }
 
-var bar function () {
+var bar = function () {
     // ...
 };
 
@@ -84,14 +88,16 @@ var foo = {
 };
 ```
 
-The following patterns are considered warnings when configured `"never"`:
+The following patterns are considered problems when configured `"never"`:
 
 ```js
+/*eslint-env es6*/
+
 function foo () {
     // ...
 }
 
-var bar function () {
+var bar = function () {
     // ...
 };
 
@@ -112,14 +118,16 @@ var foo = {
 };
 ```
 
-The following patterns are not considered warnings when configured `"never"`:
+The following patterns are not considered problems when configured `"never"`:
 
 ```js
+/*eslint-env es6*/
+
 function foo() {
     // ...
 }
 
-var bar function() {
+var bar = function() {
     // ...
 };
 
@@ -140,9 +148,11 @@ var foo = {
 };
 ```
 
-The following patterns are considered warnings when configured `{"anonymous": "always", "named": "never"}`:
+The following patterns are considered problems when configured `{"anonymous": "always", "named": "never"}`:
 
 ```js
+/*eslint-env es6*/
+
 function foo () {
     // ...
 }
@@ -164,9 +174,11 @@ var foo = {
 };
 ```
 
-The following patterns are not considered warnings when configured `{"anonymous": "always", "named": "never"}`:
+The following patterns are not considered problems when configured `{"anonymous": "always", "named": "never"}`:
 
 ```js
+/*eslint-env es6*/
+
 function foo() {
     // ...
 }
@@ -188,9 +200,11 @@ var foo = {
 };
 ```
 
-The following patterns are considered warnings when configured `{"anonymous": "never", "named": "always"}`:
+The following patterns are considered problems when configured `{"anonymous": "never", "named": "always"}`:
 
 ```js
+/*eslint-env es6*/
+
 function foo() {
     // ...
 }
@@ -212,9 +226,11 @@ var foo = {
 };
 ```
 
-The following patterns are not considered warnings when configured `{"anonymous": "never", "named": "always"}`:
+The following patterns are not considered problems when configured `{"anonymous": "never", "named": "always"}`:
 
 ```js
+/*eslint-env es6*/
+
 function foo () {
     // ...
 }

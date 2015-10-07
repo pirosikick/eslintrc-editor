@@ -14,30 +14,34 @@ Empty block statements such as this are usually an indicator of an error, or at 
 This rule is aimed at eliminating empty block statements. While not technically an error, empty block statements can be a source of confusion when reading code.
 A block will not be considered a warning if it contains a comment line.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
-if (foo) {
+/*eslint no-empty: 2*/
+
+if (foo) {         /*error Empty block statement.*/
 }
 
-while (foo) {
+while (foo) {      /*error Empty block statement.*/
 }
 
-switch(foo) {
+switch(foo) {      /*error Empty switch statement.*/
 }
 
 try {
     doSomething();
-} catch(ex) {
+} catch(ex) {      /*error Empty block statement.*/
 
-} finally {
+} finally {        /*error Empty block statement.*/
 
 }
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
+/*eslint no-empty: 2*/
+
 if (foo) {
     // empty
 }

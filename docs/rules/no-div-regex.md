@@ -3,23 +3,27 @@
 Require regex literals to escape division operators.
 
 ```js
-function() { return /=foo/; }
+function bar() { return /=foo/; }
 ```
 
 ## Rule Details
 
 This is used to disambiguate the division operator to not confuse users.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
-function() { return /=foo/; }
+/*eslint no-div-regex: 2*/
+
+function bar() { return /=foo/; } /*error A regular expression literal can be confused with '/='.*/
 ```
 
-The following patterns adhere to this rule:
+The following patterns are not considered problems:
 
 ```js
-function() { return /\=foo/; }
+/*eslint no-div-regex: 2*/
+
+function bar() { return /\=foo/; }
 ```
 
 ## Related Rules

@@ -7,17 +7,21 @@ The `process.env` object in Node.js is used to store deployment/configuration pa
 
 This rule is aimed at discouraging use of `process.env` to avoid global dependencies. As such, it will warn whenever `process.env` is used.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
-if(process.env.NODE_ENV === "development") {
+/*eslint no-process-env: 2*/
+
+if(process.env.NODE_ENV === "development") { /*error Unexpected use of process.env.*/
     //...
 }
 ```
 
-The following patterns are considered okay and do not cause warnings:
+The following patterns are not considered problems:
 
 ```js
+/*eslint no-process-env: 2*/
+
 var config = require("./config");
 
 if(config.env === "development") {
@@ -27,8 +31,7 @@ if(config.env === "development") {
 
 ## When Not To Use It
 
-It should be not used in your configuration/settings file where `process.env` is used to assign values to parameters to be accessed throughout the project.
-
+If prefer to use `process.env` throughout your project to retrieve values from environment variables, then you can safely disable this rule.
 
 ## Further Reading
 

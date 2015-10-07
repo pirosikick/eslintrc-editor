@@ -11,35 +11,31 @@ This rule will disallow comments on the same line as code.
 
 This rule takes no arguments.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
-var a = 1; // declaring a to 1
-```
+/*eslint no-inline-comments: 2*/
 
-```js
+var a = 1; // declaring a to 1                /*error Unexpected comment inline with code.*/
+
 function getRandomNumber(){
-return 4; // chosen by fair dice roll.
-          // guaranteed to be random.
+    return 4; // chosen by fair dice roll.    /*error Unexpected comment inline with code.*/
+              // guaranteed to be random.
 }
+
+/* A block comment before code */ var b = 2;  /*error Unexpected comment inline with code.*/
+
+var c = 3; /* A block comment after code */   /*error Unexpected comment inline with code.*/
 ```
 
-```js
-/* A block comment before code */ var a = 2;
-```
+The following patterns are not considered problems:
 
 ```js
-var a = 3; /* A block comment after code */
-```
+/*eslint no-inline-comments: 2*/
 
-The following patterns are not warnings:
-
-```js
 // This is a comment above a line of code
 var foo = 5;
-```
 
-```js
-var foo = 5;
+var bar = 5;
 //This is a comment below a line of code
 ```

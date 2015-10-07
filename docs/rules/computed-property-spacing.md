@@ -4,6 +4,8 @@ While formatting preferences are very personal, a number of style guides require
 or disallow spaces between computed properties in the following situations:
 
 ```js
+/*eslint-env es6*/
+
 // computed properties
 var obj = { prop: "value" };
 var a = "prop";
@@ -13,6 +15,8 @@ var x = obj[a];
 var a = "prop";
 var obj = { [a]: "value" };
 ```
+
+**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
 
 ## Rule Details
 
@@ -36,29 +40,53 @@ Depending on your coding conventions, you can choose either option by specifying
 
 #### never
 
-When `"never"` is set, the following patterns are considered correct:
+When `"never"` is set, the following patterns will give a warning:
 
 ```js
+/*eslint computed-property-spacing: [2, "never"]*/
+/*eslint-env es6*/
+
+obj[foo ]                                                       /*error There should be no space before ']'*/
+obj[ 'foo']        /*error There should be no space after '['*/
+var x = {[ b ]: a} /*error There should be no space after '['*/ /*error There should be no space before ']'*/
+obj[foo[ bar ]]    /*error There should be no space after '['*/ /*error There should be no space before ']'*/
+```
+
+The following patterns are considered correct:
+
+```js
+/*eslint computed-property-spacing: [2, "never"]*/
+/*eslint-env es6*/
+
 obj[foo]
 obj['foo']
 var x = {[b]: a}
 obj[foo[bar]]
 ```
 
-The following patterns will warn:
-
-```js
-obj[foo ]
-obj[ 'foo']
-var x = {[ b ]: a}
-obj[foo[ bar ]]
-```
-
 #### always
 
-When `"always"` is used, the following patterns are considered correct:
+When `"always"` is used, the following patterns will give a warning:
 
 ```js
+/*eslint computed-property-spacing: [2, "always"]*/
+/*eslint-env es6*/
+
+obj[foo]          /*error A space is required after '['*/ /*error A space is required before ']'*/
+var x = {[b]: a}  /*error A space is required after '['*/ /*error A space is required before ']'*/
+obj[ foo]                                                 /*error A space is required before ']'*/
+obj[ foo ]
+obj['foo' ]       /*error A space is required after '['*/
+obj[foo[ bar ]]   /*error A space is required after '['*/ /*error A space is required before ']'*/
+var x = {[ b]: a}                                         /*error A space is required before ']'*/
+```
+
+The following patterns are considered correct:
+
+```js
+/*eslint computed-property-spacing: [2, "always"]*/
+/*eslint-env es6*/
+
 obj[ foo ]
 obj[ 'foo' ]
 var x = {[ b ]: a}
@@ -66,17 +94,6 @@ obj[ foo[ bar ] ]
 
 ```
 
-The following patterns will warn:
-
-```js
-obj[foo]
-var x = {[b]: a}
-obj[ foo]
-obj[ foo ]
-obj['foo' ]
-obj[foo[ bar ]]
-var x = {[ b]: a}
-```
 
 ## When Not To Use It
 
@@ -86,6 +103,5 @@ You can turn this rule off if you are not concerned with the consistency of comp
 
 * [comma-spacing](comma-spacing.md)
 * [space-in-parens](space-in-parens.md)
-* [curly-braces-spacing](curly-braces-spacing.md)
+* [computed-property-spacing](computed-property-spacing.md)
 * [space-in-brackets](space-in-brackets.md) (deprecated)
-

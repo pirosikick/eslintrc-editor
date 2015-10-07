@@ -1,5 +1,7 @@
 # Requires or disallows a whitespace (space or tab) beginning a single-line comment (spaced-line-comment)
 
+**Replacement notice**: This rule was removed in ESLint v1.0 and replaced by the [spaced-comment](spaced-comment.md) rule.
+
 Some style guides require or disallow a whitespace immediately after the initial `//` of a line comment.
 Whitespace after the `//` makes it easier to read text in comments.
 On the other hand, commenting out code is easier without having to put a whitespace right after the `//`.
@@ -18,7 +20,7 @@ The value is an array of string patterns which are considered exceptions to the 
 It is important to note that the exceptions are ignored if the first argument is `"never"`.
 Exceptions cannot be mixed.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 // When ["never"]
@@ -38,7 +40,7 @@ var foo = 5;
 //------++++++++
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
 // When ["always"]
@@ -65,3 +67,7 @@ var foo = 5;
 // Comment block
 //-+-+-+-+-+-+-+
 ```
+
+## Related Rules
+
+* [spaced-comment](spaced-comment.md)

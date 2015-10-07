@@ -14,16 +14,20 @@ It's therefore recommended to avoid using octal literals in JavaScript code.
 
 The rule is aimed at preventing the use of a deprecated JavaScript feature, the use of octal literals. As such it will warn whenever an octal literal is found.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
-var num = 071;
-var result = 5 + 07;
+/*eslint no-octal: 2*/
+
+var num = 071;       /*error Octal literals should not be used.*/
+var result = 5 + 07; /*error Octal literals should not be used.*/
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
+/*eslint no-octal: 2*/
+
 var num  = "071";
 ```
 

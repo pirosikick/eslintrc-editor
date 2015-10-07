@@ -26,68 +26,62 @@ Opponents of Yoda conditions point out that tooling has made us better programme
 
 This rule takes one argument. If it is `"never"` then comparisons must never be a Yoda condition. If `"always"`, then the literal must always come first. The default is `"never"`.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
-if ("red" === color) {
+/*eslint yoda: 2*/
+
+if ("red" === color) {          /*error Expected literal to be on the right side of ===.*/
+    // ...
+}
+
+if (true == flag) {             /*error Expected literal to be on the right side of ==.*/
+    // ...
+}
+
+if (5 > count) {                /*error Expected literal to be on the right side of >.*/
+    // ...
+}
+
+if (-1 < str.indexOf(substr)) { /*error Expected literal to be on the right side of <.*/
+    // ...
+}
+
+if (0 <= x && x < 1) {          /*error Expected literal to be on the right side of <=.*/
     // ...
 }
 ```
 
 ```js
-if (true == flag) {
+/*eslint yoda: [2, "always"]*/
+
+if (color == "blue") { /*error Expected literal to be on the left side of ==.*/
     // ...
 }
 ```
 
-```js
-if (5 > count) {
-    // ...
-}
-```
+
+The following patterns are not considered problems:
 
 ```js
-if (-1 < str.indexOf(substr)) {
-    // ...
-}
-```
+/*eslint yoda: 2*/
 
-```js
-// When ["always"]
-if (color == "blue") {
-    // ...
-}
-```
-
-```js
-if (0 <= x && x < 1) {
-    // ...
-}
-```
-
-The following patterns are not considered warnings:
-
-```js
 if (5 & value) {
     // ...
 }
-```
 
-```js
 if (value === "red") {
     // ...
 }
 ```
 
 ```js
-// When ["always"]
+/*eslint yoda: [2, "always"]*/
+
 if ("blue" == value) {
     // ...
 }
-```
 
-```js
-// When ["always"]
 if (-1 < str.indexOf(substr)) {
     // ...
 }
@@ -117,24 +111,20 @@ The `onlyEquality` option is a superset of `exceptRange`, thus both options are 
 With the `exceptRange` option enabled, the following patterns become valid:
 
 ```js
+/*eslint yoda: [2, "never", { "exceptRange": true }]*/
+
 function isReddish(color) {
     return (color.hue < 60 || 300 < color.hue);
 }
-```
 
-```js
 if (x < -1 || 1 < x) {
     // ...
 }
-```
 
-```js
 if (count < 10 && (0 <= rand && rand < 1)) {
     // ...
 }
-```
 
-```js
 function howLong(arr) {
     return (0 <= arr.length && arr.length < 10) ? "short" : "long";
 }
@@ -142,14 +132,14 @@ function howLong(arr) {
 
 #### Apply only to equality, but not other operators
 
-Some developers might prefer to only enforce the rule for the equality operators `==` and `===`, and not showing any warnings for any code around other operators. With `onlyEquality` option, these patterns will not be considered warnings:
+Some developers might prefer to only enforce the rule for the equality operators `==` and `===`, and not showing any warnings for any code around other operators. With `onlyEquality` option, these patterns will not be considered problems:
 
 ```js
+/*eslint yoda: [2, "never", { "onlyEquality": true }]*/
+
 if (x < -1 || 9 < x) {
 }
-```
 
-```js
 if (x !== 'foo' && 'bar' != x) {
 }
 ```

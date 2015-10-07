@@ -10,21 +10,27 @@ the end of the file. If you still want this behaviour, consider enabling
 [no-multiple-empty-lines](no-multiple-empty-lines.md) and/or
 [no-trailing-spaces](no-trailing-spaces.md).
 
+**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
+
 ## Rule Details
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
+/*eslint eol-last: 2*/
+
 function doSmth() {
-  ...
+  var foo = 2;
 }
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
+/*eslint eol-last: 2*/
+
 function doSmth() {
-  ...
+  var foo = 2;
 }
 // spaces here
 ```

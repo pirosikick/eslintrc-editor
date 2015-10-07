@@ -17,19 +17,23 @@ This makes it impossible to track the error from that point on.
 
 This rule's purpose is to enforce convention. Assigning a value to the exception parameter wipes out all the valuable data contained therein and thus should be avoided. Since there is no `arguments` object to offer alternative access to this data, assignment of the parameter is absolutely destructive.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
+/*eslint no-ex-assign: 2*/
+
 try {
     // code
 } catch (e) {
-    e = 10;
+    e = 10;   /*error Do not assign to the exception parameter.*/
 }
 ```
 
-The following patterns are considered okay and do not cause warnings:
+The following patterns are not considered problems:
 
 ```js
+/*eslint no-ex-assign: 2*/
+
 try {
     // code
 } catch (e) {

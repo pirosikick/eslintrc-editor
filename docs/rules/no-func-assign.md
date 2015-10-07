@@ -11,27 +11,33 @@ foo = bar;
 
 This rule is aimed at flagging probable mistakes and issues in the form of overwriting a function that was written as a FunctionDeclaration. As such it will warn when this issue is encountered.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
+/*eslint no-func-assign: 2*/
+
 function foo() {}
-foo = bar;
+foo = bar;        /*error 'foo' is a function.*/
 
 function foo() {
-    foo = bar;
+    foo = bar;    /*error 'foo' is a function.*/
 }
 ```
 
 Unlike the same rule in JSHint, the following pattern is also considered a warning:
 
 ```js
-foo = bar;
+/*eslint no-func-assign: 2*/
+
+foo = bar;        /*error 'foo' is a function.*/
 function foo() {}
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
+/*eslint no-func-assign: 2*/
+
 var foo = function () {}
 foo = bar;
 

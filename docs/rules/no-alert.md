@@ -10,19 +10,23 @@ alert("here!");
 
 This rule is aimed at catching debugging code that should be removed and popup UI elements that should be replaced with less obtrusive, custom UIs. As such, it will warn when it encounters `alert`, `prompt`, and `confirm` function calls which are not shadowed.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
-alert("here!");
+/*eslint no-alert: 2*/
 
-confirm("Are you sure?");
+alert("here!");                          /*error Unexpected alert.*/
 
-prompt("What's your name?", "John Doe");
+confirm("Are you sure?");                /*error Unexpected confirm.*/
+
+prompt("What's your name?", "John Doe"); /*error Unexpected prompt.*/
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
+/*eslint no-alert: 2*/
+
 customAlert("Something happened!");
 
 customConfirm("Are you sure?");

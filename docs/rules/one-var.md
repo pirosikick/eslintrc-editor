@@ -47,58 +47,72 @@ and the values are either `"always"` or `"never"`. This allows you to set behavi
 
 You can configure the rule as follows:
 
-```javascript
-{
-    // (default) Exactly one variable declaration per type per function (var) or block (let or const)
-    "one-var": [2, "always"],
+(default) Exactly one variable declaration per type per function (var) or block (let or const)
 
-    // Exactly one declarator per declaration per function (var) or block (let or const)
-    "one-var": [2, "never"],
-
-    // Configure each declaration type individually. Defaults to "always" if key not present.
-    "one-var": [2, {
-        "var": "always", // Exactly one var declaration per function
-        "let": "always", // Exactly one let declaration per block
-        "const", "never" // Exactly one declarator per const declaration per block
-    }]
-
-    // Configure uninitialized and initialized seperately. Defaults to "always" if key not present.
-    "one-var": [2, {
-        "uninitialized": "always", // Exactly one declaration for uninitialized variables per function (var) or block (let or const)
-        "initialized": "never" // Exactly one declarator per initialized variable declaration per function (var) or block (let or const)
-    }]
-}
+```json
+"one-var": [2, "always"]
 ```
 
-When configured with `"always"` as the first option (the default), the following patterns are considered warnings:
+Exactly one declarator per declaration per function (var) or block (let or const)
+
+```json
+"one-var": [2, "never"]
+```
+
+Configure each declaration type individually. Defaults to "always" if key not present.
+
+```json
+"one-var": [2, {
+    "var": "always", // Exactly one var declaration per function
+    "let": "always", // Exactly one let declaration per block
+    "const": "never" // Exactly one declarator per const declaration per block
+}]
+```
+
+Configure uninitialized and initialized seperately. Defaults to "always" if key not present.
+
+```json
+"one-var": [2, {
+    "uninitialized": "always", // Exactly one declaration for uninitialized variables per function (var) or block (let or const)
+    "initialized": "never" // Exactly one declarator per initialized variable declaration per function (var) or block (let or const)
+}]
+```
+
+When configured with `"always"` as the first option (the default), the following patterns are considered problems:
 
 ```js
+/*eslint one-var: [2, "always"]*/
+/*eslint-env es6*/
+
 function foo() {
     var bar;
-    var baz;
+    var baz;     /*error Combine this with the previous 'var' statement.*/
     let qux;
-    let norf;
+    let norf;    /*error Combine this with the previous 'let' statement.*/
 }
 
 function foo(){
     const bar = false;
-    const baz = true;
+    const baz = true;  /*error Combine this with the previous 'const' statement.*/
     let qux;
-    let norf;
+    let norf;          /*error Combine this with the previous 'let' statement.*/
 }
 
 function foo() {
     var bar;
 
     if (baz) {
-        var qux = true;
+        var qux = true; /*error Combine this with the previous 'var' statement.*/
     }
 }
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
+/*eslint one-var: [2, "always"]*/
+/*eslint-env es6*/
+
 function foo() {
     var bar,
         baz;
@@ -131,18 +145,21 @@ function foo(){
 }
 ```
 
-When configured with `"never"` as the first option, the following patterns are considered warnings:
+When configured with `"never"` as the first option, the following patterns are considered problems:
 
 ```js
+/*eslint one-var: [2, "never"]*/
+/*eslint-env es6*/
+
 function foo() {
-    var bar,
+    var bar,          /*error Split 'var' declarations into multiple statements.*/
         baz;
-    const bar = true,
+    const bar = true, /*error Split 'const' declarations into multiple statements.*/
         baz = false;
 }
 
 function foo() {
-    var bar,
+    var bar,          /*error Split 'var' declarations into multiple statements.*/
         qux;
 
     if (baz) {
@@ -151,14 +168,17 @@ function foo() {
 }
 
 function foo(){
-    let bar = true,
+    let bar = true,   /*error Split 'let' declarations into multiple statements.*/
         baz = false;
 }
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
+/*eslint one-var: [2, "never"]*/
+/*eslint-env es6*/
+
 function foo() {
     var bar;
     var baz;
@@ -183,9 +203,12 @@ function foo() {
 
 When configured with an object as the first option, you can individually control how `var`, `let`, and `const` are handled, or alternatively how `uninitialized` and `initialized` variables are handled (which if used will override `var`, `let`, and `const`).
 
-The following patterns are not considered warnings when the first option is `{ var: "always", let: "never", const: "never" }`
+The following patterns are not considered problems:
 
 ```js
+/*eslint one-var: [2, { var: "always", let: "never", const: "never" }]*/
+/*eslint-env es6*/
+
 function foo() {
     var bar,
         baz;
@@ -194,16 +217,18 @@ function foo() {
 }
 
 function foo() {
-    const bar;
-    const baz;
+    const bar = 1;
+    const baz = 2;
     let qux;
     let norf;
 }
 ```
 
-The following patterns are not considered warnings when the first option is `{ uninitialized: "always", initialized: "never" }`
+The following patterns are not considered problems:
 
 ```js
+/*eslint one-var: [2, { uninitialized: "always", initialized: "never" }]*/
+
 function foo() {
     var a, b, c;
     var foo = true;
@@ -211,9 +236,12 @@ function foo() {
 }
 ```
 
-If you are configuring the rule with an object, by default, if you didn't specify declaration type it will not be checked. So the following patten is not considered warning when options are set to: `{ var: "always", let: "always" }`
+If you are configuring the rule with an object, by default, if you didn't specify declaration type it will not be checked. So the following pattern is not considered a warning when options are set to: `{ var: "always", let: "always" }`
 
 ```js
+/*eslint one-var: [2, { var: "always", let: "always" }]*/
+/*eslint-env es6*/
+
 function foo() {
     var a, b;
     const foo = true;

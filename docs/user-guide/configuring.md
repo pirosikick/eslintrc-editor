@@ -7,7 +7,7 @@ ESLint is designed to be completely configurable, meaning you can turn off every
 
 There are several pieces of information that can be configured:
 
-* **Environments** - which environments your script is designed to run in. Each environment brings with it a certain set of global variables and rules that are enabled by default.
+* **Environments** - which environments your script is designed to run in. Each environment brings with it a certain set of predefined global variables.
 * **Globals** - the additional global variables your script accesses during execution.
 * **Rules** - which rules are enabled and at what error level.
 
@@ -36,12 +36,13 @@ Configuration settings are set in your `.eslintrc` file by using the `ecmaFeatur
 * `regexUFlag` - enable the [regular expression `u` flag](https://leanpub.com/understandinges6/read#leanpub-auto-the-regular-expression-u-flag)
 * `regexYFlag` - enable the [regular expression `y` flag](https://leanpub.com/understandinges6/read#leanpub-auto-the-regular-expression-y-flag)
 * `restParams` - enable the [rest parameters](https://leanpub.com/understandinges6/read#leanpub-auto-rest-parameters)
-* `spread` - enable the [spread operator](https://leanpub.com/understandinges6/read#leanpub-auto-the-spread-operator)
+* `spread` - enable the [spread operator](https://leanpub.com/understandinges6/read#leanpub-auto-the-spread-operator) for arrays
 * `superInFunctions` - enable `super` references inside of functions
 * `templateStrings` - enable [template strings](https://leanpub.com/understandinges6/read/#leanpub-auto-template-strings)
 * `unicodeCodePointEscapes` - enable [code point escapes](https://leanpub.com/understandinges6/read/#leanpub-auto-escaping-non-bmp-characters)
 * `globalReturn` - allow `return` statements in the global scope
 * `jsx` - enable [JSX](http://facebook.github.io/jsx/)
+* `experimentalObjectRestSpread` - enable support for the experimental [object rest/spread properties](https://github.com/sebmarkbage/ecmascript-rest-spread) (**IMPORTANT:** This is an experimental feature that may change significantly in the future. It's recommended that you do *not* write rules relying on this functionality unless you are willing to incur maintenance cost when it changes.)
 
 Here's an example `.eslintrc` file:
 
@@ -91,21 +92,28 @@ Note when using a custom parser, the `ecmaFeatures` configuration property is st
 
 ## Specifying Environments
 
-An environment defines both global variables that are predefined as well as which rules should be on or off by default. The available environments are:
+An environment defines global variables that are predefined. The available environments are:
 
 * `browser` - browser global variables.
-* `node` - Node.js global variables and Node.js-specific rules.
+* `node` - Node.js global variables and Node.js scoping.
+* `commonjs` - CommonJS global variables and CommonJS scoping (use this for browser-only code that uses Browserify/WebPack).
 * `worker` - web workers global variables.
 * `amd` - defines `require()` and `define()` as global variables as per the [amd](https://github.com/amdjs/amdjs-api/wiki/AMD) spec.
 * `mocha` - adds all of the Mocha testing global variables.
 * `jasmine` - adds all of the Jasmine testing global variables for version 1.3 and 2.0.
-* `phantomjs` - phantomjs global variables.
-* `jquery` - jquery global variables.
-* `prototypejs` - prototypejs global variables.
-* `shelljs` - shelljs global variables.
-* `meteor` - meteor global variables.
-* `mongo` - mongo global variables.
-* `applescript` - applescript global variables.
+* `jest` - Jest global variables.
+* `phantomjs` - PhantomJS global variables.
+* `protractor` - Protractor global variables.
+* `qunit` - QUnit global variables.
+* `jquery` - jQuery global variables.
+* `prototypejs` - Prototype.js global variables.
+* `shelljs` - ShellJS global variables.
+* `meteor` - Meteor global variables.
+* `mongo` - MongoDB global variables.
+* `applescript` - AppleScript global variables.
+* `nashorn` - Java 8 Nashorn global variables.
+* `serviceworker` - Service Worker global variables.
+* `embertest` - Ember test helper globals.
 * `es6` - enable all ECMAScript 6 features except for modules.
 
 These environments are not mutually exclusive, so you can define more than one at a time.
@@ -157,7 +165,7 @@ And in YAML:
 
 ## Specifying Globals
 
-By default, ESLint will warn on variables that are accessed but not defined within the same file. If you are using global variables inside of a file then it's worthwhile to define those globals so that ESLint will not warn about their usage. You can define global variables either using comments inside of a file or in the configuration file.
+The [no-undef](../rules/no-undef.md) rule will warn on variables that are accessed but not defined within the same file. If you are using global variables inside of a file then it's worthwhile to define those globals so that ESLint will not warn about their usage. You can define global variables either using comments inside of a file or in the configuration file.
 
 To specify globals using a comment inside of your JavaScript file, use the following format:
 
@@ -221,7 +229,7 @@ And in YAML:
 
 ## Configuring Rules
 
-ESLint comes with a large number of rules, some of which are on by default and some of which are off by default. You can modify which rules your project uses either using configuration comments or configuration files. To change a rule setting, you must set the rule ID equal to one of these values:
+ESLint comes with a large number of rules. You can modify which rules your project uses either using configuration comments or configuration files. To change a rule setting, you must set the rule ID equal to one of these values:
 
 * 0 - turn the rule off
 * 1 - turn the rule on as a warning (doesn't affect exit code)
@@ -266,18 +274,48 @@ And in YAML:
       - "double"
 ```
 
-To configure a rule which is defined within a plugin you have to prefix the rule ID with the plugin name and a `/`.
-Example
+To configure a rule which is defined within a plugin you have to prefix the rule ID with the plugin name and a `/`. For example:
 
-```js
-/*eslint "jquery/dollar-sign": 2*/
+```json
+{
+    "plugins": [
+        "plugin1"
+    ],
+    "rules": {
+        "eqeqeq": 0,
+        "curly": 2,
+        "quotes": [2, "double"],
+        "plugin1/rule1": 2
+    }
+}
 ```
 
-There's no need to specify every single rule - you will automatically get the default setting for every rule. You only need to override the rules that you want to change.
+And in YAML:
 
-**Note:** All rules that are enabled by default are set to 2, so they will cause a non-zero exit code when encountered. You can lower these rule to a warning by setting them to 1, which has the effect of outputting the message onto the console but doesn't affect the exit code.
+```yaml
+---
+  plugins:
+    - plugin1
+  rules:
+    eqeqeq: 0
+    curly: 2
+    quotes:
+      - 2
+      - "double"
+    plugin1/rule1: 2
+```
 
-To temporary disable warnings in your file use the following format
+In these configuration files, the rule `plugin1/rule1` comes from the plugin named `plugin1`. You can also use this format with configuration comments, such as:
+
+```js
+/*eslint "plugin1/rule1": 2*/
+```
+
+**Note:** When specifying rules from plugins, make sure to omit `eslint-plugin-`. ESLint uses only the unprefixed name internally to locate rules.
+
+All rules that are enabled by default are set to 2, so they will cause a non-zero exit code when encountered. You can lower these rules to a warning by setting them to 1, which has the effect of outputting the message onto the console but doesn't affect the exit code.
+
+To temporary disable warnings in your file use the following format:
 
 ```js
 /*eslint-disable */
@@ -373,6 +411,34 @@ your-project
 
 If there is an `.eslintrc` and a `package.json` file found in the same directory, both will be used, with the `.eslintrc` having the higher precendence.
 
+By default, ESLint will look for configuration files in all parent folders up to the root directory. This can be useful if you want all of your projects to follow a certain convention, but can sometimes lead to unexpected results. To limit ESLint to a specific project, place `"root": true` inside the `eslintConfig` field of the `package.json` file or in the `.eslintrc` file at your project's root level.  ESLint will stop looking in parent folders once it finds a configuration with `"root": true`.
+
+```js
+{
+    "root": true
+}
+```
+
+And in YAML:
+
+```yaml
+---
+  root: true
+```
+
+For example, consider `projectA` which has `"root": true` set in the `.eslintrc` file in the main project directory.  In this case, while linting main.js, the configurations within `lib/` and `projectA` will be used, but the `.eslintrc` file in `user/` will not.
+
+```text
+home
+└── user
+    ├── .eslintrc
+    └── projectA
+        ├── .eslintrc <- { "root": true }
+        └── lib
+            ├── .eslintrc
+            └── main.js
+```
+
 The complete configuration hierarchy, from highest precedence to lowest precedence, is as follows:
 
 1. Inline configuration
@@ -388,12 +454,8 @@ The complete configuration hierarchy, from highest precedence to lowest preceden
 3. Project-level configuration:
     1. `.eslintrc` file in same directory as linted file
     1. `package.json` file in same directory as linted file
-    1. Continue searching for `.eslintrc` and `package.json` files in ancestor directories (parent has highest precedence, then grandparent, etc.), up to and including the root directory.
-    1. In the absence of any configuration from (i) and (ii), fall back to `~/.eslintrc` - personal default configuration
-4. ESLint default configuration:
-    1. `environments.json`
-    1. `eslint.json`
-    1. Blank (no config)
+    1. Continue searching for `.eslintrc` and `package.json` files in ancestor directories (parent has highest precedence, then grandparent, etc.), up to and including the root directory or until a config with `"root": true` is found.
+    1. In the absence of any configuration from (1) thru (3), fall back to a personal default configuration in  `~/.eslintrc`.
 
 ## Extending Configuration Files
 

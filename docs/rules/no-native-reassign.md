@@ -4,64 +4,25 @@ Reports an error when they encounter an attempt to assign a value to built-in na
 
 ```js
 String = "hello world";
-var String;
 ```
 
 ## Rule Details
 
-The following objects are considered a native objects:
+The native objects reported by this rule are the `builtin` variables from [globals](https://github.com/sindresorhus/globals/).
 
-* `Array`
-* `Boolean`
-* `Date`
-* `decodeURI`
-* `decodeURIComponent`
-* `encodeURI`
-* `encodeURIComponent`
-* `Error`
-* `eval`
-* `EvalError`
-* `Function`
-* `isFinite`
-* `isNaN`
-* `JSON`
-* `Math`
-* `Number`
-* `Object`
-* `parseInt`
-* `parseFloat`
-* `RangeError`
-* `ReferenceError`
-* `RegExp`
-* `String`
-* `SyntaxError`
-* `TypeError`
-* `URIError`
-* `Map`
-* `NaN`
-* `Set`
-* `WeakMap`
-* `Infinity`
-* `undefined`
-
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
-String = new Object();
-```
+/*eslint no-native-reassign: 2*/
 
-```js
-var String;
+String = new Object(); /*error String is a read-only native object.*/
 ```
 
 ## Options
 
-### exceptions
+This rule accepts an `exceptions` option, which can be used to specify a list of builtins for which reassignments will be allowed:
 
-Array of native object names that are permitted to be reassigned.
-If provided, it must be an `Array`.
-
-```js
+```json
 {
     "rules": {
         "no-native-reassign": [2, {"exceptions": ["Object"]}]
@@ -76,3 +37,5 @@ If you are trying to override one of the native objects.
 ## Related Rules
 
 * [no-extend-native](no-extend-native.md)
+* [no-redeclare](no-redeclare.md)
+* [no-shadow](no-shadow.md)

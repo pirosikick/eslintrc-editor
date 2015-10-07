@@ -38,12 +38,9 @@ It *does not* check for any of the following less obvious approaches:
 
 ## Options
 
-### exceptions
+This rule accepts an `exceptions` option, which can be used to specify a list of builtins for which extensions will be allowed:
 
-Array of native object names that are permitted to be extended.
-If provided, it must be an `Array`.
-
-```js
+```json
 {
     "rules": {
         "no-extend-native": [2, {"exceptions": ["Object"]}]

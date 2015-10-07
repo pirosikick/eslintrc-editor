@@ -1,8 +1,8 @@
-# Disallow use of void operator. (no-void)
+# Disallow use of the void operator. (no-void)
 
-The `void` operator takes operand and returns `undefined`: `void expression` will evaluate `expression` and return `undefined`. It can be used to suppress any side effects `expression` may produce:
+The `void` operator takes an operand and returns `undefined`: `void expression` will evaluate `expression` and return `undefined`. It can be used to ignore any side effects `expression` may produce:
 
-The common case of using `void` operator is to get "pure" `undefined` value as prior to ES5 `undefined` variable was mutable:
+The common case of using `void` operator is to get a "pure" `undefined` value as prior to ES5 the `undefined` variable was mutable:
 
 ```js
 // will always return undefined
@@ -14,7 +14,7 @@ The common case of using `void` operator is to get "pure" `undefined` value as p
 (function(){
     undefined = 1;
     return undefined;
-))();
+})();
 
 // will throw TypeError is ES5+
 (function(){
@@ -36,6 +36,9 @@ When used with IIFE (immediately-invoked function expression) `void` can be used
 var foo = 1;
 void function(){ foo = 1; }() // will assign foo a value of 1
 +function(){ foo = 1; }() // same as above
+```
+
+```
 function(){ foo = 1; }() // will throw SyntaxError
 ```
 
@@ -45,19 +48,19 @@ Some code styles prohibit `void` operator marking it as non-obvious and hard to 
 
 This rule aims to eliminate use of void operator.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
-void foo
-```
+/*eslint no-void: 2*/
 
-```js
-var foo = void bar();
+void foo              /*error Expected 'undefined' and instead saw 'void'.*/
+
+var foo = void bar(); /*error Expected 'undefined' and instead saw 'void'.*/
 ```
 
 ## When Not To Use It
 
-If you intentionally use `void` operator then you can disable this rule.
+If you intentionally use the `void` operator then you can disable this rule.
 
 ## Further Reading
 

@@ -14,6 +14,9 @@ var c = "d";var e = "f";
 
 This rule aims to enforce spacing around a semicolon. This rule prevents the use of spaces before a semicolon in expressions.
 
+This rule doesn't check spacing which is after semicolons if the semicolon is before a closing parenthesis (`)` or `}`).
+That spacing is checked by `space-in-parens` or `block-spacing`.
+
 ### Options
 
 The rule takes one option, an object, which has two keys `before` and `after` having boolean values `true` or `false`.
@@ -31,20 +34,24 @@ The default is `{"before": false, "after": true}`.
 
 This is the default option. It enforces spacing after semicolons and disallows spacing before semicolons.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
-var foo ;
-var foo;var bar;
-throw new Error("error") ;
-while (a) { break ; }
-for (i = 0 ; i < 10 ; i++) {}
-for (i = 0;i < 10;i++) {}
+/*eslint semi-spacing: 2*/
+
+var foo ;                      /*error Unexpected whitespace before semicolon.*/
+var foo;var bar;               /*error Missing whitespace after semicolon.*/
+throw new Error("error") ;     /*error Unexpected whitespace before semicolon.*/
+while (a) { break ; }          /*error Unexpected whitespace before semicolon.*/
+for (i = 0 ; i < 10 ; i++) {}  /*error Unexpected whitespace before semicolon.*/
+for (i = 0;i < 10;i++) {}      /*error Missing whitespace after semicolon.*/
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
+/*eslint semi-spacing: 2*/
+
 var foo;
 var foo; var bar;
 throw new Error("error");
@@ -56,22 +63,26 @@ for (i = 0; i < 10; i++) {}
 
 This option enforces spacing before semicolons and disallows spacing after semicolons.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
-var foo;
-var foo ; var bar;
-throw new Error("error");
-while (a) { break; }
-for (i = 0;i < 10;i++) {}
-for (i = 0; i < 10; i++) {}
+/*eslint semi-spacing: [2, { "before": true, "after": false }]*/
+
+var foo;                    /*error Missing whitespace before semicolon.*/
+var foo ; var bar;          /*error Missing whitespace before semicolon.*/ /*error Unexpected whitespace after semicolon.*/
+throw new Error("error");   /*error Missing whitespace before semicolon.*/
+while (a) { break; }        /*error Missing whitespace before semicolon.*/ /*error Unexpected whitespace after semicolon.*/
+for (i = 0;i < 10;i++) {}   /*error Missing whitespace before semicolon.*/
+for (i = 0; i < 10; i++) {} /*error Missing whitespace before semicolon.*/ /*error Unexpected whitespace after semicolon.*/
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
+/*eslint semi-spacing: [2, { "before": true, "after": false }]*/
+
 var foo ;
-var foo ;var bar;
+var foo ;var bar ;
 throw new Error("error") ;
 while (a) {break ;}
 for (i = 0 ;i < 10 ;i++) {}
@@ -86,3 +97,5 @@ You can turn this rule off if you are not concerned with the consistency of spac
 * [semi](semi.md)
 * [no-extra-semi](no-extra-semi.md)
 * [comma-spacing](comma-spacing.md)
+* [block-spacing](block-spacing.md)
+* [space-in-parens](space-in-parens.md)

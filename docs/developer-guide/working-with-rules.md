@@ -31,7 +31,7 @@ module.exports.schema = [
 
 ## Rule Basics
 
-Each rule is represented by a single object with several properties. The properties are equivalent to AST node types from [SpiderMonkey](https://developer.mozilla.org/en-US/docs/SpiderMonkey/Parser_API). For example, if your rule wants to know when an identifier is found in the AST, then add a method called "Identifier", such as:
+Each rule is represented by a single object with several properties. The properties are equivalent to AST node types from [ESTree](https://github.com/estree/estree). For example, if your rule wants to know when an identifier is found in the AST, then add a method called "Identifier", such as:
 
 ```js
 module.exports = function(context) {
@@ -48,7 +48,7 @@ module.exports = function(context) {
 
 Each method that matches a node in the AST will be passed the corresponding node. You can then evaluate the node and it's surrounding tree to determine whether or not an issue needs reporting.
 
-By default, the method matching a node name is called during the traversal when the node is first encountered, on the way down the AST. You can also specify to visit the node on the other side of the traversal, as it comes back up the tree, but adding `:exit` to the end of the node type, such as:
+By default, the method matching a node name is called during the traversal when the node is first encountered, on the way down the AST. You can also specify to visit the node on the other side of the traversal, as it comes back up the tree, by adding `:exit` to the end of the node type, such as:
 
 ```js
 module.exports = function(context) {
@@ -76,40 +76,109 @@ The `context` object contains additional functionality that is helpful for rules
 
 Additionally, the `context` object has the following methods:
 
-* `getAllComments()` - returns an array of all comments in the source.
 * `getAncestors()` - returns an array of ancestor nodes based on the current traversal.
-* `getComments(node)` - returns the leading and trailing comments arrays for the given node.
+* `getDeclaredVariables(node)` - returns the declared variables on the given node.
 * `getFilename()` - returns the filename associated with the source.
-* `getFirstToken(node)` - returns the first token representing the given node.
-* `getFirstTokens(node, count)` - returns the first `count` tokens representing the given node.
-* `getJSDocComment(node)` - returns the JSDoc comment for a given node or `null` if there is none.
-* `getLastToken(node)` - returns the last token representing the given node.
-* `getLastTokens(node, count)` - returns the last `count` tokens representing the given node.
-* `getNodeByRangeIndex(index)` - returns the deepest node in the AST containing the given source index.
 * `getScope()` - returns the current scope.
-* `getSource(node)` - returns the source code for the given node. Omit `node` to get the whole source.
-* `getSourceLines()` - returns the entire source code split into an array of string lines.
-* `getTokenAfter(nodeOrToken)` - returns the first token after the given node or token.
-* `getTokenBefore(nodeOrToken)` - returns the first token before the given node or token.
-* `getTokenByRangeStart(index)` - returns the token whose range starts at the given index in the source.
-* `getTokens(node)` - returns all tokens for the given node.
-* `getTokensAfter(nodeOrToken, count)` - returns `count` tokens after the given node or token.
-* `getTokensBefore(nodeOrToken, count)` - returns `count` tokens before the given node or token.
-* `getTokensBetween(node1, node2)` - returns the tokens between two nodes.
+* `getSourceCode()` - returns a `SourceCode` object that you can use to work with the source that was passed to ESLint
+* `isMarkedAsUsed(name)` - returns true if a given variable name has been marked as used.
 * `markVariableAsUsed(name)` - marks the named variable in scope as used. This affects the [no-unused-vars](../rules/no-unused-vars.md) rule.
-* `report(node, message)` - reports an error in the code.
+* `report(descriptor)` - reports a problem in the code.
+
+**Deprecated:** The following methods on the `context` object are deprecated. Please use the corresponding methods on `SourceCode` instead:
+
+* `getAllComments()` - returns an array of all comments in the source. Use `sourceCode.getAllComments()` instead.
+* `getComments(node)` - returns the leading and trailing comments arrays for the given node. Use `sourceCode.getComments(node)` instead.
+* `getFirstToken(node)` - returns the first token representing the given node. Use `sourceCode.getFirstToken(node)` instead.
+* `getFirstTokens(node, count)` - returns the first `count` tokens representing the given node. Use `sourceCode.getFirstTokens(node, count)` instead.
+* `getJSDocComment(node)` - returns the JSDoc comment for a given node or `null` if there is none. Use `sourceCode.getJSDocComment(node)` instead.
+* `getLastToken(node)` - returns the last token representing the given node.  Use `sourceCode.getLastToken(node)` instead.
+* `getLastTokens(node, count)` - returns the last `count` tokens representing the given node. Use `sourceCode.getLastTokens(node, count)` instead.
+* `getNodeByRangeIndex(index)` - returns the deepest node in the AST containing the given source index. Use `sourceCode.getNodeByRangeIndex(index)` instead.
+* `getSource(node)` - returns the source code for the given node. Omit `node` to get the whole source. Use `sourceCode.getText(node)` instead.
+* `getSourceLines()` - returns the entire source code split into an array of string lines. Use `sourceCode.lines` instead.
+* `getTokenAfter(nodeOrToken)` - returns the first token after the given node or token. Use `sourceCode.getTokenAfter(nodeOrToken)` instead.
+* `getTokenBefore(nodeOrToken)` - returns the first token before the given node or token. Use `sourceCode.getTokenBefore(nodeOrToken)` instead.
+* `getTokenByRangeStart(index)` - returns the token whose range starts at the given index in the source. Use `sourceCode.getTokenByRangeStart(index)` instead.
+* `getTokens(node)` - returns all tokens for the given node. Use `sourceCode.getTokens(node)` instead.
+* `getTokensAfter(nodeOrToken, count)` - returns `count` tokens after the given node or token. Use `sourceCode.getTokensAfter(nodeOrToken, count)` instead.
+* `getTokensBefore(nodeOrToken, count)` - returns `count` tokens before the given node or token. Use `sourceCode.getTokensBefore(nodeOrToken, count)` instead.
+* `getTokensBetween(node1, node2)` - returns the tokens between two nodes. Use `sourceCode.getTokensBetween(node1, node2)` instead.
+* `report(node, [location], message)` - reports a problem in the code.
 
 ### context.report()
 
-The main method you'll use is `context.report()`, which publishes a warning or error (depending on the configuration being used). This method accepts three arguments: the AST node that caused the report, a message to display, and an optional object literal which is used to interpolate. For example:
+The main method you'll use is `context.report()`, which publishes a warning or error (depending on the configuration being used). This method accepts a single argument, which is an object containing the following properties:
 
-    context.report(node, "This is unexpected!");
+* `message` - the problem message.
+* `node` - (optional)  the AST node related to the problem. If present and `loc` is not specified, then the starting location of the node is used as the location of the problem.
+* `loc` - (optional) an object specifying the location of the problem. If both `loc` and `node` are specified, then the location is used from `loc` instead of `node`.
+    * `line` - the 1-based line number at which the problem occurred.
+    * `col` - the 0-based column number at which the problem occurred.
+* `data` - (optional) placeholder data for `message`.
+* `fix` - (optional) a function that applies a fix to resolve the problem.
 
-or
+The simplest example is to use just `node` and `message`:
 
-    context.report(node, "`{{identifier}}` is unexpected!", { identifier: node.name });
+```js
+context.report({
+    node: node,
+    message: "Unexpected identifier"
+});
+```
 
 The node contains all of the information necessary to figure out the line and column number of the offending text as well the source text representing the node.
+
+You can also use placeholders in the message and provide `data`:
+
+```js
+{% raw %}
+context.report({
+    node: node,
+    message: "Unexpected identifier: {{ identifier }}",
+    data: {
+        identifier: node.name
+    }
+});
+{% endraw %}
+```
+
+Note that leading and trailing whitespace is optional in message parameters.
+
+The node contains all of the information necessary to figure out the line and column number of the offending text as well the source text representing the node.
+
+### Applying Fixes
+
+If you'd like ESLint to attempt to fix the problem you're reporting, you can do so by specifying the `fix` function when using `context.report()`. The `fix` function receives a single argument, a `fixer` object, that you can use to apply a fix. For example:
+
+```js
+context.report({
+    node: node,
+    message: "Missing semicolon".
+    fix: function(fixer) {
+        return fixer.insertTextAfter(node, ";");
+    }
+});
+```
+
+Here, the `fix()` function is used to insert a semicolon after the node. Note that the fix is not immediately applied and may not be applied at all if there are conflicts with other fixes. If the fix cannot be applied, then the problem message is reported as usual; if the fix can be applied, then the problem message is not reported.
+
+The `fixer` object has the following methods:
+
+* `insertTextAfter(nodeOrToken, text)` - inserts text after the given node or token
+* `insertTextAfterRange(range, text)` - inserts text after the given range
+* `insertTextBefore(nodeOrToken, text)` - inserts text before the given node or token
+* `insertTextBeforeRange(range, text)` - inserts text before the given range
+* `remove(nodeOrToken)` - removes the given node or token
+* `removeRange(range)` - removes text in the given range
+* `replaceText(nodeOrToken, text)` - replaces the text in the given node or token
+* `replaceTextRange(range, text)` - replaces the text in the given range
+
+Best practices for fixes:
+
+1. Make fixes that are as small as possible. Anything more than a single character is risky and could prevent other, simpler fixes from being made.
+1. Only make one fix per message. This is enforced because you must return the result of the fixer operation from `fix()`.
+1. Fixes should not introduce clashes with other rules. You can accidentally introduce a new problem that won't be reported until ESLint is run again. Another good reason to make as small a fix as possible.
 
 ### context.options
 
@@ -135,6 +204,47 @@ module.exports = function(context) {
 Since `context.options` is just an array, you can use it to determine how many options have been passed as well as retrieving the actual options themselves. Keep in mind that the error level is not part of `context.options`, as the error level cannot be known or modified from inside a rule.
 
 When using options, make sure that your rule has some logic defaults in case the options are not provided.
+
+### context.getSourceCode()
+
+The `SourceCode` object is the main object for getting more information about the source code being linted. You can retrieve the `SourceCode` object at any time by using the `getSourceCode()` method:
+
+```js
+module.exports = function(context) {
+
+    var sourceCode = context.getSourceCode();
+
+    // ...
+}
+```
+
+Once you have an instance of `SourceCode`, you can use the methods on it to work with the code:
+
+* `getAllComments()` - returns an array of all comments in the source.
+* `getComments(node)` - returns the leading and trailing comments arrays for the given node.
+* `getFirstToken(node)` - returns the first token representing the given node.
+* `getFirstTokens(node, count)` - returns the first `count` tokens representing the given node.
+* `getJSDocComment(node)` - returns the JSDoc comment for a given node or `null` if there is none.
+* `getLastToken(node)` - returns the last token representing the given node.
+* `getLastTokens(node, count)` - returns the last `count` tokens representing the given node.
+* `getNodeByRangeIndex(index)` - returns the deepest node in the AST containing the given source index.
+* `isSpaceBetweenTokens(first, second)` - returns true if there is a whitespace character between the two tokens.
+* `getText(node)` - returns the source code for the given node. Omit `node` to get the whole source.
+* `getTokenAfter(nodeOrToken)` - returns the first token after the given node or token.
+* `getTokenBefore(nodeOrToken)` - returns the first token before the given node or token.
+* `getTokenByRangeStart(index)` - returns the token whose range starts at the given index in the source.
+* `getTokens(node)` - returns all tokens for the given node.
+* `getTokensAfter(nodeOrToken, count)` - returns `count` tokens after the given node or token.
+* `getTokensBefore(nodeOrToken, count)` - returns `count` tokens before the given node or token.
+* `getTokensBetween(node1, node2)` - returns the tokens between two nodes.
+
+There are also some properties you can access:
+
+* `text` - the full text of the code being linted.
+* `ast` - the `Program` node of the AST for the code being linted.
+* `lines` - an array of lines, split according to the specification's definition of line breaks.
+
+You should use a `SourceCode` object whenever you need to get more information about the code being linted.
 
 ### Options Schemas
 
@@ -164,40 +274,42 @@ module.exports.schema = [
 
 In the preceding example, the error level is assumed to be the first argument. It is followed by the first optional argument, a string which may be either `"always"` or `"never"`. The final optional argument is an object, which may have a Boolean property named `exceptRange`.
 
+To learn more about JSON Schema, we recommend looking at some [examples](http://json-schema.org/examples.html) to start, and also reading [Understanding JSON Schema](http://spacetelescope.github.io/understanding-json-schema/) (a free ebook).
+
 ### Getting the Source
 
-If your rule needs to get the actual JavaScript source to work with, then use the `context.getSource()` method. This method works as follows:
+If your rule needs to get the actual JavaScript source to work with, then use the `sourceCode.getText()` method. This method works as follows:
 
 ```js
 
 // get all source
-var source = context.getSource();
+var source = sourceCode.getText();
 
 // get source for just this AST node
-var nodeSource = context.getSource(node);
+var nodeSource = sourceCode.getText(node);
 
 // get source for AST node plus previous two characters
-var nodeSourceWithPrev = context.getSource(node, 2);
+var nodeSourceWithPrev = sourceCode.getText(node, 2);
 
 // get source for AST node plus following two characters
-var nodeSourceWithFollowing = context.getSource(node, 0, 2);
+var nodeSourceWithFollowing = sourceCode.getText(node, 0, 2);
 ```
 
 In this way, you can look for patterns in the JavaScript text itself when the AST isn't providing the appropriate data (such as location of commas, semicolons, parentheses, etc.).
 
 ### Accessing comments
 
-If you need to access comments for a specific node you can use `context.getComments(node)`:
+If you need to access comments for a specific node you can use `sourceCode.getComments(node)`:
 
 ```js
 // the "comments" variable has a "leading" and "trailing" property containing
 // its leading and trailing comments, respectively
-var comments = context.getComments(node);
+var comments = sourceCode.getComments(node);
 ```
 
 Keep in mind that comments are technically not a part of the AST and are only attached to it on demand, i.e. when you call `getComments()`.
 
-**Note:** One of the libraries adds AST node properties for comments - do not use these properties. Always use `context.getComments()` as this is the only guaranteed API for accessing comments (we will likely change how comments are handled later).
+**Note:** One of the libraries adds AST node properties for comments - do not use these properties. Always use `sourceCode.getComments()` as this is the only guaranteed API for accessing comments (we will likely change how comments are handled later).
 
 ## Rule Unit Tests
 
@@ -214,47 +326,31 @@ The basic pattern for a rule unit test file is:
 /**
  * @fileoverview Tests for no-with rule.
  * @author Nicholas C. Zakas
- * @copyright 2014 Nicholas C. Zakas. All rights reserved.
+ * @copyright 2015 Nicholas C. Zakas. All rights reserved.
  */
+
 "use strict";
 
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
 
-var eslint = require("../../../lib/eslint"),
-    ESLintTester = require("eslint-tester");
+var rule = require("../../../lib/rules/no-with"),
+    RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-var eslintTester = new ESLintTester(eslint);
-eslintTester.addRuleTest("lib/rules/block-scoped-var", {
-
-    // Examples of code that should not trigger the rule
+var ruleTester = new RuleTester();
+ruleTester.run("no-with", rule, {
     valid: [
-        "function doSomething() { var build, f; if (true) { build = true; } f = build; }",
-        "var build; function doSomething() { var f = build; }",
-        "function doSomething(e) { }",
-        "function doSomething(e) { var f = e; }",
-        "function doSomething() { var f = doSomething; }",
-        "function foo() { } function doSomething() { var f = foo; }"
+        "foo.bar()"
     ],
-
-    // Examples of code that should trigger the rule
     invalid: [
         {
-            code: "function doSomething() { var f; if (true) { var build = true; } f = build; }",
-            errors: [
-                { message: "build used outside of binding context.", type: "Identifier" }
-            ]
-        },
-        {
-            code: "function doSomething() { try { var build = 1; } catch (e) { var f = build; } }",
-            errors: [
-                { message: "build used outside of binding context.", type: "Identifier" }
-            ]
+            code: "with(foo) { bar() }",
+            errors: [{ message: "Unexpected use of 'with' statement.", type: "WithStatement"}]
         }
     ]
 });
@@ -275,18 +371,18 @@ valid: [
 ]
 ```
 
-You can also pass arguments to the rule (if it accepts them). These arguments are equivalent to how people can configure rules in their `.eslintrc` file. For example:
+You can also pass options to the rule (if it accepts them). These arguments are equivalent to how people can configure rules in their `.eslintrc` file. For example:
 
 ```js
 valid: [
     {
         code: "var msg = 'Hello';",
-        args: [1, "single" ]
+        options: [ "single" ]
     }
 ]
 ```
 
-Your rule will then be passed the arguments as if they came from a configuration file.
+The `options` property must be an array of options. This gets passed through to `context.options` in the rule.
 
 ### Invalid Code
 
@@ -305,13 +401,13 @@ invalid: [
 
 In this case, the message is specific to the variable being used and the AST node type is `Identifier`.
 
-Similar to the valid cases, you can also specify `args` to be passed to the rule:
+Similar to the valid cases, you can also specify `options` to be passed to the rule:
 
 ```js
 invalid: [
     {
         code: "function doSomething() { var f; if (true) { var build = true; } f = build; }",
-        args: [ 1, "double" ],
+        options: [ "double" ],
         errors: [
             { message: "build used outside of binding context.", type: "Identifier" }
         ]
@@ -319,7 +415,7 @@ invalid: [
 ]
 ```
 
-### Write Many Tests
+### Write Several Tests
 
 You must have at least one valid and one invalid case for the rule tests to pass. Provide as many unit tests as possible. Your pull request will never be turned down for having too many tests submitted with it!
 
@@ -329,7 +425,7 @@ To keep the linting process efficient and unobtrusive, it is useful to verify th
 
 ### Overall Performance
 
-The `npm run perf` command gives a high-level overview of ESLint running time.
+The `npm run perf` command gives a high-level overview of ESLint running time with default rules (`eslint:recommended`) enabled.
 
 ```bash
 $ git checkout master
@@ -377,10 +473,10 @@ no-empty-class          |    21.976 |     2.6%
 semi                    |    19.359 |     2.3%
 ```
 
-To test one rule explicitly, combine the `--reset`, `--no-eslintrc`, and `--rule` options:
+To test one rule explicitly, combine the `--no-eslintrc`, and `--rule` options:
 
 ```bash
-$ TIMING=1 eslint --reset --no-eslintrc --rule "quotes: [2, 'double']" lib
+$ TIMING=1 eslint --no-eslintrc --rule "quotes: [2, 'double']" lib
 Rule   | Time (ms) | Relative
 :------|----------:|--------:
 quotes |    18.066 |   100.0%
@@ -397,14 +493,13 @@ The rule naming conventions for ESLint are fairly simple:
 
 ## Rule Acceptance Criteria
 
-Because rules are highly personal (and therefore very contentious), the following guidelines determine whether or not a rule is accepted and whether or not it is on by default:
+Because rules are highly personal (and therefore very contentious), accepted rules should:
 
-* If the same rule exists in JSHint and is turned on by default, it must have the same message and be enabled by default.
-* If the same rule exists in JSLint but not in JSHint, it must have the same message and be disabled by default.
-* If the rule doesn't exist in JSHint or JSLint, then it must:
-    * Not be library-specific.
-    * Demonstrate a possible issue that can be resolved by rewriting the code.
-    * Be general enough so as to apply for a large number of developers.
+* Not be library-specific.
+* Demonstrate a possible issue that can be resolved by rewriting the code.
+* Be general enough so as to apply for a large number of developers.
+* Not be the opposite of an existing rule.
+* Not overlap with an existing rule.
 
 ## Runtime Rules
 

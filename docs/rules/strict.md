@@ -28,20 +28,20 @@ This rule is aimed at controlling how Use Strict Directives are used in code. It
 
 This mode forbids any occurrence of a Use Strict Directive.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
-// "strict": [2, "never"]
+/*eslint strict: [2, "never"]*/
 
-"use strict";
+"use strict";          /*error Strict mode is not permitted.*/
 
 function foo() {
-    "use strict";
+    "use strict";      /*error Strict mode is not permitted.*/
     return;
 }
 
 var bar = function() {
-    "use strict";
+    "use strict";      /*error Strict mode is not permitted.*/
     return;
 };
 
@@ -52,7 +52,7 @@ bar();
 The following patterns are considered valid:
 
 ```js
-// "strict": [2, "never"]
+/*eslint strict: [2, "never"]*/
 
 function foo() {
     return;
@@ -70,20 +70,20 @@ bar();
 
 This mode ensures that all code is in strict mode and that there are no extraneous Use Strict Directives at the top level or in nested functions, which are themselves already strict by virtue of being contained in strict global code. It requires that global code contains exactly one Use Strict Directive. Use Strict Directives inside functions are considered unnecessary. Multiple Use Strict Directives at any level also trigger warnings.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
-```js
-// "strict": [2, "global"]
+```
+/*eslint strict: [2, "global"]*/
 
 "use strict";
-"use strict"; // Multiple Use Strict Directives
+"use strict";           /*error Multiple "use strict" directives.*/
 
 function foo() {
-    "use strict"; // Unnecessary; already nested in strict mode code
+    "use strict";       /*error Use the global form of "use strict".*/
 
     return function() {
-        "use strict"; // Unnecessary; already nested in strict mode code
-        "use strict"; // Multiple Use Strict Directives
+        "use strict";   /*error Use the global form of "use strict".*/
+        "use strict";   /*error Use the global form of "use strict".*/
 
         return;
     };
@@ -94,8 +94,8 @@ foo();
 
 The following patterns are considered valid:
 
-```js
-// "strict": [2, "global"]
+```
+/*eslint strict: [2, "global"]*/
 
 "use strict";
 
@@ -108,23 +108,23 @@ function foo() {
 foo();
 ```
 
-### "function" mode
+### "function" mode (default)
 
 This mode ensures that all function bodies are strict mode code, while global code is not. Particularly if a build step concatenates multiple scripts, a Use Strict Directive in global code of one script could unintentionally enable strict mode in another script that was not intended to be strict code. It forbids any occurrence of a Use Strict Directive in global code. It requires exactly one Use Strict Directive in each function declaration or expression whose parent is global code. Use Strict Directives inside nested functions are considered unnecessary. Multiple Use Strict Directives at any level also trigger warnings.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
-```js
-// "strict": [2, "function"]
+```
+/*eslint strict: [2, "function"]*/
 
-"use strict"; // Use function form
+"use strict";           /*error Use the function form of "use strict".*/
 
-function foo() {
+function foo() {        /*error Use the function form of "use strict".*/
     // Missing Use Strict Directive
 
     return function() {
-        "use strict"; // Unnecessary; parent should contain a Strict Mode Directive
-        "use strict"; // Multiple Use Strict Directives
+        "use strict";   // Unnecessary; parent should contain a Strict Mode Directive
+        "use strict";   /*error Multiple "use strict" directives.*/
 
         return;
     };
@@ -135,8 +135,8 @@ foo();
 
 The following patterns are considered valid:
 
-```js
-// "strict": [2, "function"]
+```
+/*eslint strict: [2, "function"]*/
 
 function foo() {
     "use strict";
@@ -155,13 +155,13 @@ function foo() {
 foo();
 ```
 
-### deprecated mode (default)
+### deprecated mode (Removed)
 
-**Deprecation notice**: This mode, enabled by turning on the rule without specifying a mode, is deprecated and remains for backward compatibility. It will be removed entirely in ESLint v1.0, at which point this rule will require a mode option. `"function"` mode is most similar to the deprecated behavior.
+**Replacement notice**: This mode, previously enabled by turning on the rule without specifying a mode, has been removed in ESLint v1.0. `"function"` mode is most similar to the deprecated behavior, and has been made the default if no mode is specified.
 
 This mode ensures that all functions are executed in strict mode. A Use Strict Directive must be present in global code or in every top-level function declaration or expression. It does not concern itself with unnecessary Use Strict Directives in nested functions that are already strict, nor with multiple Use Strict Directives at the same level.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 // "strict": 2

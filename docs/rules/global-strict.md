@@ -1,6 +1,6 @@
 # Global Strict Mode (global-strict)
 
-**Deprecation notice**: This rule is deprecated and has been superseded by the [strict](strict.md) rule. It will be removed in ESLint v1.0. `"global"` mode in the strict rule is most similar to this rule.
+**Replacement notice**: This rule was removed in ESLint v1.0 and replaced by the [strict](strict.md) rule. `"global"` mode in the strict rule is most similar to this rule.
 
 Strict mode is enabled by using the following pragma in your code:
 
@@ -26,7 +26,7 @@ function foo() {
 }
 ```
 
-The following patterns apply strict mode only to functions so are valid with the "never" option but are warnings with the "always" option.
+The following patterns apply strict mode only to functions so are valid with the "never" option but are problems with the "always" option.
 
 ```js
 function foo() {

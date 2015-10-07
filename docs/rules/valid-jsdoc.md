@@ -27,35 +27,50 @@ This rule aims to prevent invalid and incomplete JSDoc comments. In doing so, it
 1. A parameter has no associated `@param` in the JSDoc comment
 1. `@param`s are out of order with named arguments
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
+/*eslint valid-jsdoc: 2*/
+
 // missing type for @param and missing @returns
-/**
+/**                                 // 2 errors
  * A description
  * @param num1 The first number.
  */
+function foo(num1) {
+    // ...
+}
 
 // missing description for @param
-/**
+/**                                 //error Missing JSDoc parameter description for 'num1'.
  * A description
  * @param {int} num1
+ * @returns {void}
  */
+function foo(num1) {
+    // ...
+}
 
 // no description for @returns
-/**
+/**                                 //error Missing JSDoc return description.
  * A description
  * @returns {int}
  */
+function foo() {
+    // ...
+}
 
 // no type for @returns
-/**
+/**                                 //error JSDoc syntax error.
  * A description
  * @returns Something awesome
  */
+function foo() {
+    // ...
+}
 
 // missing @param
-/**
+/**                                 //error Missing JSDoc for parameter 'a'.
  * A description
  * @returns {void}
  */
@@ -64,7 +79,7 @@ function foo(a) {
 }
 
 // incorrect @param
-/**
+/**                                 //error Expected JSDoc for 'a' but found 'b'.
  * A description
  * @param {string} b Desc
  * @returns {void}
@@ -74,15 +89,20 @@ function foo(a) {
 }
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
+/*eslint valid-jsdoc: 2*/
+
 /**
  * Adds two numbers together.
  * @param {int} num1 The first number.
  * @param {int} num2 The second number.
  * @returns {int} The sum of the two numbers.
  */
+function foo(num1, num2) {
+    return num1 + num2;
+}
 
 /**
  * Represents a sum.
@@ -90,6 +110,16 @@ The following patterns are not warnings:
  * @param {int} num2 The second number.
  * @constructor
  */
+function foo(num1, num2) { }
+
+// use of @override make @param and @returns optional
+/**
+ * A description
+ * @override
+ */
+function foo(a) {
+    return a;
+}
 ```
 
 ### Options
@@ -110,7 +140,7 @@ With this configuration, ESLint will warn when it finds `@return` and recommend 
 
 #### requireReturn
 
-By default ESLint requires you to specify `@return` for every documented function regardless of whether there is anything returned by the function. While using `@return {void}` stops it from asking for a description of the return value using the `requireReturn` option and setting it to false prevents an error from being logged unless there is a return in the function. Note that with this option set to `false`, if there is a return in the function, an error will still be logged and if there is a `@return` specified and there are no `return` statements in the function an error will also be logged. This option is purely to prevent the forced addition of `@return {void}` to an entire codebase not to turn off JSDoc return checking.
+By default ESLint requires you to specify `@return` for every documented function regardless of whether there is anything returned by the function. While using `@return {void}` or `@return {undefined}` stops it from asking for a description of the return value using the `requireReturn` option and setting it to false prevents an error from being logged unless there is a return in the function. Note that with this option set to `false`, if there is a return in the function, an error will still be logged and if there is a `@return` specified and there are no `return` statements in the function an error will also be logged. This option is purely to prevent the forced addition of `@return {void}` to an entire codebase not to turn off JSDoc return checking.
 
 ```json
 "valid-jsdoc": [2, {

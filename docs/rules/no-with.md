@@ -6,10 +6,11 @@ The `with` statement is potentially problematic because it adds members of an ob
 
 This rule is aimed at eliminating `with` statements.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
-with (foo) {
+/*eslint no-with: 2*/
+with (foo) { /*error Unexpected use of 'with' statement.*/
     // ...
 }
 ```

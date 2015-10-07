@@ -10,21 +10,25 @@ var foo = isBar ? baz : qux;
 
 The `no-ternary` rule aims to disallow the use of ternary operators.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
-var foo = isBar ? baz : qux;
+/*eslint no-ternary: 2*/
 
-foo ? bar() : baz();
+var foo = isBar ? baz : qux; /*error Ternary operator used.*/
+
+foo ? bar() : baz();         /*error Ternary operator used.*/
 
 function quux() {
-  return foo ? bar : baz;
+  return foo ? bar : baz;    /*error Ternary operator used.*/
 }
 ```
 
 The following patterns are considered okay and could be used alternatively:
 
 ```js
+/*eslint no-ternary: 2*/
+
 var foo;
 
 if (isBar) {
@@ -51,3 +55,4 @@ function quux() {
 ## Related Rules
 
 * [no-nested-ternary](no-nested-ternary.md)
+* [no-unneeded-ternary](no-unneeded-ternary.md)

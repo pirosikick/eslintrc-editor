@@ -1,12 +1,12 @@
 # Require spaces following unary word operators (space-unary-word-ops)
 
-**Deprecation notice**: This rule is deprecated and has been superseded by the [space-unary-ops](space-unary-ops.md) rule. It has be removed in ESLint v0.10.0.
+**Replacement notice**: This rule was removed and has been replaced by the [space-unary-ops](space-unary-ops.md) rule.
 
 Require spaces following unary word operators.
 
 ## Rule Details
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 typeof!a
@@ -24,7 +24,7 @@ new[a][0]
 delete(a.b)
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 delete a.b

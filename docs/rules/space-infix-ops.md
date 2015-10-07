@@ -14,41 +14,11 @@ var sum = i+++2;
 
 While this is valid JavaScript syntax, it is hard to determine what the author intended.
 
+**Fixable:** This rule is automatically fixable using the `--fix` flag on the command line.
+
 ## Rule Details
 
 This rule is aimed at ensuring there are spaces around infix operators.
-
-The following patterns are considered warnings:
-
-```js
-a+b
-```
-
-```js
-a+ b
-```
-
-```js
-a +b
-```
-
-```js
-a?b:c
-```
-
-The following patterns are not considered warnings:
-
-```js
-a + b
-```
-
-```js
-a       + b
-```
-
-```js
-a ? b : c
-```
 
 ### Options
 
@@ -64,4 +34,44 @@ Set the `int32Hint` option to `true` (default is `false`) to allow write `a|0` w
 
 ```js
 var foo = bar|0; // `foo` is forced to be signed 32 bit integer
+```
+
+The following patterns are considered problems:
+
+```js
+/*eslint space-infix-ops: 2*/
+/*eslint-env es6*/
+
+a+b                   /*error Infix operators must be spaced.*/
+
+a+ b                  /*error Infix operators must be spaced.*/
+
+a +b                  /*error Infix operators must be spaced.*/
+
+a?b:c                 /*error Infix operators must be spaced.*/
+
+const a={b:1};        /*error Infix operators must be spaced.*/
+
+var {a=0}=bar;        /*error Infix operators must be spaced.*/
+
+function foo(a=0) { } /*error Infix operators must be spaced.*/
+```
+
+The following patterns are not considered problems:
+
+```js
+/*eslint space-infix-ops: 2*/
+/*eslint-env es6*/
+
+a + b
+
+a       + b
+
+a ? b : c
+
+const a = {b:1};
+
+var {a = 0} = bar;
+
+function foo(a = 0) { }
 ```

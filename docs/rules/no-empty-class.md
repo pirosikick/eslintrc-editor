@@ -1,6 +1,6 @@
 # Disallow Empty Character Classes (no-empty-class)
 
-**Deprecation notice**: This rule is deprecated and has been superseded by the [no-empty-character-class](no-empty-character-class.md) rule. It will be removed in ESLint v1.0.
+**Replacement notice**: This rule was removed in ESLint v1.0 and replaced by the [no-empty-character-class](no-empty-character-class.md) rule.
 
 Empty character classes in regular expressions do not match anything and can result in code that may not work as intended.
 
@@ -12,7 +12,7 @@ var foo = /^abc[]/;
 
 This rule is aimed at highlighting possible typos and unexpected behavior in regular expressions which may arise from the use of empty character classes.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
 var foo = /^abc[]/;
@@ -22,7 +22,7 @@ var foo = /^abc[]/;
 bar.match(/^abc[]/);
 ```
 
-The following patterns are not considered warnings:
+The following patterns are not considered problems:
 
 ```js
 var foo = /^abc/;

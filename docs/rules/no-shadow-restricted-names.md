@@ -10,31 +10,27 @@ Then any code used within the same scope would not get the global `undefined`, b
 
 ## Rule Details
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
-function NaN(){}
+/*eslint no-shadow-restricted-names: 2*/
+
+function NaN(){}       /*error Shadowing of global property "NaN".*/
+
+!function(Infinity){}; /*error Shadowing of global property "Infinity".*/
+
+var undefined;         /*error Shadowing of global property "undefined".*/
+
+try {} catch(eval){}   /*error Shadowing of global property "eval".*/
 ```
 
-```js
-!function(Infinity){};
-```
+The following patterns are not considered problems:
 
 ```js
-var undefined;
-```
+/*eslint no-shadow-restricted-names: 2*/
 
-```js
-try {} catch(eval){}
-```
-
-The following patterns are not considered warnings:
-
-```js
 var Object;
-```
 
-```js
 function f(a, b){}
 ```
 

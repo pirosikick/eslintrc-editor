@@ -7,16 +7,20 @@ Control characters are special, invisible characters in the ASCII range 0-31. Th
 This rule is aimed at ensuring all regular expressions don't use control characters.
 
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
+/*eslint no-control-regex: 2*/
+
 var pattern1 = /\\x1f/;
-var pattern2 = new RegExp("\x1f");
+var pattern2 = new RegExp("\x1f"); /*error Unexpected control character in regular expression.*/
 ```
 
 The following patterns do not cause a warning:
 
 ```js
+/*eslint no-control-regex: 2*/
+
 var pattern1 = /\\x20/;
 var pattern2 = new RegExp("\x20");
 ```

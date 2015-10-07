@@ -8,23 +8,31 @@ specified size by giving the constructor a single numeric argument.
 
 ## Rule Details
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
-Array(0, 1, 2)
+/*eslint no-array-constructor: 2*/
+
+Array(0, 1, 2)     /*error The array literal notation [] is preferrable.*/
 ```
 
 ```js
-new Array(0, 1, 2)
+/*eslint no-array-constructor: 2*/
+
+new Array(0, 1, 2) /*error The array literal notation [] is preferrable.*/
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
+/*eslint no-array-constructor: 2*/
+
 Array(500)
 ```
 
 ```js
+/*eslint no-array-constructor: 2*/
+
 new Array(someOtherArray.length)
 ```
 

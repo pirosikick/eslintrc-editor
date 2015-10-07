@@ -20,28 +20,32 @@ While convenient in some cases, labels tend to be used only rarely and are frown
 
 This rule aims to eliminate the use of labeled statements in JavaScript. It will warn whenever a labeled statement is encountered and whenever `break` or `continue` are used with a label.
 
-The following patterns are considered warnings:
+The following patterns are considered problems:
 
 ```js
-label:
+/*eslint no-labels: 2*/
+
+label:                   /*error Unexpected labeled statement.*/
     while(true) {
         // ...
     }
 
-label:
+label:                   /*error Unexpected labeled statement.*/
     while(true) {
-        break label;
+        break label;     /*error Unexpected label in break statement.*/
     }
 
-label:
+label:                  /*error Unexpected labeled statement.*/
     while(true) {
-        continue label;
+        continue label; /*error Unexpected label in continue statement.*/
     }
 ```
 
-The following patterns are not warnings:
+The following patterns are not considered problems:
 
 ```js
+/*eslint no-labels: 2*/
+
 var f = {
     label: "foo"
 };
@@ -53,7 +57,6 @@ while (true) {
 while (true) {
     continue;
 }
-
 ```
 
 ## When Not To Use It
