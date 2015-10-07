@@ -90,8 +90,8 @@ gulp.task('html', ['main-bower-files', 'webpack', 'sass', 'copy-font'], () => {
 gulp.task('eslint-rule-schema', (done) => {
   let schema = [];
 
-  _.each(loadRules(), (data, name) => {
-    schema.push({ name, schema: data.schema });
+  _.each(loadRules(), (filepath, name) => {
+    schema.push({ name, schema: require(filepath).schema });
   });
   writeFile(dest.eslintRuleSchema, JSON.stringify(schema), (err) => {
     if (err) return $.util.log('[eslint-rule-schema]', err);
