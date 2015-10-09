@@ -49,43 +49,62 @@ export default
   }
 
 class RuleArgumentInput extends Component {
+  static defaultProps = {
+    value: PropTypes.any,
+    disabled: PropTypes.bool,
+    onChange: PropTypes.func
+  };
+
   constructor(props) {
     super(props);
-    this.currentValue = props.defaultValue || null;
+    this.currentValue = props.value || null;
     this.onChange = this.onChange.bind(this);
+  }
+
+  render() {
+    let {value, options, disabled} = this.props;
+    let type = this.getType();
+    let props = {
+      value: value,
+      disabled: disabled,
+      onChange: this.onChange
+    };
+    switch (type) {
+      case 'enum':
+        return <Enum {...props} values={options.enum}/>;
+      case 'oneOf':
+        return <OneOf {...props} args={options.oneOf}/>;
+      case 'object':
+        return <ObjectValue {...props} properties={options.properties}/>;
+      case 'integer':
+        return <Integer {...props} />;
+      case 'string':
+        return <String {...props} />;
+      case 'bool':
+    case 'boolean':
+      return <Bool {...props} />;
+    case 'array':
+      return <ArrayValue {...props} />;
+    }
+    return null;
+  }
+
+  getType() {
+    let {options} = this.props;
+
+    if (!isObject(options)) {
+      return false;
+    } else if (options.enum) {
+      return 'enum';
+    } else if (options.oneOf) {
+      return 'oneOf';
+    }
+    return options.type || false;
   }
 
   onChange(value) {
     this.currentValue = value;
     this.props.onChange(value);
-  }
-
-  render() {
-    let {value, options, disabled} = this.props;
-
-    if (options.enum) {
-      return <Enum values={options.enum} disabled={disabled} onChange={this.onChange}/>;
-    } else if (options.oneOf) {
-      return <OneOf args={options.oneOf} disabled={disabled} onChange={this.onChange}/>
-    }
-
-    if (isObject(options)) {
-      switch (options.type) {
-      case 'object':
-        return <ObjectValue value={value} properties={options.properties} disabled={disabled} onChange={this.onChange}/>;
-      case 'integer':
-        return <Integer disabled={disabled} onChange={this.onChange} />;
-      case 'string':
-        return <String disabled={disabled} onChange={this.onChange} />;
-      case 'bool':
-      case 'boolean':
-        return <Bool disabled={disabled} onChange={this.onChange} />;
-      case 'array':
-        return <ArrayValue value={value} disabled={disabled} onChange={this.onChange}/>;
-      }
-    }
-
-    return null;
   }
 }
 

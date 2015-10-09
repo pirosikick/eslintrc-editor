@@ -1,6 +1,7 @@
 'use strict';
 import {Component, findDOMNode, PropTypes} from "react";
 import clone from "lodash/lang/clone";
+import isArray from "lodash/lang/isArray";
 import cx from 'classnames';
 
 const NOOP = function () {};
@@ -144,7 +145,7 @@ class PlusButton extends Component {
 class List extends Component {
   render() {
     let {items} = this.props;
-
+    items = isArray(items) ? items : [];
     return (
       <ul className="rule-arg-array__list">
         {items.map(item => <li>{item}</li>)}
