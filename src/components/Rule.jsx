@@ -7,6 +7,7 @@ import forEachRight from "lodash/collection/forEachRight";
 import noop from 'lodash/utility/noop';
 import cx from 'classnames';
 import uniqueid from 'uniqueid';
+import normalizeRuleSchema from '../util/normalizeRuleSchema';
 import RuleArgument from './RuleArgument.jsx';
 
 export default
@@ -35,12 +36,12 @@ export default
       let schema = this.getSchema();
       let disabled = !status;
 
-      let args = schema.map((options, index) =>
+      let args = schema.map((def, index) =>
         <RuleArgument
           ruleName={name}
           index={index}
+          def={def}
           value={argValues[index]}
-          options={options}
           disabled={disabled}
           onChange={this.onChangeArgValue} />
       );
@@ -71,10 +72,7 @@ export default
 
     getSchema() {
       let schema = clone(this.props.schema);
-      if (!isArray(schema)) {
-        schema = [];
-      }
-      return schema;
+      return normalizeRuleSchema(schema);
     }
 
     onChange(index, value) {

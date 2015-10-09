@@ -1,7 +1,8 @@
 import {Component, findDOMNode, PropTypes} from "react";
 import clone from "lodash/lang/clone";
 import isObject from "lodash/lang/isObject";
-import {each} from 'lodash';
+import isArray from "lodash/lang/isArray";
+import each from 'lodash/collection/each';
 import uniqueid from 'uniqueid';
 import cx from 'classnames';
 import ArrayValue from './RuleArgumentArray.jsx';
@@ -12,12 +13,16 @@ export default
   class RuleArgument extends Component {
     static propTypes = {
       ruleName: PropTypes.string.isRequired,
+      def: PropTypes.object.isRequired,
+      value: PropTypes.any,
       index: PropTypes.number,
-      options: PropTypes.object,
       disabled: PropTypes.bool,
       onChange: PropTypes.func
     };
-    static defaultProps = { onChange: NOOP };
+    static defaultProps = {
+      disabled: false,
+      onChange: NOOP
+    };
 
     constructor(props) {
       super(props);
@@ -25,7 +30,7 @@ export default
     }
 
     render() {
-      let {ruleName, value, index, options, disabled, onChange} = this.props;
+      let {ruleName, def, value, index, disabled, onChange} = this.props;
 
       return (
         <div className="rule-arg">
@@ -34,8 +39,8 @@ export default
           </div>
           <div className="rule-arg__input">
             <RuleArgumentInput
+              def={def}
               value={value}
-              options={options}
               disabled={disabled}
               onChange={this.onChange} />
           </div>
@@ -49,7 +54,7 @@ export default
   }
 
 class RuleArgumentInput extends Component {
-  static defaultProps = {
+  static propTypes = {
     value: PropTypes.any,
     disabled: PropTypes.bool,
     onChange: PropTypes.func
@@ -62,44 +67,30 @@ class RuleArgumentInput extends Component {
   }
 
   render() {
-    let {value, options, disabled} = this.props;
-    let type = this.getType();
+    let {value, def, disabled} = this.props;
     let props = {
       value: value,
       disabled: disabled,
       onChange: this.onChange
     };
-    switch (type) {
+
+    switch (def.type) {
       case 'enum':
-        return <Enum {...props} values={options.enum}/>;
+        return <Enum {...props} options={def.options}/>;
       case 'oneOf':
-        return <OneOf {...props} args={options.oneOf}/>;
+        return <OneOf {...props} defs={def.defs}/>;
       case 'object':
-        return <ObjectValue {...props} properties={options.properties}/>;
+        return <ObjectValue {...props} properties={def.properties}/>;
       case 'integer':
         return <Integer {...props} />;
       case 'string':
         return <String {...props} />;
       case 'bool':
-    case 'boolean':
-      return <Bool {...props} />;
-    case 'array':
-      return <ArrayValue {...props} />;
+        return <Bool {...props} />;
+      case 'array':
+        return <ArrayValue {...props} />;
     }
     return null;
-  }
-
-  getType() {
-    let {options} = this.props;
-
-    if (!isObject(options)) {
-      return false;
-    } else if (options.enum) {
-      return 'enum';
-    } else if (options.oneOf) {
-      return 'oneOf';
-    }
-    return options.type || false;
   }
 
   onChange(value) {
@@ -115,6 +106,7 @@ class Integer extends Component {
         className="rule-arg-integer"
         type="number"
         placeholder="integer"
+        value={this.props.value}
         disabled={this.props.disabled}
         onChange={this.onChange.bind(this)} />
     );
@@ -127,12 +119,11 @@ class Integer extends Component {
 
 class Bool extends Component {
   render() {
-    let {name} = this.props;
-
     return (
       <input
         className="rule-arg-bool"
         type="checkbox"
+        checked={this.props.value}
         disabled={this.props.disabled}
         onChange={this.onChange.bind(this)}/>
     );
@@ -176,9 +167,8 @@ class ObjectValue extends Component {
 
   render() {
     let {value, properties, disabled} = this.props;
-
     let lines = [];
-    each(properties, (options, key) => {
+    each(properties, (def, key) => {
       lines.push(
         <tr>
           <td className="rule-arg-object__name-column">
@@ -187,7 +177,7 @@ class ObjectValue extends Component {
           <td className="rule-arg-object__input-column">
             <RuleArgumentInput
               value={value[key]}
-              options={options}
+              def={def}
               disabled={disabled}
               onChange={value => this.onChange(key, value)}/>
           </td>
@@ -205,13 +195,14 @@ class ObjectValue extends Component {
 
 class Enum extends Component {
   render() {
-    let {values, disabled} = this.props;
-    let options = values.map(v => <option value={v}>{v}</option>);
-
+    let {value, options, disabled} = this.props;
+    let optionElements = options.map(value =>
+      <option value={value}>{value}</option>
+    );
     return (
       <select className="rule-arg-options" disabled={disabled} onChange={this.onChange.bind(this)}>
         <option value="">---</option>
-        {options}
+        {optionElements}
       </select>
     );
   }
@@ -222,36 +213,57 @@ class Enum extends Component {
 }
 
 class OneOf extends Component {
+  static propTypes = {
+    defs: PropTypes.array.isRequired,
+    disabled: PropTypes.bool,
+    value: PropTypes.object,
+  };
+
   constructor(props) {
     super(props);
     this.radioName = uniqueid({ prefix: 'rule-arg-oneof-radio' });
-    this.onChange = this.onChange.bind(this);
+    this.onChecked = this.onChecked.bind(this);
+    this.onChangeValue = this.onChangeValue.bind(this);
   }
 
   render() {
-    let {args, disabled} = this.props;
-
-    let items = args.reduce((items, arg, index) => {
+    let {defs, disabled} = this.props;
+    let value = this.getValue();
+    let items = defs.reduce((items, def, index) => {
       if (index > 0) {
         items.push(<OneOfOr/>);
       }
-
       items.push(
         <OneOfItem
           radioName={this.radioName}
           index={index}
-          options={arg}
+          def={def}
+          value={value.values[index]}
+          checked={value.selected == index}
           disabled={disabled}
-          onChange={this.onChange}/>
+          onChecked={this.onChecked}
+          onChangeValue={this.onChangeValue}/>
       );
-
       return items;
     }, [])
 
     return <ul className="rule-arg-oneof">{items}</ul>;
   }
 
-  onChange({value}) {
+  getValue() {
+    let {value} = this.props;
+    return value ? clone(value) : { values: {}, selected: null };
+  }
+
+  onChecked(index) {
+    let value = this.getValue();
+    value.selected = index;
+    this.props.onChange(value);
+  }
+
+  onChangeValue(e) {
+    let value = this.getValue();
+    value.values[e.index] = e.value;
     this.props.onChange(value);
   }
 }
@@ -267,8 +279,14 @@ class OneOfOr extends Component {
 }
 
 class OneOfItem extends Component {
+  constructor(props) {
+    super(props);
+    this.onChecked = this.onChecked.bind(this);
+    this.onChangeValue = this.onChangeValue.bind(this);
+  }
+
   render() {
-    let {radioName, disabled, options} = this.props;
+    let {def, value, checked, disabled, radioName} = this.props;
 
     return (
       <li className="rule-arg-oneof__item">
@@ -277,40 +295,29 @@ class OneOfItem extends Component {
             className="rule-arg-oneof__radio"
             ref="radio"
             type="radio"
+            checked={checked}
             name={radioName}
             disabled={disabled}
-            onChange={this.onChangeRadio.bind(this)}/>
+            onChange={this.onChecked}/>
         </div>
         <div className="rule-arg-oneof__input-column">
           <RuleArgumentInput
-            options={options}
+            def={def}
             ref="input"
-            disabled={disabled}
-            onChange={this.onChangeInput.bind(this)}/>
+            value={value}
+            disabled={disabled || !checked}
+            onChange={this.onChangeValue}/>
         </div>
       </li>
     );
   }
 
-  onChangeInput(value) {
+  onChangeValue(value) {
     let {index} = this.props;
-
-    if (this.checked()) {
-      this.props.onChange({ index, value });
-    }
+    this.props.onChangeValue({ index, value });
   }
 
-  onChangeRadio(e) {
-    let {index} = this.props;
-    this.props.onChange({ index, value: this.currentValue() });
-  }
-
-  currentValue() {
-    return this.refs.input.currentValue;
-  }
-
-  checked() {
-
-    return findDOMNode(this.refs.radio).checked;
+  onChecked() {
+    this.props.onChecked(this.props.index);
   }
 }
