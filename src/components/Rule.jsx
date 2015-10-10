@@ -96,28 +96,6 @@ export default
       e.preventDefault();
       this.props.onClickHelp(this.props);
     }
-
-    minifyArg(arg) {
-      let newArg = [];
-      // [0, argValue1, argValue2] -> 0
-      if (arg[0] === 0) {
-        newArg = 0;
-      } else {
-        // [1, argValue1, null] -> [1, argValue1]
-        forEachRight(arg, (value, i) => {
-          if (isNull(value)) {
-            return;
-          }
-          newArg[i] = value;
-        });
-        // [1] -> 1
-        if (newArg.length === 1) {
-          newArg = newArg[0];
-        }
-      }
-
-      return newArg;
-    }
   }
 
 class RuleHeader extends Component {

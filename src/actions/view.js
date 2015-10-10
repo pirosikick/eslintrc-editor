@@ -32,8 +32,7 @@ const actions = createActions({
     if (name === 'rules') {
       return actions.openDocument('docs/rules/README.md');
     }
-  },
-  setEcmaOrParser: value => ({ value })
+  }
 });
 
 export default actions;

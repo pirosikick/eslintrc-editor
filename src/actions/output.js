@@ -8,5 +8,6 @@ export default createActions({
   setEcmaFeatures: (ecmaFeatures = []) => ({ ecmaFeatures }),
   setParser: (parser) => ({ parser }),
   setGlobals: globals => ({ globals }),
-  setRules: rules => ({ rules })
+  setRules: rules => ({ rules }),
+  setEcmaOrParser: value => ({ value })
 });

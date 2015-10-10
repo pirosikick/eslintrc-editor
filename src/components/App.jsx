@@ -33,6 +33,7 @@ export default
       this.actions = bindActionCreators(actionCreators, props.dispatch);
 
       this.onClickMenuItem = this.onClickMenuItem.bind(this);
+      this.onChangeEcmaOrParser = this.onChangeEcmaOrParser.bind(this);
       this.onChangeEnv = this.onChangeEnv.bind(this);
       this.onChangeGlobals = this.onChangeGlobals.bind(this);
       this.onChangeEcmaFeatures = this.onChangeEcmaFeatures.bind(this);
@@ -109,8 +110,8 @@ export default
                     {value: "ecmaFeatures", label: "use ecmaFeatures option"},
                     {value: "parser", label: "use parser option"}
                   ]}
-                  defaultValue={view.ecmaOrParser}
-                  onChange={({value}) => setEcmaOrParser(value)} />
+                  defaultValue={output.ecmaOrParser}
+                  onChange={this.onChangeEcmaOrParser} />
 
                 {
                   (ecmaOrParser => {
@@ -138,7 +139,7 @@ export default
                         </div>
                       );
                     }
-                  })(view.ecmaOrParser)
+                  })(output.ecmaOrParser)
                 }
 
               </OptionGroup>
@@ -165,6 +166,10 @@ export default
       } else {
         this.actions.selectMenuItem(itemName);
       }
+    }
+
+    onChangeEcmaOrParser(e) {
+      this.actions.setEcmaOrParser(e.value);
     }
 
     onChangeEnv(value) {

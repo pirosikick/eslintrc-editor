@@ -6,6 +6,7 @@ import actions from '../actions/output';
 let intialState = Map({
   env: [],
   globals: {},
+  ecmaOrParser: "parser",
   ecmaFeatures: [],
   parser: null,
   rules: {}
@@ -16,7 +17,8 @@ let {
   setEcmaFeatures,
   setParser,
   setGlobals,
-  setRules
+  setRules,
+  setEcmaOrParser
 } = getActionIds(actions);
 
 export default createReducer(intialState, {
@@ -33,5 +35,8 @@ export default createReducer(intialState, {
     state.set('globals', action.globals),
 
   [setRules]: (state, action) =>
-    state.set('rules', action.rules)
+    state.set('rules', action.rules),
+
+  [setEcmaOrParser]: (state, action) =>
+    state.set('ecmaOrParser', action.value)
 });

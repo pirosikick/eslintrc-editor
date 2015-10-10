@@ -15,8 +15,7 @@ let {
 let initialState = Map({
   selectedMenuItem: 'preview',
   documentUrl: "",
-  documentMarkdown: "",
-  ecmaOrParser: "parser"
+  documentMarkdown: ""
 });
 
 export default createReducer(initialState, {
