@@ -61,6 +61,7 @@
 
 .sidemenu {
   overflow: scroll;
+  overflow-x: auto;
   border-left: 1px solid #A4A4A4;
   font-size: 90%;
   z-index: 100;
@@ -134,8 +135,7 @@
 
 .document {
   padding: 0 1.5em;
-  height: 100%;
-  overflow: scroll; }
+  height: 100%; }
 
 .preview {
   padding: 0 1em; }
@@ -300,6 +300,7 @@
   position: relative;
   height: 100%;
   overflow: scroll;
+  overflow-x: auto;
   z-index: 0; }
   .main__contents {
     padding-top: calc(50px + 1em); }
