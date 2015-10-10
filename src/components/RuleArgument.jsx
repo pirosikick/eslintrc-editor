@@ -224,11 +224,11 @@ class OneOf extends Component {
     this.radioName = uniqueid({ prefix: 'rule-arg-oneof-radio' });
     this.onChecked = this.onChecked.bind(this);
     this.onChangeValue = this.onChangeValue.bind(this);
+    this.state = { selected: false, values: [] };
   }
 
   render() {
     let {defs, disabled} = this.props;
-    let value = this.getValue();
     let items = defs.reduce((items, def, index) => {
       if (index > 0) {
         items.push(<OneOfOr/>);
@@ -238,8 +238,8 @@ class OneOf extends Component {
           radioName={this.radioName}
           index={index}
           def={def}
-          value={value.values[index]}
-          checked={value.selected == index}
+          value={this.getValue(index)}
+          checked={this.isItemSelected(index)}
           disabled={disabled}
           onChecked={this.onChecked}
           onChangeValue={this.onChangeValue}/>
@@ -250,21 +250,27 @@ class OneOf extends Component {
     return <ul className="rule-arg-oneof">{items}</ul>;
   }
 
-  getValue() {
-    let {value} = this.props;
-    return value ? clone(value) : { values: {}, selected: null };
+  isItemSelected(itemIndex) {
+    return this.state.selected === itemIndex;
+  }
+
+  getValue(index) {
+    return this.state.values[index];
   }
 
   onChecked(index) {
-    let value = this.getValue();
-    value.selected = index;
-    this.props.onChange(value);
+    this.props.onChange(this.getValue(index));
+    this.setState({ selected: index });
   }
 
   onChangeValue(e) {
-    let value = this.getValue();
-    value.values[e.index] = e.value;
-    this.props.onChange(value);
+    let values = clone(this.state.values);
+    values[e.index] = e.value;
+    this.setState({ values });
+
+    if (this.isItemSelected(e.index)) {
+      this.props.onChange(e.value);
+    }
   }
 }
 

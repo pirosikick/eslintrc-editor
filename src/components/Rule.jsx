@@ -1,4 +1,4 @@
-import React, {Component, findDOMNode, PropTypes} from "react";
+import {Component, findDOMNode, PropTypes} from "react";
 import isArray from "lodash/lang/isArray";
 import clone from "lodash/lang/clone";
 import isNull from 'lodash/lang/isNull';
@@ -75,21 +75,21 @@ export default
       return normalizeRuleSchema(schema);
     }
 
-    onChange(index, value) {
+    onChangeArgValue(e) {
+      this.emitChange(e.index + 1, e.value)
+    }
+
+    onChangeStatus(e) {
+      this.emitChange(0, e.value - 0)
+    }
+
+    emitChange(index, value) {
       let newArg = this.getArg();
       newArg[index] = value;
       this.props.onChange({
         name: this.props.name,
-        arg: this.minifyArg(newArg)
+        arg: newArg
       });
-    }
-
-    onChangeArgValue(e) {
-      this.onChange(e.index + 1, e.value)
-    }
-
-    onChangeStatus(e) {
-      this.onChange(0, e.value - 0)
     }
 
     onClickHelp(e) {
