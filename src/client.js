@@ -1,5 +1,7 @@
 "use strict";
 import React, {Component} from "react";
+window.React = React;
+
 import {createStore, applyMiddleware} from 'redux';
 import {init} from './actions/view';
 import {Provider} from 'react-redux';

@@ -9,9 +9,6 @@ module.exports = {
     path: __dirname + "/.tmp/scripts",
     filename: "[name].bundle.js"
   },
-  externals: [
-    { react: "var React" }
-  ],
   devtool: 'inline-source-map',
   module: {
     loaders: [
