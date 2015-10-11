@@ -3,11 +3,10 @@ import clone from "lodash/lang/clone";
 import isObject from "lodash/lang/isObject";
 import isArray from "lodash/lang/isArray";
 import each from 'lodash/collection/each';
+import noop from 'lodash/utility/noop';
 import uniqueid from 'uniqueid';
 import cx from 'classnames';
 import ArrayValue from './RuleArgumentArray.jsx';
-
-const NOOP = function () {};
 
 export default
   class RuleArgument extends Component {
@@ -21,7 +20,7 @@ export default
     };
     static defaultProps = {
       disabled: false,
-      onChange: NOOP
+      onChange: noop
     };
 
     constructor(props) {
@@ -221,6 +220,7 @@ class OneOf extends Component {
 
   constructor(props) {
     super(props);
+    this.id = uniqueid({ prefix: 'rule-arg-oneof' });
     this.radioName = uniqueid({ prefix: 'rule-arg-oneof-radio' });
     this.onChecked = this.onChecked.bind(this);
     this.onChangeValue = this.onChangeValue.bind(this);
@@ -235,6 +235,7 @@ class OneOf extends Component {
       }
       items.push(
         <OneOfItem
+          key={`${this.id}-${index}`}
           radioName={this.radioName}
           index={index}
           def={def}

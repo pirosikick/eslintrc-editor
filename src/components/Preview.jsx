@@ -1,5 +1,6 @@
 import {Component} from "react";
 import isNull from 'lodash/lang/isNull';
+import isUndefined from 'lodash/lang/isUndefined';
 import forEach from 'lodash/collection/forEach';
 import forEachRight from 'lodash/collection/forEachRight';
 import cx from 'classnames';
@@ -42,17 +43,20 @@ export default
     normalizeRuleArgs(args) {
       if (args[0] == 0) {
         return 0;
-      } else if (args.length === 1) {
-        return args[0] - 0;
       }
 
       let newArgs = [];
       forEachRight(args, (value, i) => {
-        if (isNull(value)) {
+        if (isNull(value) || isUndefined(value)) {
           return;
         }
         newArgs[i] = value;
       });
+
+      if (newArgs.length === 1) {
+        return newArgs[0] - 0;
+      }
+
       return newArgs;
     }
   }
