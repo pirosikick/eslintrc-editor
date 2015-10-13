@@ -3,8 +3,7 @@ import uniqueid from 'uniqueid';
 import toArray from 'lodash/lang/toArray';
 import clone from 'lodash/lang/clone';
 import remove from 'lodash/array/remove';
-
-const NOOP = function () {};
+import noop from 'lodash/utility/noop';
 
 export default
   class CheckList extends Component {
@@ -90,7 +89,7 @@ class TableRow extends Component {
   static defaultProps = {
     key: "",
     value: "",
-    onChange: NOOP,
+    onChange: noop,
     defaultChecked: false
   };
 

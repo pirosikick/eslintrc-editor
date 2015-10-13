@@ -2,8 +2,7 @@
 import {Component, PropTypes} from "react";
 import cx from "classnames";
 import isArray from 'lodash/lang/isArray';
-
-const NOOP = function () {};
+import noop from 'lodash/utility/noop';
 
 export class Menu extends Component {
   static propsTypes = {
@@ -19,7 +18,7 @@ export class Menu extends Component {
     horizotal: false,
     items: [],
     selectedItem: "",
-    onClickItem: NOOP,
+    onClickItem: noop,
     allowHover: true
   };
 
@@ -110,7 +109,7 @@ class MenuItem extends Component {
     label: "",
     selected: false,
     allowHover: false,
-    onClick: NOOP,
+    onClick: noop,
     children: []
   };
 

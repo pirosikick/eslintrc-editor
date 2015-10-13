@@ -1,10 +1,9 @@
 'use strict';
 import map from 'lodash/collection/map';
 import clone from 'lodash/lang/clone';
+import noop from 'lodash/utility/noop';
 import {Component, findDOMNode, PropTypes} from "react";
 import RadioSet from './RadioSet.jsx';
-
-const NOOP = function () {};
 
 export default
   class Globals extends Component {
@@ -15,7 +14,7 @@ export default
 
     static defaultProps = {
       defaultValue: {},
-      onChange: NOOP
+      onChange: noop
     };
 
     constructor(props) {
@@ -71,7 +70,7 @@ class InputForm extends Component {
     globals: PropTypes.object,
     onAdd: PropTypes.func
   };
-  static defaultProps = { globals:{}, onAdd: NOOP };
+  static defaultProps = { globals:{}, onAdd: noop };
 
   constructor(props) {
     super(props);

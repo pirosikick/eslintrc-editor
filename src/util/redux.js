@@ -1,12 +1,14 @@
 // https://gist.github.com/skevy/8a4ffc3cfdaf5fd68739
 
-import _ from 'lodash';
+import zipObject from 'lodash/array/zipObject';
+import map from 'lodash/collection/map';
+import mapValues from 'lodash/object/mapValues';
 import uniqueId from 'uniqueid';
 
 // Create actions that don't need constants :)
 export const createActions = (actionObj) => {
   const baseId = uniqueId();
-  return _.zipObject(_.map(actionObj, (actionCreator, key) => {
+  return zipObject(map(actionObj, (actionCreator, key) => {
     const actionId = `${baseId}-${key}`;
     const method = (...args) => {
       const result = actionCreator(...args);
@@ -24,7 +26,7 @@ export const createActions = (actionObj) => {
 
 // Get action ids from actions created with `createActions`
 export const getActionIds = (actionCreators) => {
-  return _.mapValues(actionCreators, (value, key) => {
+  return mapValues(actionCreators, (value, key) => {
     return value._id;
   });
 };

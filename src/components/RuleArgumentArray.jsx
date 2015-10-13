@@ -2,9 +2,8 @@
 import {Component, findDOMNode, PropTypes} from "react";
 import clone from "lodash/lang/clone";
 import isArray from "lodash/lang/isArray";
+import noop from "lodash/utility/noop";
 import cx from 'classnames';
-
-const NOOP = function () {};
 
 class RuleArgumentArray extends Component {
   static propTypes = {
@@ -14,7 +13,7 @@ class RuleArgumentArray extends Component {
   };
   static defaultProps = {
     value: [],
-    onChange: NOOP,
+    onChange: noop,
     disabled: false
   };
 
@@ -51,7 +50,7 @@ class Input extends Component {
     disabled: PropTypes.bool
   };
   static defaultProps = {
-    onAdded: NOOP,
+    onAdded: noop,
     disabled: false
   };
 

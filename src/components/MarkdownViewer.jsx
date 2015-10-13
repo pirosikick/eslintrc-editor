@@ -1,8 +1,7 @@
 'use strict';
 import {Component, PropTypes} from "react";
 import md2react from "@pirosikick/md2react";
-
-const NOOP = function () {};
+import noop from 'lodash/utility/noop';
 
 export default class MarkdownViewer extends Component {
   static propTypes = {
@@ -14,7 +13,7 @@ export default class MarkdownViewer extends Component {
   static defaultProps = {
     url: "",
     md: "",
-    onClickLink: NOOP
+    onClickLink: noop
   };
 
   constructor(props) {
@@ -69,7 +68,7 @@ class Link extends Component {
     baseUrl: PropTypes.string,
     node: {},
     key: "",
-    onClick: NOOP
+    onClick: noop
   };
 
   constructor(props) {
