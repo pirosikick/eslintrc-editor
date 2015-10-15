@@ -2,6 +2,7 @@ import {Component,  findDOMNode, PropTypes} from "react";
 import uniqueid from 'uniqueid';
 import toArray from 'lodash/lang/toArray';
 import clone from 'lodash/lang/clone';
+import difference from 'lodash/array/difference';
 import remove from 'lodash/array/remove';
 import noop from 'lodash/utility/noop';
 
@@ -39,6 +40,7 @@ export default
                 <label>
                   <input
                     type="checkbox"
+                    checked={this.isToggleAllChecked()}
                     className="checkbox__input"
                     onChange={this.toggleAll}/>
                   <span className="checkbox__label">toggle all</span>
@@ -53,6 +55,11 @@ export default
 
     shouldComponentUpdate(nextProps) {
       return this.props.defaultChecked !== nextProps.defaultChecked;
+    }
+
+    isToggleAllChecked() {
+      let {keys, defaultChecked} = this.props;
+      return difference(keys, defaultChecked).length === 0;
     }
 
     toggleAll (e) {
