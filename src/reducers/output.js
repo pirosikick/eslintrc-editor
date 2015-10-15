@@ -13,6 +13,7 @@ let intialState = Map({
 });
 
 let {
+  init,
   setEnv,
   setEcmaFeatures,
   setParser,
@@ -22,6 +23,13 @@ let {
 } = getActionIds(actions);
 
 export default createReducer(intialState, {
+  [init]: (state, action) => {
+    if (action.output) {
+      return Map(action.output);
+    }
+
+    return initialState;
+  },
   [setEnv]: (state, action) =>
     state.set('env', action.env),
 

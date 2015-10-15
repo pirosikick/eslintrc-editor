@@ -8,8 +8,7 @@ let {
   showPreview,
   openDocument,
   openRuleDocument,
-  setDocumentMarkdown,
-  setEcmaOrParser
+  setDocumentMarkdown
 } = getActionIds(actions);
 
 let initialState = Map({
@@ -36,7 +35,4 @@ export default createReducer(initialState, {
       selectedMenuItem: 'document',
       documentUrl: action.url || state.get('documentUrl')
     }),
-
-  [setEcmaOrParser]: (state, action) =>
-    state.set('ecmaOrParser', action.value)
 });
