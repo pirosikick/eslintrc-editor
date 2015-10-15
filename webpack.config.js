@@ -10,6 +10,9 @@ module.exports = {
     filename: "[name].bundle.js"
   },
   devtool: 'inline-source-map',
+  externals: [
+    { react: "var React" }
+  ],
   module: {
     loaders: [
       { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader?optional=runtime&stage=0' },
