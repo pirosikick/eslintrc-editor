@@ -74,8 +74,10 @@ export default
     }
 
     getSchema() {
-      let schema = clone(this.props.schema);
-      return normalizeRuleSchema(schema);
+      return normalizeRuleSchema(
+        clone(this.props.schema),
+        this.props.name
+      );
     }
 
     onChangeArgValue(e) {

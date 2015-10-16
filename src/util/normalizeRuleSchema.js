@@ -3,7 +3,33 @@ import isArray from 'lodash/lang/isArray';
 import map from 'lodash/collection/map';
 import zipObject from 'lodash/array/zipObject';
 
-function normalizeRuleSchema(schema) {
+const quotePropsSchema = [
+  {
+    type: 'enum',
+    options: [
+      'always',
+      'as-needed',
+      'consistent',
+      'consistent-as-needed'
+    ]
+  },
+  {
+    type: 'object',
+    properties: {
+      keywords: { type: "bool" },
+      unnecessary: { type: "bool" },
+      numbers: { type: "bool" }
+    },
+    additionalProperties: false
+  }
+];
+
+function normalizeRuleSchema(schema, name = "") {
+  // TODO: parse "anyOf"
+  if (name === 'quote-props') {
+    return quotePropsSchema;
+  }
+
   schema = isArray(schema) ? schema : [schema];
   return schema.map(normalizeArgDef);
 }
