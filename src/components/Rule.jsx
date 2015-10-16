@@ -19,7 +19,7 @@ export default
       onChange: PropTypes.func
     };
     static defaultProps = {
-      arg: 0,
+      arg: null,
       onChange: noop
     };
 
@@ -51,7 +51,7 @@ export default
           <RuleHeader>
             <span className="rule__name">{name}</span>
             <RuleHelpLink onClick={this.onClickHelp} />
-            <RuleStatus name={name} onChange={this.onChangeStatus} />
+            <RuleStatus value={status} name={name} onChange={this.onChangeStatus} />
           </RuleHeader>
           <RuleBody name={name} args={args} disabled={disabled}/>
         </div>
@@ -134,22 +134,23 @@ class RuleStatus extends Component {
   }
 
   render() {
-    let {name} = this.props;
+    let {name, value} = this.props;
 
     return (
       <ul className="rule-status">
         {
-          [0, 1, 2].map((value) => (
-            <li key={`rule-status-${name}-${value}`}
+          [0, 1, 2].map((_value) => (
+            <li key={`rule-status-${name}-${_value}`}
                 className="rule-status__item">
               <label>
                 <input
                   className="rule-status__radio"
                   type="radio"
                   name={this.inputName}
-                  value={value}
+                  value={_value}
+                  checked={_value === value}
                   onClick={this.onClick.bind(this)} />
-                <span className="rule-status__text">{value}</span>
+                <span className="rule-status__text">{_value}</span>
               </label>
             </li>
           ))
