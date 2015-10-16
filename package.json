@@ -1,6 +1,10 @@
 {
-  "name": "hiden-no-tare.web",
+  "name": "eslintrc-editor",
   "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pirosikick/eslintrc-editor.git"
+  },
   "license": "MIT",
   "devDependencies": {
     "babel-runtime": "^5.5.8",
