@@ -24,11 +24,28 @@ $rule-border-color: #C1C1C1;
       font-size: 80%;
     }
 
-    #{&}__help {
-      color: rgba(0, 0, 0, .5);
+    #{&}__trash {
+      color: rgba(0, 0, 0, .3);
+      margin-right: .3em;
 
       &:hover {
-        color: rgba(0, 0, 0, .7);
+        color: black;
+      }
+    }
+
+    #{&}__trash--is-disabled {
+      cursor: default;
+
+      &:hover {
+        color: rgba(0, 0, 0, .3);
+      }
+    }
+
+    #{&}__help {
+      color: rgba(0, 0, 0, .3);
+
+      &:hover {
+        color: black;
       }
     }
   }

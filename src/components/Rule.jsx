@@ -27,6 +27,7 @@ export default
       super(props);
       this.onChangeArgValue = this.onChangeArgValue.bind(this);
       this.onChangeStatus = this.onChangeStatus.bind(this);
+      this.onClickTrash = this.onClickTrash.bind(this);
       this.onClickHelp = this.onClickHelp.bind(this);
     }
 
@@ -35,6 +36,7 @@ export default
       let [status, ...argValues] = this.getArg();
       let schema = this.getSchema();
       let disabled = !status;
+      let trashDisabled = !this.props.arg;
 
       let args = schema.map((def, index) =>
         <RuleArgument
@@ -48,12 +50,13 @@ export default
 
       return (
         <div className="rule">
-          <RuleHeader>
+          <Header>
             <span className="rule__name">{name}</span>
-            <RuleHelpLink onClick={this.onClickHelp} />
-            <RuleStatus value={status} name={name} onChange={this.onChangeStatus} />
-          </RuleHeader>
-          <RuleBody name={name} args={args} disabled={disabled}/>
+            <TrashLink disabled={trashDisabled} onClick={this.onClickTrash} />
+            <HelpLink onClick={this.onClickHelp} />
+            <Status value={status} name={name} onChange={this.onChangeStatus} />
+          </Header>
+          <Body name={name} args={args} disabled={disabled}/>
         </div>
       );
     }
@@ -92,35 +95,66 @@ export default
       });
     }
 
+    onClickTrash(e) {
+      e.preventDefault();
+      this.props.onChange({
+        name: this.props.name,
+        arg: null
+      });
+    }
+
     onClickHelp(e) {
       e.preventDefault();
       this.props.onClickHelp(this.props);
     }
   }
 
-class RuleHeader extends Component {
+class Header extends Component {
   render() {
     return <header className="rule__header">{this.props.children}</header>;
   }
 }
 
-class RuleHelpLink extends Component {
+class HelpLink extends Component {
   static propTypes = { onClick: PropTypes.func };
   static defaultProps = { onClick: noop };
 
   render() {
     return (
       <a
+        title="help"
         className="rule__help"
         href="javascript:void(0);"
         onClick={this.props.onClick}>
-        <i className="fa fa-question-circle"></i>
+        <i className="fa fa-question"></i>
       </a>
     );
   }
 }
 
-class RuleStatus extends Component {
+class TrashLink extends Component {
+  static propTypes = { onClick: PropTypes.func };
+  static defaultProps = { onClick: noop };
+
+  render() {
+    let {disabled} = this.props;
+    let className = cx("rule__trash", {
+      "rule__trash--is-disabled": disabled
+    });
+
+    return (
+      <a
+        title="reset"
+        className={className}
+        href="javascript:void(0);"
+        onClick={this.props.onClick}>
+        <i className="fa fa-trash-o"></i>
+      </a>
+    );
+  }
+}
+
+class Status extends Component {
   constructor(props) {
     super(props);
     this.inputName = uniqueid({ prefix: this.props.name });
@@ -160,7 +194,7 @@ class RuleStatus extends Component {
   }
 }
 
-class RuleBody extends Component {
+class Body extends Component {
   render() {
     let {name, args, disabled} = this.props;
 
