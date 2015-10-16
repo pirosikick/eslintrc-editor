@@ -161,10 +161,21 @@
     margin-right: .5em;
     font-size: 80%; }
 
+  .rule__trash {
+    color: rgba(0, 0, 0, 0.3);
+    margin-right: .3em; }
+    .rule__trash:hover {
+      color: black; }
+
+  .rule__trash--is-disabled {
+    cursor: default; }
+    .rule__trash--is-disabled:hover {
+      color: rgba(0, 0, 0, 0.3); }
+
   .rule__help {
-    color: rgba(0, 0, 0, 0.5); }
+    color: rgba(0, 0, 0, 0.3); }
     .rule__help:hover {
-      color: rgba(0, 0, 0, 0.7); }
+      color: black; }
 
 .rule-list {
   width: 100%;
