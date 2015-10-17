@@ -24,7 +24,7 @@ export default
 
       return (
         <div className={cx("preview", { hidden })}>
-          <button className="pure-button preview__reset-button" onClick={this.onReset}>
+          <button className="pure-button preview__button" onClick={this.onReset}>
             <i className="fa fa-trash-o"/>
             reset all
           </button>
