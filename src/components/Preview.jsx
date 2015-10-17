@@ -3,12 +3,19 @@ import isNull from 'lodash/lang/isNull';
 import isUndefined from 'lodash/lang/isUndefined';
 import forEach from 'lodash/collection/forEach';
 import forEachRight from 'lodash/collection/forEachRight';
+import noop from 'lodash/utility/noop';
 import cx from 'classnames';
 
 export default
   class Preview extends Component {
     static defaultProps = {
-      indent: 2
+      indent: 2,
+      onRest: noop
+    }
+
+    constructor(props) {
+      super(props);
+      this.onReset = this.onReset.bind(this);
     }
 
     render() {
@@ -17,9 +24,17 @@ export default
 
       return (
         <div className={cx("preview", { hidden })}>
+          <button className="pure-button" onClick={this.onReset}>
+            <i className="fa fa-trash-o"/>
+            reset all
+          </button>
           <pre className="preview__json">{json}</pre>
         </div>
       );
+    }
+
+    onReset() {
+      this.props.onReset();
     }
 
     getJSON() {

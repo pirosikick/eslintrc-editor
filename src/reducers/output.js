@@ -3,7 +3,7 @@ import {Map, OrderedMap} from 'immutable';
 import {createReducer, getActionIds} from '../util/redux';
 import actions from '../actions/output';
 
-let intialState = Map({
+const initialState = Map({
   env: [],
   globals: {},
   ecmaOrParser: "parser",
@@ -12,8 +12,9 @@ let intialState = Map({
   rules: {}
 });
 
-let {
+const {
   init,
+  reset,
   setEnv,
   setEcmaFeatures,
   setParser,
@@ -22,7 +23,7 @@ let {
   setEcmaOrParser
 } = getActionIds(actions);
 
-export default createReducer(intialState, {
+export default createReducer(initialState, {
   [init]: (state, action) => {
     if (action.output) {
       return Map(action.output);
@@ -30,6 +31,7 @@ export default createReducer(intialState, {
 
     return initialState;
   },
+  [reset]: () => initialState,
   [setEnv]: (state, action) =>
     state.set('env', action.env),
 

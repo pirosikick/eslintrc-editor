@@ -5,6 +5,7 @@ import isNull from 'lodash/lang/isNull';
 
 export default createActions({
   init: output => ({ output }),
+  reset: () => {},
   setEnv: (env = []) => ({ env }),
   setEcmaFeatures: (ecmaFeatures = []) => ({ ecmaFeatures }),
   setParser: (parser) => ({ parser }),
