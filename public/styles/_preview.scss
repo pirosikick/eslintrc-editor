@@ -2,6 +2,14 @@
   padding: 0 1em;
 
   @at-root {
+    #{&}__button {
+      font-size: 80%;
+
+      i.fa {
+        margin-right: .5em;
+      }
+    }
+
     #{&}__json {
       background-color: #f7f7f7;
       padding: .5em 1em;
