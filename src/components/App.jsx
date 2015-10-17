@@ -74,7 +74,7 @@ export default
               {
                 (selectedMenuItem => {
                   if (selectedMenuItem === 'preview') {
-                    return <Preview target={output} />;
+                    return <Preview target={output} onReset={this.actions.reset}/>;
                   } else {
                     return <MarkdownViewer
                       url={view.documentUrl}
