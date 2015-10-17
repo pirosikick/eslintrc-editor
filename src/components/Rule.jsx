@@ -8,7 +8,7 @@ import noop from 'lodash/utility/noop';
 import cx from 'classnames';
 import uniqueid from 'uniqueid';
 import normalizeRuleSchema from '../util/normalizeRuleSchema';
-import RuleArgument from './RuleArgument.jsx';
+import RuleArguments from './RuleArguments.jsx';
 
 export default
   class Rule extends Component {
@@ -25,7 +25,7 @@ export default
 
     constructor(props) {
       super(props);
-      this.onChangeArgValue = this.onChangeArgValue.bind(this);
+      this.onChangeArgs = this.onChangeArgs.bind(this);
       this.onChangeStatus = this.onChangeStatus.bind(this);
       this.onClickTrash = this.onClickTrash.bind(this);
       this.onClickHelp = this.onClickHelp.bind(this);
@@ -38,16 +38,6 @@ export default
       let disabled = !status;
       let trashDisabled = !this.props.arg;
 
-      let args = schema.map((def, index) =>
-        <RuleArgument
-          ruleName={name}
-          index={index}
-          def={def}
-          value={argValues[index]}
-          disabled={disabled}
-          onChange={this.onChangeArgValue} />
-      );
-
       return (
         <div className="rule">
           <Header>
@@ -56,7 +46,11 @@ export default
             <HelpLink onClick={this.onClickHelp} />
             <Status value={status} name={name} onChange={this.onChangeStatus} />
           </Header>
-          <Body name={name} args={args} disabled={disabled}/>
+          <RuleArguments
+            ruleName={name}
+            schema={schema}
+            values={argValues}
+            onChange={this.onChangeArgs} />
         </div>
       );
     }
@@ -80,12 +74,12 @@ export default
       );
     }
 
-    onChangeArgValue(e) {
-      this.emitChange(e.index + 1, e.value)
-    }
-
     onChangeStatus(e) {
       this.emitChange(0, e.value - 0)
+    }
+
+    onChangeArgs(e) {
+      this.emitChange(e.index + 1, e.value)
     }
 
     emitChange(index, value) {
@@ -159,63 +153,40 @@ class TrashLink extends Component {
 class Status extends Component {
   constructor(props) {
     super(props);
-    this.inputName = uniqueid({ prefix: this.props.name });
-  }
-
-  onClick(e) {
-    let {name} = this.props;
-    let {value} = e.target;
-
-    this.props.onChange({ name, value });
+    this.id = uniqueid({ prefix: 'rule-status' });
+    this.onChecked = this.onChecked.bind(this);
   }
 
   render() {
     let {name, value} = this.props;
+    let items = [0, 1, 2].map(v =>
+      <label>
+        <input
+          className="rule-status__radio"
+          type="radio"
+          name={this.id}
+          value={_value}
+          checked={v === value}
+          onChange={this.onChecked} />
+        <span className="rule-status__text">{v}</span>
+      </label>
+    );
 
     return (
-      <ul className="rule-status">
-        {
-          [0, 1, 2].map((_value) => (
-            <li key={`rule-status-${name}-${_value}`}
-                className="rule-status__item">
-              <label>
-                <input
-                  className="rule-status__radio"
-                  type="radio"
-                  name={this.inputName}
-                  value={_value}
-                  checked={_value === value}
-                  onClick={this.onClick.bind(this)} />
-                <span className="rule-status__text">{_value}</span>
-              </label>
-            </li>
-          ))
-        }
-      </ul>
+      <ul className="rule-status">{
+        items.map((item, i) =>
+          <li
+            key={`${this.id}.${i}`}
+            className="rule-status__item">{item}</li>
+        )
+      }</ul>
     );
   }
-}
 
-class Body extends Component {
-  render() {
-    let {name, args, disabled} = this.props;
+  onChecked(e) {
+    let {name} = this.props;
+    let {value} = e.target;
 
-    if (!args.length) {
-      return null;
-    }
-
-    return (
-      <article
-        className={cx('rule__body', {'rule__body--is-disabled': disabled})}>
-        <header className="rule-arg__header">
-          <h5 className="rule-arg__title">{name} arguments</h5>
-        </header>
-        <ul className="rule-arg-list">
-          {args.map((arg) => (
-            <li className="rule-arg-list__item">{arg}</li>
-          ))}
-        </ul>
-      </article>
-    );
+    this.props.onChange({ name, value });
   }
 }
