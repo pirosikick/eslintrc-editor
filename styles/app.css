@@ -139,6 +139,11 @@
 
 .preview {
   padding: 0 1em; }
+  .preview__button {
+    font-size: 80%; }
+    .preview__button i.fa {
+      margin-right: .5em; }
+
   .preview__json {
     background-color: #f7f7f7;
     padding: .5em 1em; }
