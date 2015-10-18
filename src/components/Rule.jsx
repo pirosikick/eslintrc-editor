@@ -49,6 +49,7 @@ export default
           <RuleArguments
             ruleName={name}
             schema={schema}
+            disabled={disabled}
             values={argValues}
             onChange={this.onChangeArgs} />
         </div>
@@ -165,7 +166,7 @@ class Status extends Component {
           className="rule-status__radio"
           type="radio"
           name={this.id}
-          value={_value}
+          value={v}
           checked={v === value}
           onChange={this.onChecked} />
         <span className="rule-status__text">{v}</span>

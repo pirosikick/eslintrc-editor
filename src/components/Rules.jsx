@@ -62,17 +62,7 @@ class List extends Component {
     return (
       <ul className="rule-list">
         <li className="rule-list__item rule-list__header">
-          <ul className="rule-status">
-            <li className="rule-status__item">
-              <span className="rule-status__label">N(0)</span>
-            </li>
-            <li className="rule-status__item">
-            <span className="rule-status__label">W(1)</span>
-            </li>
-            <li className="rule-status__item">
-              <span className="rule-status__label">E(2)</span>
-            </li>
-          </ul>
+          <span className="rule-status">status</span>
         </li>
         {lists}
       </ul>

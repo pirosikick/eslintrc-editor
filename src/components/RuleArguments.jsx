@@ -16,7 +16,7 @@ class Arguments extends Component {
   render() {
     let {ruleName, schema, values, disabled} = this.props;
 
-    if (!defs.length) {
+    if (!schema.length) {
       return null;
     }
 
