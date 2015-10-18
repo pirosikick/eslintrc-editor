@@ -354,8 +354,14 @@
   position: fixed;
   top: 0;
   background-color: white;
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid #A4A4A4;
   z-index: 99;
   width: 70.8333%; }
   .menu__heading {
     text-transform: none; }
+
+  .menu__children {
+    border: 1px solid #A4A4A4; }
+
+  .menu__list--on-right {
+    float: right; }
