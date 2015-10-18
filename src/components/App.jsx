@@ -53,23 +53,7 @@ export default
         <div className="app">
           <Wrapper className="pure-g">
             <Main className="pure-u-17-24">
-              <Menu
-                heading=".eslintrc editor"
-                items={[
-                  { name: 'preview', label: 'Preview' },
-                  {
-                    name: 'document',
-                    label: 'Document',
-                    children: [
-                      { name: 'document.docs/user-guide/configuring', label: 'Configure ESLint' },
-                      { name: 'document.docs/user-guide/command-line-interface', label: 'Command Line Interface' },
-                      { name: 'document.docs/rules/README', label: 'Rules' }
-                    ]
-                  }
-                ]}
-                selectedItem={view.selectedMenuItem}
-                onClickItem={this.onClickMenuItem}
-                horizontal={true} />
+              <Menu selectedItem={view.selectedMenuItem} onAction={dispatch}/>
               <div className="main__contents">
               {
                 (selectedMenuItem => {
