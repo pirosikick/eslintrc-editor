@@ -3,9 +3,9 @@ import {Component, PropTypes} from "react";
 import Rule from './Rule.jsx';
 import clone from 'lodash/lang/clone';
 import isNull from 'lodash/lang/isNull';
+import isArray from 'lodash/lang/isArray';
 import isUndefined from 'lodash/lang/isUndefined';
 import noop from 'lodash/utility/noop';
-
 
 class Rules extends Component {
   static propTypes = {
@@ -32,7 +32,7 @@ class Rules extends Component {
       <Rule
         name={schema.name}
         schema={schema.schema}
-        arg={rules[schema.name]}
+        value={rules[schema.name]}
         onChange={this.onChange}
         onClickHelp={this.onClickHelp} />
     );
@@ -41,13 +41,15 @@ class Rules extends Component {
   }
 
   onChange(e) {
-    let {name, arg} = e;
+    let {name, value} = e;
     let rules = clone(this.props.rules);
-    if (isNull(arg) || isUndefined(arg)) {
-      delete rules[name];
+
+    if (isArray(value)) {
+      rules[name] = value;
     } else {
-      rules[name] = arg;
+      delete rules[name];
     }
+
     this.props.onChange(rules);
   }
 }

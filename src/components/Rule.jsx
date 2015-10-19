@@ -15,11 +15,11 @@ export default
     static propTypes = {
       name: PropTypes.string.isRequired,
       schema: PropTypes.any,
-      arg: PropTypes.any,
+      value: PropTypes.any.isRequired,
       onChange: PropTypes.func
     };
     static defaultProps = {
-      arg: null,
+      value: null,
       onChange: noop
     };
 
@@ -33,10 +33,11 @@ export default
 
     render() {
       let {name} = this.props;
-      let [status, ...argValues] = this.getArg();
+      let status = this.getStatus();
+      let args = this.getArgs();
       let schema = this.getSchema();
       let disabled = !status;
-      let trashDisabled = !this.props.arg;
+      let trashDisabled = !this.props.value;
 
       return (
         <div className="rule">
@@ -50,22 +51,28 @@ export default
             ruleName={name}
             schema={schema}
             disabled={disabled}
-            values={argValues}
+            values={args}
             onChange={this.onChangeArgs} />
         </div>
       );
     }
 
     shouldComponentUpdate(nextProps) {
-      return this.props.arg !== nextProps.arg;
+      return this.props.value !== nextProps.value;
     }
 
-    getArg() {
-      let arg = clone(this.props.arg);
-      if (!isArray(arg)) {
-        arg = [arg];
+    getStatus() {
+      if (isArray(this.props.value)) {
+        return this.props.value[0];
       }
-      return arg;
+      return false;
+    }
+
+    getArgs() {
+      if (isArray(this.props.value)) {
+        return this.props.value.slice(1);
+      }
+      return [];
     }
 
     getSchema() {
@@ -76,27 +83,23 @@ export default
     }
 
     onChangeStatus(e) {
-      this.emitChange(0, e.value - 0)
+      this.emitChange(e.value, this.getArgs())
     }
 
     onChangeArgs(e) {
-      this.emitChange(e.index + 1, e.value)
+      this.emitChange(this.getStatus(), e.values)
     }
 
-    emitChange(index, value) {
-      let newArg = this.getArg();
-      newArg[index] = value;
-      this.props.onChange({
-        name: this.props.name,
-        arg: newArg
-      });
+    emitChange(status, args) {
+      let value = [status].concat(args);
+      this.props.onChange({ name: this.props.name, value });
     }
 
     onClickTrash(e) {
       e.preventDefault();
       this.props.onChange({
         name: this.props.name,
-        arg: null
+        value: null
       });
     }
 
@@ -188,6 +191,6 @@ class Status extends Component {
     let {name} = this.props;
     let {value} = e.target;
 
-    this.props.onChange({ name, value });
+    this.props.onChange({ name, value: value - 0 });
   }
 }
