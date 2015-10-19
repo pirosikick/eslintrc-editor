@@ -3,6 +3,7 @@ import {Component, findDOMNode, PropTypes} from "react";
 import clone from "lodash/lang/clone";
 import isArray from "lodash/lang/isArray";
 import noop from "lodash/utility/noop";
+import remove from "lodash/array/remove";
 import cx from 'classnames';
 
 class RuleArgumentArray extends Component {
@@ -23,23 +24,48 @@ class RuleArgumentArray extends Component {
   }
 
   render() {
-    let {value, disabled} = this.props;
+    let {disabled} = this.props;
+    let value = this.getValue();
 
     return (
       <div className="rule-arg-array">
-        <Input
-          value={value}
-          onAdded={this.onAdded}
-          disabled={disabled} />
-        <List items={value} />
+        <ul className="rule-arg-array__list">
+          <li>
+            <Input
+              value={value}
+              onAdded={this.onAdded}
+              disabled={disabled} />
+          </li>
+          {value.map(v =>
+            <li>
+              <span className="rule-arg-array__value">{v}</span>
+              <TrashButton
+                disabled={disabled}
+                onClick={this.onRemove.bind(this, v)}/>
+            </li>
+          )}
+        </ul>
       </div>
     );
   }
 
+  getValue(_clone = false) {
+    if (isArray(this.props.value)) {
+      return _clone ? clone(this.props.value) : this.props.value;
+    }
+    return [];
+  }
+
   onAdded(value) {
-    let values = clone(this.props.value);
+    let values = this.getValue(true);
     values.push(value);
     this.props.onChange(values);
+  }
+
+  onRemove(value) {
+    let values = this.getValue(true);
+    remove(values, v => v === value);
+    this.props.onChange(values.length ? values : null);
   }
 }
 
@@ -62,7 +88,7 @@ class Input extends Component {
   }
 
   render() {
-    let {value, buttonDisabled} = this.state;
+    let {inputValue, buttonDisabled} = this.state;
 
     return (
       <div className="rule-arg-array__input">
@@ -70,6 +96,7 @@ class Input extends Component {
           ref="input"
           className="rule-arg-array__string"
           type="text"
+          value={inputValue}
           placeholder="string"
           disabled={this.props.disabled}
           onInput={this.onInput} />
@@ -87,6 +114,7 @@ class Input extends Component {
     if (!this.state.buttonDisabled) {
       this.props.onAdded(this.getValue());
       this.clearValue();
+      this.setState({ buttonDisabled: true });
     }
   }
 
@@ -141,14 +169,20 @@ class PlusButton extends Component {
   }
 }
 
-class List extends Component {
+class TrashButton extends Component {
   render() {
-    let {items} = this.props;
-    items = isArray(items) ? items : [];
+    let {disabled, onClick} = this.props;
+    let icon = <i className="fa fa-trash-o"/>;
+    if (disabled) {
+      return <span className="rule-arg-array__trash">icon</span>;
+    }
     return (
-      <ul className="rule-arg-array__list">
-        {items.map(item => <li>{item}</li>)}
-      </ul>
+      <a
+        className="rule-arg-array__trash"
+        href="javascript:void(0);"
+        onClick={onClick}>
+        <i className="fa fa-trash-o"/>
+      </a>
     );
   }
 }

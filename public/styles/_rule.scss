@@ -243,18 +243,29 @@ $rule-border-color: #C1C1C1;
     }
 
     #{&}__plus {
+      color: black;
       padding: .5em;
-      font-size: 80%;
     }
 
     #{&}__plus--is-disabled {
-      color: rgba(1, 1, 1, .3);
+      color: rgba(0, 0, 0, 0.3);
       cursor: normal;
     }
 
     #{&}__list {
       padding-left: 1.5em;
-      font-size: 80%;
+    }
+
+    #{&}__value {
+      margin-right: .5em;
+    }
+
+    #{&}__trash {
+      color: rgba(0, 0, 0, 0.3);
+    }
+
+    #{&}__trash:hover {
+      color: black;
     }
   }
 }
