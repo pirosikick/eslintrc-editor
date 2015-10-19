@@ -151,7 +151,8 @@
 .rule {
   border-bottom: 1px solid #C1C1C1; }
   .rule__header {
-    overflow: hidden; }
+    overflow: hidden;
+    font-size: 85%; }
 
   .rule__body {
     border-top: 1px dashed #C1C1C1;
@@ -163,8 +164,7 @@
   .rule__name {
     display: inline-block;
     padding-left: .5em;
-    margin-right: .5em;
-    font-size: 80%; }
+    margin-right: .5em; }
 
   .rule__trash {
     color: rgba(0, 0, 0, 0.3);
@@ -189,8 +189,19 @@
   .rule-list__header {
     border-bottom: 3px double #C1C1C1; }
 
+  .rule-list__status {
+    float: right;
+    width: 35%;
+    min-width: 90px;
+    max-width: 115px;
+    font-size: 85%;
+    text-align: center; }
+
   .rule-list__item {
     overflow: hidden; }
+
+  .rule-list__item:first-child {
+    border-top: 1px solid #C1C1C1; }
 
   .rule-list__radio {
     text-align: center; }
@@ -203,24 +214,21 @@
   float: right;
   width: 35%;
   min-width: 90px;
-  max-width: 115px; }
+  max-width: 115px;
+  text-align: center; }
   .rule-status__item {
     width: 33%;
     float: left;
     text-align: center; }
 
-  .rule-status__label {
-    font-size: 80%; }
-
   .rule-status__radio {
-    margin-right: .3em; }
+    margin-right: .5em; }
 
   .rule-status__radio:first-child {
     margin-left: 1px; }
 
   .rule-status__text {
-    margin-right: .3em;
-    font-size: 80%; }
+    margin-right: .3em; }
 
 .rule-arg-list {
   list-style: none;
@@ -232,12 +240,12 @@
   margin-bottom: .5em; }
   .rule-arg__index {
     float: left;
-    width: 10%;
+    width: 2em;
     text-align: center; }
 
   .rule-arg__input {
     float: left;
-    width: 90%; }
+    width: calc(100% - 2em); }
 
   .rule-arg__title {
     margin: .5em;
@@ -301,16 +309,24 @@
     vertical-align: middle; }
 
   .rule-arg-array__plus {
-    padding: .5em;
-    font-size: 80%; }
+    color: black;
+    padding: .5em; }
 
   .rule-arg-array__plus--is-disabled {
-    color: rgba(1, 1, 1, 0.3);
+    color: rgba(0, 0, 0, 0.3);
     cursor: normal; }
 
   .rule-arg-array__list {
-    padding-left: 1.5em;
-    font-size: 80%; }
+    padding-left: 1.5em; }
+
+  .rule-arg-array__value {
+    margin-right: .5em; }
+
+  .rule-arg-array__trash {
+    color: rgba(0, 0, 0, 0.3); }
+
+  .rule-arg-array__trash:hover {
+    color: black; }
 
 .main {
   position: relative;
