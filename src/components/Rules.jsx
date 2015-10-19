@@ -61,9 +61,6 @@ class List extends Component {
 
     return (
       <ul className="rule-list">
-        <li className="rule-list__item rule-list__header">
-          <span className="rule-status">status</span>
-        </li>
         {lists}
       </ul>
     );

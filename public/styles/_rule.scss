@@ -6,6 +6,7 @@ $rule-border-color: #C1C1C1;
   @at-root {
     #{&}__header {
       overflow: hidden;
+      font-size: 85%;
     }
 
     #{&}__body {
@@ -21,7 +22,6 @@ $rule-border-color: #C1C1C1;
       display: inline-block;
       padding-left: .5em;
       margin-right: .5em;
-      font-size: 80%;
     }
 
     #{&}__trash {
@@ -61,8 +61,21 @@ $rule-border-color: #C1C1C1;
       border-bottom: 3px double $rule-border-color;
     }
 
+    #{&}__status {
+      float: right;
+      width: 35%;
+      min-width: 90px;
+      max-width: 115px;
+      font-size: 85%;
+      text-align: center;
+    }
+
     #{&}__item {
       overflow: hidden;
+    }
+
+    #{&}__item:first-child {
+      border-top: 1px solid #C1C1C1;
     }
 
     #{&}__radio {
@@ -80,6 +93,7 @@ $rule-border-color: #C1C1C1;
   width: 35%;
   min-width: 90px;
   max-width: 115px;
+  text-align: center;
 
   @at-root {
     #{&}__item {
@@ -89,11 +103,10 @@ $rule-border-color: #C1C1C1;
     }
 
     #{&}__label {
-      font-size: 80%;
     }
 
     #{&}__radio {
-      margin-right: .3em;
+      margin-right: .5em;
     }
 
     #{&}__radio:first-child {
@@ -102,7 +115,6 @@ $rule-border-color: #C1C1C1;
 
     #{&}__text {
       margin-right: .3em;
-      font-size: 80%;
     }
   }
 }
