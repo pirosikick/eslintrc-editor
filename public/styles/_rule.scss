@@ -135,7 +135,7 @@ $rule-border-color: #C1C1C1;
 
     #{&}__index {
       float: left;
-      width: 10%;
+      width: 2em;
       text-align: center;
     }
 
@@ -145,7 +145,7 @@ $rule-border-color: #C1C1C1;
 
     #{&}__input {
       float: left;
-      width: 90%;
+      width: calc(100% - 2em);
     }
 
     #{&}__title {
