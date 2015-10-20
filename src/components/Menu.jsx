@@ -7,7 +7,7 @@ import {selectMenuItem, openDocument} from '../actions/view';
 
 const homeUrl = "https://pirosikick.github.io/eslintrc-editor/";
 const eslintUrl = "http://eslint.org";
-const githubUrl = "https://github.com/pirosikick/eslintrc-edotor";
+const githubUrl = "https://github.com/pirosikick/eslintrc-editor";
 const docs = {
   configure: 'docs/user-guide/configuring.md',
   cli: 'docs/user-guide/command-line-interface.md',
