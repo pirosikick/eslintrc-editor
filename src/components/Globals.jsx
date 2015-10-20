@@ -2,6 +2,7 @@
 import map from 'lodash/collection/map';
 import clone from 'lodash/lang/clone';
 import noop from 'lodash/utility/noop';
+import uniqueid from 'uniqueid';
 import {Component, PropTypes} from "react";
 import RadioSet from './RadioSet.jsx';
 
@@ -19,7 +20,7 @@ export default
 
     constructor(props) {
       super(props);
-
+      this.id = 'globals';
       this.onRemove = this.onRemove.bind(this);
       this.onChange = this.onChange.bind(this);
     }
@@ -28,6 +29,7 @@ export default
       let {defaultValue} = this.props;
       let rows = map(defaultValue, (value, name) =>
         <TableRow
+          key={`${this.id}-row-${name}`}
           name={name}
           value={value}
           onRemove={(name) => this.onRemove(name)}

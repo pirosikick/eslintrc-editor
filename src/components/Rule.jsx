@@ -15,11 +15,11 @@ export default
     static propTypes = {
       name: PropTypes.string.isRequired,
       schema: PropTypes.any,
-      value: PropTypes.any.isRequired,
-      onChange: PropTypes.func
+      value: PropTypes.any,
+      onChange: PropTypes.func,
+      onClickHelp: PropTypes.func
     };
     static defaultProps = {
-      value: null,
       onChange: noop
     };
 

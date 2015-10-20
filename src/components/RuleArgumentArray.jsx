@@ -1,5 +1,6 @@
 'use strict';
 import {Component, PropTypes} from "react";
+import uniqueid from 'uniqueid';
 import clone from "lodash/lang/clone";
 import isArray from "lodash/lang/isArray";
 import noop from "lodash/utility/noop";
@@ -20,6 +21,7 @@ class RuleArgumentArray extends Component {
 
   constructor(props) {
     super(props);
+    this.id = uniqueid({ prefix: 'rule-arg-array' });
     this.onAdded = this.onAdded.bind(this);
   }
 
@@ -30,14 +32,14 @@ class RuleArgumentArray extends Component {
     return (
       <div className="rule-arg-array">
         <ul className="rule-arg-array__list">
-          <li>
+          <li key={`${this.id}-input`}>
             <Input
               value={value}
               onAdded={this.onAdded}
               disabled={disabled} />
           </li>
-          {value.map(v =>
-            <li>
+          {value.map((v, i) =>
+            <li key={`${this.id}-value-${i}`}>
               <span className="rule-arg-array__value">{v}</span>
               <TrashButton
                 disabled={disabled}
@@ -134,7 +136,6 @@ class Input extends Component {
 
 class PlusButton extends Component {
   static propTypes = {
-    value: PropTypes.array.isRequired,
     disabled: PropTypes.bool
   };
 

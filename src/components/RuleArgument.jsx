@@ -155,6 +155,7 @@ class ObjectValue extends Component {
 
   constructor(props) {
     super(props);
+    this.id = uniqueid({ prefix: 'object-value' });
     this.onChange = this.onChange.bind(this);
   }
 
@@ -169,7 +170,7 @@ class ObjectValue extends Component {
     let lines = [];
     each(properties, (def, key) => {
       lines.push(
-        <tr>
+        <tr key={`${this.id}-${key}`}>
           <td className="rule-arg-object__name-column">
             <span className="rule-arg-object__name">{key}</span>
           </td>
@@ -193,10 +194,15 @@ class ObjectValue extends Component {
 }
 
 class Enum extends Component {
+  constructor(props) {
+    super(props);
+    this.id = uniqueid({ prefix: 'rule-arg-enum' });
+  }
+
   render() {
     let {value, options, disabled} = this.props;
     let optionElements = options.map(value =>
-      <option value={value}>{value}</option>
+      <option key={`${this.id}-${value}`} value={value}>{value}</option>
     );
     return (
       <select className="rule-arg-options" disabled={disabled} onChange={this.onChange.bind(this)}>
@@ -230,12 +236,13 @@ class OneOf extends Component {
   render() {
     let {defs, disabled} = this.props;
     let items = defs.reduce((items, def, index) => {
+      let key = `${this.id}-${index}`;
       if (index > 0) {
-        items.push(<OneOfOr/>);
+        items.push(<OneOfOr key={key+"-or"}/>);
       }
       items.push(
         <OneOfItem
-          key={`${this.id}-${index}`}
+          key={key}
           radioName={this.radioName}
           index={index}
           def={def}

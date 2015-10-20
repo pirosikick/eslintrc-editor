@@ -22,6 +22,7 @@ class Rules extends Component {
 
   constructor(props) {
     super(props);
+    this.id = 'rules';
     this.onChange = this.onChange.bind(this);
     this.onClickHelp = this.props.onClickHelp.bind(this);
   }
@@ -30,6 +31,7 @@ class Rules extends Component {
     let {schema, rules} = this.props;
     let items = schema.map(schema =>
       <Rule
+        key={`${this.id}-${schema.name}`}
         name={schema.name}
         schema={schema.schema}
         value={rules[schema.name]}
@@ -57,8 +59,8 @@ class Rules extends Component {
 class List extends Component {
   render() {
     let {items} = this.props;
-    let lists = items.map(item =>
-      <li className="rule-list__item">{item}</li>
+    let lists = items.map((item, i) =>
+      <li key={`rule-list-item-${i}`} className="rule-list__item">{item}</li>
     );
 
     return (

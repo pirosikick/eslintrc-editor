@@ -13,8 +13,7 @@ export default
 
     constructor(props) {
       super(props);
-
-      this.radioName = uniqueid({ prefix: 'radio-set' });
+      this.id = uniqueid({ prefix: 'radio-set' });
       this.onChange = this.onChange.bind(this);
     }
 
@@ -29,7 +28,8 @@ export default
       });
       let items = options.map(({value, label}) =>
         <Radio
-          name={this.radioName}
+          key={`${this.id}-${value}`}
+          name={this.id}
           value={value}
           label={label}
           defaultChecked={value === defaultValue}

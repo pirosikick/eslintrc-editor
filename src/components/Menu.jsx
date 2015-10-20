@@ -40,30 +40,30 @@ export class Menu extends Component {
     return (
       <div className="menu pure-menu pure-menu-horizontal">
         <Link heading={true} href={homeUrl}>.eslintrc editor</Link>
-        <List>
-          <ListItem selected={selectedItem === 'preview'}>
+        <List key="menu-left">
+          <ListItem key="menu-item-preview" selected={selectedItem === 'preview'}>
             <Link onClick={this.selectPreview}>Preview</Link>
           </ListItem>
-          <ListItem selected={selectedItem === 'document'} hasChildren={true}>
+          <ListItem key="menu-item-doc" selected={selectedItem === 'document'} hasChildren={true}>
             <Link onClick={this.selectDocument}>Document</Link>
             <Children>
-              <ListItem>
+              <ListItem key="menu-item-doc-config">
                 <Link onClick={this.openConfigure}>Configure ESLint</Link>
               </ListItem>
-              <ListItem>
+              <ListItem key="menu-item-doc-cli">
                 <Link onClick={this.openCLI}>Command Line Interface</Link>
               </ListItem>
-              <ListItem>
+              <ListItem key="menu-item-doc-rules">
                 <Link onClick={this.openRules}>Rules</Link>
               </ListItem>
             </Children>
           </ListItem>
         </List>
-        <List right={true}>
-          <ListItem>
+        <List key="menu-right" right={true}>
+          <ListItem key="menu-item-github">
             <Link href={githubUrl} target="_blank">GitHub</Link>
           </ListItem>
-          <ListItem>
+          <ListItem key="menu-item-eslint">
             <Link href={eslintUrl} target="_blank">ESLint</Link>
           </ListItem>
         </List>

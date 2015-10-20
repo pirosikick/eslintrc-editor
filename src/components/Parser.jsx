@@ -15,6 +15,7 @@ class Parser extends Component {
 
   constructor(props) {
     super(props);
+    this.id = 'parser';
     this.onChange = this.onChange.bind(this);
   }
 
@@ -24,7 +25,9 @@ class Parser extends Component {
 
   render() {
     let {values, defaultValue, onChange} = this.props;
-    let options = values.map(v => <option value={v}>{v}</option>);
+    let options = values.map(v =>
+      <option key={`${this.id}-${v}`} value={v}>{v}</option>
+    );
 
     return (
       <div className="pure-form">
