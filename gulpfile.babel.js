@@ -66,7 +66,9 @@ gulp.task('sass', () => {
 gulp.task('main-bower-files', ['copy-font'], () => {
   let src = mainBowerFiles().concat([
     'node_modules/react/dist/react.min.js',
-    'node_modules/react/dist/react.js'
+    'node_modules/react/dist/react.js',
+    'node_modules/react-dom/dist/react-dom.min.js',
+    'node_modules/react-dom/dist/react-dom.js'
   ]);
 
   return gulp.src(src)
@@ -99,7 +101,7 @@ gulp.task('eslint-rule-schema', (done) => {
   })
 });
 
-gulp.task('serve', ['watch'], () => {
+gulp.task('serve', ['watch', 'main-bower-files'], () => {
   browserSync({
     server: {
       baseDir: ['public', '.tmp', 'build', 'eslint']

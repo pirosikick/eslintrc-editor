@@ -1,5 +1,6 @@
 "use strict";
-import React, {Component} from "react";
+import {Component} from "react";
+import ReactDOM from 'react-dom';
 import {createStore, applyMiddleware} from 'redux';
 import {init as initView} from './actions/view';
 import {init as initOutput} from './actions/output';
@@ -27,10 +28,10 @@ class Outer extends Component {
   render () {
     return (
       <Provider store={store}>
-        {() => <App/>}
+        <App/>
       </Provider>
     );
   }
 }
 
-React.render(<Outer/>, document.body);
+ReactDOM.render(<Outer/>, document.getElementById('app'));

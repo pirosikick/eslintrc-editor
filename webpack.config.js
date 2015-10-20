@@ -11,7 +11,8 @@ module.exports = {
   },
   devtool: 'inline-source-map',
   externals: [
-    { react: "var React" }
+    { react: "var React" },
+    { "react-dom": "var ReactDOM" }
   ],
   module: {
     loaders: [
