@@ -1,4 +1,4 @@
-import {Component,  findDOMNode, PropTypes} from "react";
+import {Component, PropTypes} from "react";
 import uniqueid from 'uniqueid';
 import toArray from 'lodash/lang/toArray';
 import clone from 'lodash/lang/clone';

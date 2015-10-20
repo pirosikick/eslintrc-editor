@@ -1,5 +1,5 @@
 'use strict';
-import {Component, findDOMNode, PropTypes} from "react";
+import {Component, PropTypes} from "react";
 import clone from "lodash/lang/clone";
 import isArray from "lodash/lang/isArray";
 import noop from "lodash/utility/noop";
@@ -124,11 +124,11 @@ class Input extends Component {
   }
 
   getValue() {
-    return findDOMNode(this.refs.input).value
+    return this.refs.input.value
   }
 
   clearValue() {
-    findDOMNode(this.refs.input).value = "";
+    this.refs.input.value = "";
   }
 }
 

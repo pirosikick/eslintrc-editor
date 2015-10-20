@@ -1,4 +1,4 @@
-import {Component, findDOMNode, PropTypes} from "react";
+import {Component, PropTypes} from "react";
 import isArray from "lodash/lang/isArray";
 import clone from "lodash/lang/clone";
 import isNull from 'lodash/lang/isNull';

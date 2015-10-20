@@ -2,7 +2,7 @@
 import map from 'lodash/collection/map';
 import clone from 'lodash/lang/clone';
 import noop from 'lodash/utility/noop';
-import {Component, findDOMNode, PropTypes} from "react";
+import {Component, PropTypes} from "react";
 import RadioSet from './RadioSet.jsx';
 
 export default
@@ -104,11 +104,11 @@ class InputForm extends Component {
   }
 
   getValue() {
-    return findDOMNode(this.refs.input).value;
+    return this.refs.input.value;
   }
 
   clear() {
-    findDOMNode(this.refs.input).value = "";
+    this.refs.input.value = "";
   }
 
   isPlusButtonDisabled(value) {
