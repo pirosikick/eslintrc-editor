@@ -5,65 +5,59 @@ import noop from 'lodash/utility/noop';
 import uniqueid from 'uniqueid';
 import {Component, PropTypes} from "react";
 import RadioSet from './RadioSet.jsx';
+import actions from '../actions/globals';
 
 export default
   class Globals extends Component {
     static propTypes = {
-      defaultValue: PropTypes.object,
-      onChange: PropTypes.func
+      value: PropTypes.object,
+      onAction: PropTypes.func.isRequired
     };
-
-    static defaultProps = {
-      defaultValue: {},
-      onChange: noop
-    };
+    static defaultProps = { value: {} };
 
     constructor(props) {
       super(props);
       this.id = 'globals';
+      this.onAdd = this.onAdd.bind(this);
       this.onRemove = this.onRemove.bind(this);
       this.onChange = this.onChange.bind(this);
     }
 
     render () {
-      let {defaultValue} = this.props;
-      let rows = map(defaultValue, (value, name) =>
+      let {value} = this.props;
+      let rows = map(value, (v, name) =>
         <TableRow
           key={`${this.id}-row-${name}`}
           name={name}
-          value={value}
-          onRemove={(name) => this.onRemove(name)}
-          onChange={(name, value) => this.onChange(name, value)} />
+          value={v}
+          onRemove={this.onRemove}
+          onChange={this.onChange} />
       );
 
       return (
         <div className="globals">
           <InputForm
-            globals={defaultValue}
+            globals={value}
             onAdd={(name) => this.onChange(name, true)} />
           <Table>{rows}</Table>
         </div>
       );
     }
 
+    onAdd(name) {
+      this.emitAction(actions.add(name));
+    }
+
     onRemove(name) {
-      this.props.onChange(this.remove(name));
+      this.emitAction(actions.remove(name));
     }
 
     onChange(name, value) {
-      this.props.onChange(this.change(name, value));
+      this.emitAction(actions.change(name, value));
     }
 
-    change(name, value) {
-      let globals = clone(this.props.defaultValue);
-      globals[name] = value;
-      return globals;
-    }
-
-    remove(name) {
-      let globals = clone(this.props.defaultValue);
-      delete globals[name];
-      return globals;
+    emitAction(action) {
+      this.props.onAction(action);
     }
   }
 
