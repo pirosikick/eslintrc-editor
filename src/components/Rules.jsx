@@ -10,49 +10,28 @@ import noop from 'lodash/utility/noop';
 class Rules extends Component {
   static propTypes = {
     schema: PropTypes.array.isRequired,
-    rules: PropTypes.object,
-    onChange: PropTypes.func,
-    onClickHelp: PropTypes.func
+    value: PropTypes.object,
+    onAction: PropTypes.func
   };
-  static defaultProps = {
-    rules: {},
-    onChange: noop,
-    onClickHelp: noop
-  }
+  static defaultProps = { rules: {} }
 
   constructor(props) {
     super(props);
     this.id = 'rules';
-    this.onChange = this.onChange.bind(this);
-    this.onClickHelp = this.props.onClickHelp.bind(this);
   }
 
   render() {
-    let {schema, rules} = this.props;
+    let {schema, value} = this.props;
     let items = schema.map(schema =>
       <Rule
         key={`${this.id}-${schema.name}`}
         name={schema.name}
         schema={schema.schema}
-        value={rules[schema.name]}
-        onChange={this.onChange}
-        onClickHelp={this.onClickHelp} />
+        value={value[schema.name]}
+        onAction={this.props.onAction} />
     );
 
     return <List items={items}/>;
-  }
-
-  onChange(e) {
-    let {name, value} = e;
-    let rules = clone(this.props.rules);
-
-    if (isArray(value)) {
-      rules[name] = value;
-    } else {
-      delete rules[name];
-    }
-
-    this.props.onChange(rules);
   }
 }
 

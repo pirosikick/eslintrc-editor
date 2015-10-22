@@ -1,4 +1,5 @@
 import {Component, PropTypes} from "react";
+import actions from '../actions/rule';
 import isArray from "lodash/lang/isArray";
 import clone from "lodash/lang/clone";
 import isNull from 'lodash/lang/isNull';
@@ -16,11 +17,11 @@ export default
       name: PropTypes.string.isRequired,
       schema: PropTypes.any,
       value: PropTypes.any,
-      onChange: PropTypes.func,
+      onAction: PropTypes.func,
       onClickHelp: PropTypes.func
     };
     static defaultProps = {
-      onChange: noop
+      onAction: noop
     };
 
     constructor(props) {
@@ -83,29 +84,29 @@ export default
     }
 
     onChangeStatus(e) {
-      this.emitChange(e.value, this.getArgs())
+      let {name} = this.props;
+      this.emitAction(actions.changeStatus(name, e.value));
     }
 
     onChangeArgs(e) {
-      this.emitChange(this.getStatus(), e.values)
-    }
-
-    emitChange(status, args) {
-      let value = [status].concat(args);
-      this.props.onChange({ name: this.props.name, value });
+      let {name} = this.props;
+      this.emitAction(actions.changeArgs(name, e.values));
     }
 
     onClickTrash(e) {
       e.preventDefault();
-      this.props.onChange({
-        name: this.props.name,
-        value: null
-      });
+      let {name} = this.props;
+      this.emitAction(actions.remove(name));
     }
 
     onClickHelp(e) {
       e.preventDefault();
-      this.props.onClickHelp(this.props);
+      let {name} = this.props;
+      this.emitAction(actions.openDocument(name));
+    }
+
+    emitAction(action) {
+      this.props.onAction(action);
     }
   }
 
