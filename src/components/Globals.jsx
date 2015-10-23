@@ -4,7 +4,7 @@ import clone from 'lodash/lang/clone';
 import noop from 'lodash/utility/noop';
 import uniqueid from 'uniqueid';
 import {Component, PropTypes} from "react";
-import RadioSet from './RadioSet.jsx';
+import RadioSet from './RadioSet';
 import actions from '../actions/globals';
 
 export default

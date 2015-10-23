@@ -3,21 +3,21 @@ import {connect} from 'react-redux';
 
 import {setEcmaOrParser} from '../actions/view';
 
-import Header from './Header.jsx';
-import Wrapper from './Wrapper.jsx';
-import Main from './Main.jsx';
-import SideMenu from './SideMenu.jsx';
-import OptionGroup from './OptionGroup.jsx';
-import CheckList from './CheckList.jsx';
-import RadioSet from './RadioSet.jsx';
-import Globals from './Globals.jsx';
-import Env from './Env.jsx';
-import EcmaFeatures from './EcmaFeatures.jsx';
-import Parser from './Parser.jsx';
-import MarkdownViewer from './MarkdownViewer.jsx';
-import Preview from './Preview.jsx';
-import Rules from './Rules.jsx';
-import {Menu} from './Menu.jsx';
+import Header from './Header';
+import Wrapper from './Wrapper';
+import Main from './Main';
+import SideMenu from './SideMenu';
+import OptionGroup from './OptionGroup';
+import CheckList from './CheckList';
+import RadioSet from './RadioSet';
+import Globals from './Globals';
+import Env from './Env';
+import EcmaFeatures from './EcmaFeatures';
+import Parser from './Parser';
+import MarkdownViewer from './MarkdownViewer';
+import Preview from './Preview';
+import Rules from './Rules';
+import {Menu} from './Menu';
 import ruleSchema from "../constants/eslintRuleSchema.json";
 
 @connect(state => ({

@@ -3,7 +3,7 @@ import {Component} from "react";
 import cx from 'classnames';
 import noop from 'lodash/utility/noop';
 import clone from 'lodash/lang/clone';
-import Argument from './RuleArgument.jsx';
+import Argument from './RuleArgument';
 
 class Arguments extends Component {
   static defaultProps = { onChange: noop };

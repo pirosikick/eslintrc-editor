@@ -9,7 +9,7 @@ import noop from 'lodash/utility/noop';
 import cx from 'classnames';
 import uniqueid from 'uniqueid';
 import normalizeRuleSchema from '../util/normalizeRuleSchema';
-import RuleArguments from './RuleArguments.jsx';
+import RuleArguments from './RuleArguments';
 
 export default
   class Rule extends Component {

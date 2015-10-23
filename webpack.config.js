@@ -18,8 +18,10 @@ module.exports = {
   module: {
     loaders: [
       { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader?optional=runtime&stage=0' },
-      { test: /\.md$/, exclude: /node_modules/, loader: 'babel!md2jsx' },
       { test: /\.json$/, loader: 'json' }
     ]
+  },
+  resolve: {
+    extensions: ['', '.js', '.jsx']
   }
 };

@@ -1,6 +1,6 @@
 'use strict';
 import {Component, PropTypes} from "react";
-import Rule from './Rule.jsx';
+import Rule from './Rule';
 import clone from 'lodash/lang/clone';
 import isNull from 'lodash/lang/isNull';
 import isArray from 'lodash/lang/isArray';

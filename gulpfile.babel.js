@@ -7,6 +7,8 @@ import webpack from 'webpack';
 import browserSync, {reload} from 'browser-sync';
 import mainBowerFiles from 'main-bower-files';
 import loadRules from 'eslint/lib/load-rules';
+import del from 'del';
+import runSequence from 'run-sequence';
 
 const $ = gulpLoadPlugins();
 
@@ -16,13 +18,14 @@ let src = {
   font: 'bower_components/font-awesome/fonts/**',
   eslintDocs: 'eslint/docs/**/*.md',
   ghPages: [
-    'public/index.html',
+    //'public/index.html',
+    '.tmp/index.html',
     '.tmp/**/*.{js,css,otf,eot,svg,ttf,woff,woff2,md}'
   ]
 };
 
 let dest = {
-  webpack: '.tmp/scripts',
+  scripts: '.tmp/scripts',
   webpackProd:'build/scripts',
   sass: '.tmp/styles',
   sassProd: 'build/styles',
@@ -54,14 +57,14 @@ gulp.task('watch-webpack', (done) => {
   done();
 });
 
-gulp.task('sass', () => {
-  return $.rubySass('public/styles/')
+gulp.task('sass', () =>
+  $.rubySass('public/styles/')
     .on('error', (err) => {
       $.util.log("[ruby-sass]", err.message);
     })
     .pipe(gulp.dest(dest.sass))
-    .pipe(reload({ stream: true }));
-});
+    .pipe(reload({ stream: true }))
+);
 
 gulp.task('main-bower-files', ['copy-font'], () => {
   let src = mainBowerFiles().concat([
@@ -77,19 +80,30 @@ gulp.task('main-bower-files', ['copy-font'], () => {
     .pipe(gulp.dest(dest.bower));
 });
 
-gulp.task('copy-font', [], () => {
-  gulp.src(src.font)
-    .pipe(gulp.dest(dest.font));
+gulp.task('copy-font', () => gulp.src(src.font).pipe(gulp.dest(dest.font)));
+
+gulp.task('minify-js', ['webpack'], () =>
+  gulp.src(['.tmp/scripts/client.bundle.js'])
+    .pipe($.uglify())
+    .pipe($.rename('scripts/client.bundle.min.js'))
+    .pipe(gulp.dest('.tmp/'))
+);
+
+gulp.task('html', ['babel', 'copy-json'], (done) => {
+  global.React = require('react');
+  let html = require('./lib/server').toHtml();
+  writeFile('.tmp/index.html', html, done);
 });
 
-gulp.task('html', ['main-bower-files', 'webpack', 'sass', 'copy-font'], () => {
-  return gulp.src(src.html)
-    .pipe($.usemin({
-      css: ['concat'],
-      js: ['concat']
-    }))
-    .pipe(gulp.dest(dest.html))
-});
+gulp.task('copy-json', () =>
+  gulp.src(['src/**/*.json']).pipe(gulp.dest('lib'))
+);
+
+gulp.task('babel', () =>
+  gulp.src(['src/**/*.{js,jsx}'])
+    .pipe($.babel({ stage: 0 }))
+    .pipe(gulp.dest('lib'))
+);
 
 gulp.task('eslint-rule-schema', (done) => {
   let schema = [];
@@ -113,13 +127,11 @@ gulp.task('serve', ['watch', 'main-bower-files'], () => {
   });
 });
 
-gulp.task('deploy', ['copy:eslintDocs'], () => {
-  return gulp.src(src.ghPages).pipe($.ghPages());
-});
+gulp.task('deploy', ['build'], () => gulp.src(src.ghPages).pipe($.ghPages()));
 
-gulp.task('copy:eslintDocs', () => {
-  return gulp.src(src.eslintDocs, { base: 'eslint' }).pipe(gulp.dest('.tmp'));
-})
+gulp.task('copy:eslintDocs', () =>
+  gulp.src(src.eslintDocs, { base: 'eslint' }).pipe(gulp.dest('.tmp'))
+)
 
 gulp.task('default', ['serve']);
 
@@ -129,4 +141,21 @@ gulp.task('watch', ['sass', 'watch-webpack'], () => {
   gulp.watch([src.html]).on('change', () => reload());
 });
 
-gulp.task('build', ['html']);
+gulp.task('build', ['build-clean'], done => {
+  runSequence(
+    [
+      'html',
+      'main-bower-files',
+      'minify-js',
+      'sass',
+      'copy-font',
+      'copy:eslintDocs',
+      'eslint-rule-schema'
+    ],
+    done
+  );
+});
+
+gulp.task('build-clean', done => {
+  del(['.tmp']).then(() => done());
+});

@@ -6,7 +6,7 @@ import each from 'lodash/collection/each';
 import noop from 'lodash/utility/noop';
 import uniqueid from 'uniqueid';
 import cx from 'classnames';
-import ArrayValue from './RuleArgumentArray.jsx';
+import ArrayValue from './RuleArgumentArray';
 
 export default
   class RuleArgument extends Component {

@@ -30,6 +30,7 @@ node_modules
 .tmp
 build
 *.css
+lib/
 
 bower_components/
 .sass-cache

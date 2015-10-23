@@ -7,7 +7,7 @@ import {Provider} from 'react-redux';
 import thunk from 'redux-thunk';
 import saveState from './middlewares/saveState';
 import reducers from './reducers/index';
-import App from "./components/App.jsx";
+import App from "./components/App";
 
 const saveToLocalStorage = saveState(state => {
   let ecmaOrParser = state.view.get('ecmaOrParser');

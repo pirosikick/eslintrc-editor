@@ -1,6 +1,6 @@
 'use strict';
 import {Component, PropTypes} from "react";
-import CheckList from './CheckList.jsx';
+import CheckList from './CheckList';
 import {ECMAFeatures} from '../constants'
 import actions from '../actions/ecmaFeatures';
 
