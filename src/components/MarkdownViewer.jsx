@@ -1,5 +1,6 @@
 'use strict';
 import {Component, PropTypes} from "react";
+import {openDocument} from '../actions/view';
 import md2react from "@pirosikick/md2react";
 import noop from 'lodash/utility/noop';
 
@@ -7,7 +8,7 @@ export default class MarkdownViewer extends Component {
   static propTypes = {
     md: PropTypes.string,
     url: PropTypes.string,
-    onClickLink: PropTypes.func
+    onAction: PropTypes.func
   };
 
   static defaultProps = {
@@ -50,10 +51,9 @@ export default class MarkdownViewer extends Component {
       return;
     }
 
-    let documentUrl = e.currentTarget.getAttribute('data-document-url');
-
     e.preventDefault();
-    this.props.onClickLink(documentUrl);
+    let documentUrl = e.currentTarget.getAttribute('data-document-url');
+    this.props.onAction(openDocument(documentUrl));
   }
 }
 
@@ -109,12 +109,16 @@ class Link extends Component {
 
   getDocumentUrl() {
     let {node, baseUrl} = this.props;
-
     if (this.isExternal) {
       return "";
     } else if (this.isAbsolute) {
       return node.href;
     }
-    return `${baseUrl}/${node.href}`;
+
+    let url = `${baseUrl}/${node.href}`;
+    if (!/\.md$/.test(url)) {
+      url += '.md';
+    }
+    return url;
   }
 }

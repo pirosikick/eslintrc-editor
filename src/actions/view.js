@@ -8,7 +8,6 @@ const actions = createActions({
     };
   },
   selectMenuItem: name => ({ name }),
-  showPreview: () => ({}),
   loadDocument: url => {
     return dispatch => {
       return fetch(url)
@@ -28,11 +27,7 @@ const actions = createActions({
   },
   setDocumentMarkdown: (url, md) => ({ url, md }),
   openRuleDocument: name => actions.openDocument(`docs/rules/${name}.md`),
-  openUserGuide: name => {
-    if (name === 'rules') {
-      return actions.openDocument('docs/rules/README.md');
-    }
-  }
+  setEcmaOrParser: value => ({ value })
 });
 
 export default actions;

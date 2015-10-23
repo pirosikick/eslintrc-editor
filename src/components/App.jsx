@@ -1,8 +1,7 @@
-import {Component, PropTypes} from "react";
-import {bindActionCreators} from 'redux';
+import {Component} from "react";
 import {connect} from 'react-redux';
-import viewActionCreators from '../actions/view';
-import outputActionCreators from '../actions/output';
+
+import {setEcmaOrParser} from '../actions/view';
 
 import Header from './Header.jsx';
 import Wrapper from './Wrapper.jsx';
@@ -12,12 +11,13 @@ import OptionGroup from './OptionGroup.jsx';
 import CheckList from './CheckList.jsx';
 import RadioSet from './RadioSet.jsx';
 import Globals from './Globals.jsx';
+import Env from './Env.jsx';
+import EcmaFeatures from './EcmaFeatures.jsx';
+import Parser from './Parser.jsx';
 import MarkdownViewer from './MarkdownViewer.jsx';
 import Preview from './Preview.jsx';
-import {Environments, ECMAFeatures} from '../constants'
 import Rules from './Rules.jsx';
 import {Menu} from './Menu.jsx';
-import Parser from './Parser.jsx';
 import ruleSchema from "../constants/eslintRuleSchema.json";
 
 @connect(state => ({
@@ -26,28 +26,8 @@ import ruleSchema from "../constants/eslintRuleSchema.json";
 }))
 export default
   class App extends Component {
-    constructor(props) {
-      super(props);
-
-      const actionCreators = {...viewActionCreators, ...outputActionCreators};
-      this.actions = bindActionCreators(actionCreators, props.dispatch);
-
-      this.onClickMenuItem = this.onClickMenuItem.bind(this);
-      this.onChangeEcmaOrParser = this.onChangeEcmaOrParser.bind(this);
-      this.onChangeEnv = this.onChangeEnv.bind(this);
-      this.onChangeGlobals = this.onChangeGlobals.bind(this);
-      this.onChangeEcmaFeatures = this.onChangeEcmaFeatures.bind(this);
-      this.onChangeParser = this.onChangeParser.bind(this);
-      this.onChangeRules = this.onChangeRules.bind(this);
-      this.onClickHelp = this.onClickHelp.bind(this);
-      this.onClickLinkInMarkdown = this.onClickLinkInMarkdown.bind(this);
-    }
-
     render () {
       let {view, output, dispatch} = this.props;
-
-      const isMenuItemSelected = ({name}) => name === view.selectedMenuItem;
-      const {setEcmaOrParser, selectMenuItem} = this.actions;
 
       return (
         <div className="app">
@@ -58,12 +38,19 @@ export default
               {
                 (selectedMenuItem => {
                   if (selectedMenuItem === 'preview') {
-                    return <Preview target={output} onReset={this.actions.reset}/>;
+                    return (
+                      <Preview
+                        target={output}
+                        ecmaOrParser={view.ecmaOrParser}
+                        onAction={dispatch}/>
+                    );
                   } else {
-                    return <MarkdownViewer
-                      url={view.documentUrl}
-                      md={view.documentMarkdown}
-                      onClickLink={this.onClickLinkInMarkdown}/>;
+                    return (
+                      <MarkdownViewer
+                        url={view.documentUrl}
+                        md={view.documentMarkdown}
+                        onAction={dispatch}/>
+                    );
                   }
                 })(view.selectedMenuItem)
               }
@@ -72,18 +59,11 @@ export default
 
             <SideMenu className="pure-u-7-24">
               <OptionGroup name="Environments">
-                <CheckList
-                  name="env"
-                  keys={Environments}
-                  defaultChecked={output.env}
-                  onChange={this.onChangeEnv} />
+                <Env values={output.env} onAction={dispatch}/>
               </OptionGroup>
 
               <OptionGroup name="Globals">
-                <Globals
-                  defaultValue={output.globals}
-                  onChange={this.onChangeGlobals}/>
-
+                <Globals value={output.globals} onAction={dispatch}/>
               </OptionGroup>
 
               <OptionGroup name="ecmaFeatures | parser">
@@ -94,8 +74,8 @@ export default
                     {value: "ecmaFeatures", label: "use ecmaFeatures option"},
                     {value: "parser", label: "use parser option"}
                   ]}
-                  defaultValue={output.ecmaOrParser}
-                  onChange={this.onChangeEcmaOrParser} />
+                  defaultValue={view.ecmaOrParser}
+                  onChange={({value}) => dispatch(setEcmaOrParser(value))} />
 
                 {
                   (ecmaOrParser => {
@@ -103,37 +83,24 @@ export default
                       return (
                         <div className="option">
                           <h4 className="option__title">ecmaFeatures</h4>
-
-                          <CheckList
-                              id="ecma-features"
-                              name="ecmaFeatures"
-                              keys={ECMAFeatures}
-                              defaultChecked={output.ecmaFeatures}
-                              onChange={this.onChangeEcmaFeatures}/>
+                          <EcmaFeatures values={output.ecmaFeatures} onAction={dispatch} />
                         </div>
                       );
                     } else if (ecmaOrParser === 'parser') {
                       return (
                         <div className="option parser-option">
                           <h4 className="option__title">parser</h4>
-                          <Parser
-                            values={["esprima", "esprima-fb", "babel-parser"]}
-                            defaultValues={output.parser}
-                            onChange={this.onChangeParser}/>
+                          <Parser value={output.parser} onAction={dispatch}/>
                         </div>
                       );
                     }
-                  })(output.ecmaOrParser)
+                  })(view.ecmaOrParser)
                 }
 
               </OptionGroup>
 
               <OptionGroup name="Rules">
-                <Rules
-                  rules={output.rules}
-                  schema={ruleSchema}
-                  onChange={this.onChangeRules}
-                  onClickHelp={this.onClickHelp} />
+                <Rules value={output.rules} schema={ruleSchema} onAction={dispatch} />
               </OptionGroup>
 
             </SideMenu>
@@ -141,49 +108,5 @@ export default
           </Wrapper>
         </div>
       );
-    }
-
-    onClickMenuItem({name}) {
-      let [itemName, documentName] = name.split('.');
-      if (documentName) {
-        this.actions.openDocument(`${documentName}.md`);
-      } else {
-        this.actions.selectMenuItem(itemName);
-      }
-    }
-
-    onChangeEcmaOrParser(e) {
-      this.actions.setEcmaOrParser(e.value);
-    }
-
-    onChangeEnv(value) {
-      this.actions.setEnv(value);
-    }
-
-    onChangeGlobals(value) {
-      this.actions.setGlobals(value);
-    }
-
-    onChangeEcmaFeatures(value) {
-      this.actions.setEcmaFeatures(value);
-    }
-
-    onChangeParser(value) {
-      this.actions.setParser(value);
-    }
-
-    onChangeRules(rules) {
-      this.actions.setRules(rules);
-    }
-
-    onClickHelp(e) {
-      this.actions.openRuleDocument(e.name);
-    }
-
-    onClickLinkInMarkdown(documentUrl) {
-      if (!documentUrl.match(/\.md$/)) {
-        documentUrl += '.md';
-      }
-      this.actions.openDocument(documentUrl);
     }
   }

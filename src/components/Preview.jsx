@@ -1,4 +1,5 @@
 import {Component} from "react";
+import {reset} from '../actions/app';
 import isNull from 'lodash/lang/isNull';
 import isUndefined from 'lodash/lang/isUndefined';
 import forEach from 'lodash/collection/forEach';
@@ -34,17 +35,17 @@ export default
     }
 
     onReset() {
-      this.props.onReset();
+      this.props.onAction(reset());
     }
 
     getJSON() {
-      let {target, indent} = this.props;
+      let {target, indent, ecmaOrParser} = this.props;
       let data = {};
       data.env = target.env;
       data.globals = target.globals;
-      if (target.ecmaOrParser === 'parser' && target.parser) {
+      if (ecmaOrParser === 'parser' && target.parser) {
         data.parser = target.parser;
-      } else if (target.ecmaOrParser === 'ecmaFeatures' && target.ecmaFeatures) {
+      } else if (ecmaOrParser === 'ecmaFeatures' && target.ecmaFeatures) {
         data.ecmaFeatures = target.ecmaFeatures;
       }
 
