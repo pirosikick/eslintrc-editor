@@ -125,7 +125,7 @@ class Link extends Component {
     let {href, target, onClick, heading, children} = this.props;
     let className = cx(
       "pure-menu-link menu__link",
-      heading && "pure-menu-heading"
+      heading && "pure-menu-heading menu__heading"
     );
     return (
       <a
