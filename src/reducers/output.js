@@ -1,7 +1,8 @@
 'use strict';
-import {Map} from 'immutable';
+import {Map, List} from 'immutable';
 import isObject from 'lodash/lang/isObject';
 import isArray from 'lodash/lang/isArray';
+import reduce from 'lodash/collection/reduce';
 import {createReducer, getActionIds} from '../util/redux';
 import _app from '../actions/app';
 import _env from '../actions/env';
@@ -19,10 +20,10 @@ const rule = getActionIds(_rule);
 
 const initialState = Map({
   env: [],
-  globals: {},
+  globals: Map({}),
   ecmaFeatures: [],
   parser: null,
-  rules: {}
+  rules: Map({})
 });
 
 export default createReducer(initialState, {
@@ -45,22 +46,17 @@ export default createReducer(initialState, {
   [parser.change]: (state, {value}) => state.set('parser', value),
 
   [rule.changeStatus]: (state, {name, status}) => {
-    let value = state.getIn(['rules', name]);
-    if (isArray(value)) {
-      value = [status].concat(value.slice(1));
-    } else {
-      value = [status];
+    if (!state.hasIn(['rules', name])) {
+      state = state.setIn(['rules', name], List());
     }
-    return state.setIn(['rules', name], value);
+    return state.setIn(['rules', name, 0], status);
   },
   [rule.changeArgs]: (state, {name, args}) => {
-    let value = state.getIn(['rules', name]);
-    if (isArray(value)) {
-      value = [value[0]].concat(args);
-    } else {
-      value = [0].concat(args);
-    }
-    return state.setIn(['rules', name], value);
+    return reduce(
+      args,
+      (state, arg, index) => state.setIn(['rules', name, index+1], arg),
+      state
+    );
   },
   [rule.remove]: (state, {name}) => state.deleteIn(['rules', name]),
 });
