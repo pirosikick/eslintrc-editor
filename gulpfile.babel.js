@@ -18,8 +18,8 @@ let src = {
   font: 'bower_components/font-awesome/fonts/**',
   eslintDocs: 'eslint/docs/**/*.md',
   ghPages: [
-    //'public/index.html',
-    '.tmp/index.html',
+    'public/index.html',
+    //'.tmp/index.html',
     '.tmp/**/*.{js,css,otf,eot,svg,ttf,woff,woff2,md}'
   ]
 };
@@ -37,6 +37,11 @@ let dest = {
 }
 
 let port = process.env.NODE_PORT || 3000;
+
+const reactToHtml = () => {
+  global.React = require('react');
+  return require('./lib/server').toHtml();
+};
 
 const webpackConfig = require('./webpack.config');
 
@@ -90,8 +95,7 @@ gulp.task('minify-js', ['webpack'], () =>
 );
 
 gulp.task('html', ['babel', 'copy-json'], (done) => {
-  global.React = require('react');
-  let html = require('./lib/server').toHtml();
+  let html = reactToHtml();
   writeFile('.tmp/index.html', html, done);
 });
 
@@ -120,7 +124,14 @@ gulp.task('eslint-rule-schema', (done) => {
 gulp.task('serve', ['watch', 'main-bower-files'], () => {
   browserSync({
     server: {
-      baseDir: ['public', '.tmp', 'build', 'eslint']
+      baseDir: ['public', '.tmp', 'build', 'eslint'],
+      middleware: function (req, res, next) {
+        if (req.url !== '/') {
+          return next();
+        }
+
+        res.end(reactToHtml(), 'utf8');
+      }
     },
     port: port,
     ghostMode: false

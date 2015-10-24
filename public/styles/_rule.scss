@@ -140,7 +140,7 @@ $rule-border-color: #C1C1C1;
     }
 
     #{&}__index-no {
-//      font-size: 80%;
+      font-size: 90%;
     }
 
     #{&}__input {
@@ -189,6 +189,10 @@ $rule-border-color: #C1C1C1;
       padding-left: .5em;
     }
   }
+}
+
+table.rule-arg-object {
+  font-size: 100%;
 }
 
 .rule-arg-bool {
