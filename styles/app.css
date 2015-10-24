@@ -242,6 +242,9 @@
     width: 2em;
     text-align: center; }
 
+  .rule-arg__index-no {
+    font-size: 90%; }
+
   .rule-arg__input {
     float: left;
     width: calc(100% - 2em); }
@@ -273,6 +276,9 @@
 
 .rule-arg-object__input-column {
   padding-left: .5em; }
+
+table.rule-arg-object {
+  font-size: 100%; }
 
 .rule-arg-bool__checkbox {
   margin-right: .5em; }
