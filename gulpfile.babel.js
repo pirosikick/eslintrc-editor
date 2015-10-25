@@ -19,8 +19,7 @@ let src = {
   eslintDocs: 'eslint/docs/**/*.md',
   scripts: ['src/**/*.{js,jsx}'],
   ghPages: [
-    'public/index.html',
-    //'.tmp/index.html',
+    '.tmp/index.html',
     '.tmp/**/*.{js,css,otf,eot,svg,ttf,woff,woff2,md}'
   ]
 };
