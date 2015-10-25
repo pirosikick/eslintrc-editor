@@ -205,10 +205,14 @@ class Enum extends Component {
   render() {
     let {value, options, disabled} = this.props;
     let optionElements = options.map(v =>
-      <option key={`${this.id}-${v}`} value={v} selected={v === value}>{v}</option>
+      <option key={`${this.id}-${v}`} value={v}>{v}</option>
     );
     return (
-      <select className="rule-arg-options" disabled={disabled} onChange={this.onChange.bind(this)}>
+      <select
+        className="rule-arg-options"
+        value={value || ""}
+        disabled={disabled}
+        onChange={this.onChange.bind(this)}>
         <option value="">---</option>
         {optionElements}
       </select>
