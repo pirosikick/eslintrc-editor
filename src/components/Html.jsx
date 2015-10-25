@@ -9,12 +9,12 @@ const googleAnalyticsScript = `
 ga('create', 'UA-68969549-1', 'auto');
 ga('send', 'pageview');
 `;
-
-const Html = ({app}) => (
+const Html = ({app, prod}) => (
   <html lang="ja">
     <head>
       <meta charset="UTF-8"/>
       <title>.eslintrc editor</title>
+      <link rel="stylesheet" href="lib/pure.css"/>
       <link rel="stylesheet" href="lib/pure.css"/>
       <link rel="stylesheet" href="lib/font-awesome.css"/>
       <link rel="stylesheet" href="lib/github-markdown.css"/>
@@ -22,10 +22,10 @@ const Html = ({app}) => (
     </head>
     <body>
       <div id="app" dangerouslySetInnerHTML={{__html:app}}/>
-      <script src="lib/react.min.js"></script>
-      <script src="lib/react-dom.min.js"></script>
-      <script src="lib/immutable.min.js"></script>
-      <script src="scripts/client.bundle.min.js"></script>
+      <script src={prod ? "lib/react.min.js" : "lib/react.js"}></script>
+      <script src={prod ? "lib/react-dom.min.js": "lib/react-dom.js"}></script>
+      <script src={prod ? "lib/immutable.min.js" : "lib/immutable.js"}></script>
+      <script src={prod ? "scripts/client.bundle.min.js" : "scripts/client.bundle.js"}></script>
       <script dangerouslySetInnerHTML={{__html: googleAnalyticsScript}} />
     </body>
   </html>

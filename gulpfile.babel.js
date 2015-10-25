@@ -17,6 +17,7 @@ let src = {
   html: 'public/*.html',
   font: 'bower_components/font-awesome/fonts/**',
   eslintDocs: 'eslint/docs/**/*.md',
+  scripts: ['src/**/*.{js,jsx}'],
   ghPages: [
     'public/index.html',
     //'.tmp/index.html',
@@ -38,9 +39,9 @@ let dest = {
 
 let port = process.env.NODE_PORT || 3000;
 
-const reactToHtml = () => {
+const reactToHtml = (prod = false) => {
   global.React = require('react');
-  return require('./lib/server').toHtml();
+  return require('./lib/server').toHtml(prod);
 };
 
 const webpackConfig = require('./webpack.config');
@@ -95,7 +96,7 @@ gulp.task('minify-js', ['webpack'], () =>
 );
 
 gulp.task('html', ['babel', 'copy-json'], (done) => {
-  let html = reactToHtml();
+  let html = reactToHtml(true);
   writeFile('.tmp/index.html', html, done);
 });
 
@@ -104,7 +105,7 @@ gulp.task('copy-json', () =>
 );
 
 gulp.task('babel', () =>
-  gulp.src(['src/**/*.{js,jsx}'])
+  gulp.src(src.scripts)
     .pipe($.babel({ stage: 0 }))
     .pipe(gulp.dest('lib'))
 );
@@ -130,7 +131,7 @@ gulp.task('serve', ['watch', 'main-bower-files'], () => {
           return next();
         }
 
-        res.end(reactToHtml(), 'utf8');
+        res.end(reactToHtml(false), 'utf8');
       }
     },
     port: port,
@@ -147,6 +148,7 @@ gulp.task('copy:eslintDocs', () =>
 gulp.task('default', ['serve']);
 
 gulp.task('watch', ['sass', 'watch-webpack'], () => {
+  gulp.watch(src.scripts, ['babel']);
   gulp.watch([src.sass], ['sass']);
   gulp.watch(['bower.json'], ['main-bower-files']);
   gulp.watch([src.html]).on('change', () => reload());
