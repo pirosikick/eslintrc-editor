@@ -1,7 +1,10 @@
 import {Component, PropTypes} from "react";
 import clone from "lodash/lang/clone";
+import isNull from "lodash/lang/isNull";
+import isUndefined from "lodash/lang/isUndefined";
 import isObject from "lodash/lang/isObject";
 import isArray from "lodash/lang/isArray";
+import isBoolean from "lodash/lang/isBoolean";
 import each from 'lodash/collection/each';
 import noop from 'lodash/utility/noop';
 import uniqueid from 'uniqueid';
@@ -77,7 +80,7 @@ class RuleArgumentInput extends Component {
       case 'enum':
         return <Enum {...props} options={def.options}/>;
       case 'oneOf':
-        return <OneOf {...props} defs={def.defs}/>;
+        return <OneOf {...props} defaultValue={value} defs={def.defs}/>;
       case 'object':
         return <ObjectValue {...props} properties={def.properties}/>;
       case 'integer':
@@ -201,8 +204,8 @@ class Enum extends Component {
 
   render() {
     let {value, options, disabled} = this.props;
-    let optionElements = options.map(value =>
-      <option key={`${this.id}-${value}`} value={value}>{value}</option>
+    let optionElements = options.map(v =>
+      <option key={`${this.id}-${v}`} value={v} selected={v === value}>{v}</option>
     );
     return (
       <select className="rule-arg-options" disabled={disabled} onChange={this.onChange.bind(this)}>
@@ -221,7 +224,7 @@ class OneOf extends Component {
   static propTypes = {
     defs: PropTypes.array.isRequired,
     disabled: PropTypes.bool,
-    value: PropTypes.object,
+    defaultValue: PropTypes.any,
   };
 
   constructor(props) {
@@ -230,7 +233,8 @@ class OneOf extends Component {
     this.radioName = uniqueid({ prefix: 'rule-arg-oneof-radio' });
     this.onChecked = this.onChecked.bind(this);
     this.onChangeValue = this.onChangeValue.bind(this);
-    this.state = { selected: false, values: [] };
+    let {defaultValue, defs} = props;
+    this.state = this.guessState(defaultValue, defs);
   }
 
   render() {
@@ -256,6 +260,47 @@ class OneOf extends Component {
     }, [])
 
     return <ul className="rule-arg-oneof">{items}</ul>;
+  }
+
+  guessState(value, defs) {
+    let state = { selected: false, values: [] };
+    if (isUndefined(value) || isNull(value)) {
+      return state;
+    }
+
+    defs.forEach((def, index) => {
+      if (state.selected !== false) {
+        return;
+      }
+
+      let matched = false;
+      switch(def.type) {
+        case 'enum':
+          matched = def.options.indexOf(value) >= 0;
+          break;
+        case 'object':
+          matched = isObject(value);
+          break;
+        case 'array':
+          matched = isArray(value);
+          break;
+        case 'bool':
+          matched = isBoolean(value);
+          break;
+        case 'integer':
+          matched = !isNaN(parseInt(value));
+          break;
+        case 'string':
+          matched = typeof(value) === 'string';
+      }
+
+      if (matched) {
+        state.selected = index;
+        state.values[index] = value;
+      }
+    });
+
+    return state;
   }
 
   isItemSelected(itemIndex) {
