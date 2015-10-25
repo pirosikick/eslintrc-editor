@@ -139,7 +139,8 @@
 .preview {
   padding: 0 1em; }
   .preview__button {
-    font-size: 80%; }
+    font-size: 80%;
+    margin-right: .5em; }
     .preview__button i.fa {
       margin-right: .5em; }
 
