@@ -6,6 +6,7 @@ import forEach from 'lodash/collection/forEach';
 import forEachRight from 'lodash/collection/forEachRight';
 import noop from 'lodash/utility/noop';
 import cx from 'classnames';
+import stripJsonComments from 'strip-json-comments';
 
 export default
   class Preview extends Component {
@@ -57,9 +58,10 @@ export default
       file.click();
     }
 
-    importJSON(json) {
+    importJSON(text) {
       try {
-        let data = JSON.parse(json);
+        text = stripJsonComments(text);
+        let data = JSON.parse(text);
         this.props.onAction(importJSON(data));
       } catch (e) {
         alert('Invalid JSON format data.');
