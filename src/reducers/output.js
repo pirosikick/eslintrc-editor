@@ -3,6 +3,7 @@ import {Map, List} from 'immutable';
 import isObject from 'lodash/lang/isObject';
 import isArray from 'lodash/lang/isArray';
 import reduce from 'lodash/collection/reduce';
+import each from 'lodash/collection/each';
 import {createReducer, getActionIds} from '../util/redux';
 import _app from '../actions/app';
 import _env from '../actions/env';
@@ -29,6 +30,22 @@ const initialState = Map({
 export default createReducer(initialState, {
   [app.init]: (state, {output}) =>
     isObject(output) ? state.merge(output) : state,
+
+  [app.importJSON]: (state, {output}) => {
+    if (!isObject(output)) {
+      return state;
+    }
+
+    if (isObject(output.rules)) {
+      let rules = {};
+      each(output.rules, (value, key) => {
+        rules[key] = isArray(value) ? value : [value];
+      });
+      output.rules = rules;
+    }
+
+    return state.merge(output);
+  },
 
   [app.reset]: () => initialState,
 

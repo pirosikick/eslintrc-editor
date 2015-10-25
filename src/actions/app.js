@@ -10,6 +10,7 @@ export default createActions({
     let output = deserialized.output || {};
     return {view, output};
   },
+  importJSON: (output) => ({output}),
   reset: () => {}
 });
 

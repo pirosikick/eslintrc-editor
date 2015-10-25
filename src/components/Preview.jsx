@@ -1,5 +1,5 @@
 import {Component} from "react";
-import {reset} from '../actions/app';
+import {reset, importJSON} from '../actions/app';
 import isNull from 'lodash/lang/isNull';
 import isUndefined from 'lodash/lang/isUndefined';
 import forEach from 'lodash/collection/forEach';
@@ -16,6 +16,7 @@ export default
 
     constructor(props) {
       super(props);
+      this.openFileFinder = this.openFileFinder.bind(this);
       this.onReset = this.onReset.bind(this);
     }
 
@@ -25,10 +26,16 @@ export default
 
       return (
         <div className={cx("preview", { hidden })}>
-          <button className="pure-button preview__button" onClick={this.onReset}>
-            <i className="fa fa-trash-o"/>
-            reset all
-          </button>
+          <div className="preview__buttons">
+            <button className="pure-button preview__button" onClick={this.openFileFinder}>
+              <i className="fa fa-upload"/>
+              import
+            </button>
+            <button className="pure-button preview__button" onClick={this.onReset}>
+              <i className="fa fa-trash-o"/>
+              reset all
+            </button>
+          </div>
           <pre className="preview__json">{json}</pre>
         </div>
       );
@@ -36,6 +43,27 @@ export default
 
     onReset() {
       this.props.onAction(reset());
+    }
+
+    openFileFinder() {
+      let file = document.createElement('input');
+      file.type = 'file';
+      file.accept = '*';
+      file.onchange = (e) => {
+        let reader = new FileReader();
+        reader.onload = (e) => this.importJSON(reader.result);
+        reader.readAsText(e.target.files[0]);
+      };
+      file.click();
+    }
+
+    importJSON(json) {
+      try {
+        let data = JSON.parse(json);
+        this.props.onAction(importJSON(data));
+      } catch (e) {
+        alert('Invalid JSON format data.');
+      }
     }
 
     getJSON() {
