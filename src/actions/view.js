@@ -26,8 +26,7 @@ const actions = createActions({
     }
   },
   setDocumentMarkdown: (url, md) => ({ url, md }),
-  openRuleDocument: name => actions.openDocument(`docs/rules/${name}.md`),
-  setEcmaOrParser: value => ({ value })
+  openRuleDocument: name => actions.openDocument(`docs/rules/${name}.md`)
 });
 
 export default actions;

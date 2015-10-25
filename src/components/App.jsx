@@ -1,7 +1,7 @@
 import {Component} from "react";
 import {connect} from 'react-redux';
 
-import {setEcmaOrParser} from '../actions/view';
+import {setEcmaOrParser} from '../actions/output';
 
 import Header from './Header';
 import Wrapper from './Wrapper';
@@ -39,10 +39,7 @@ export default
                 (selectedMenuItem => {
                   if (selectedMenuItem === 'preview') {
                     return (
-                      <Preview
-                        target={output}
-                        ecmaOrParser={view.ecmaOrParser}
-                        onAction={dispatch}/>
+                      <Preview target={output} onAction={dispatch}/>
                     );
                   } else {
                     return (
@@ -74,7 +71,7 @@ export default
                     {value: "ecmaFeatures", label: "use ecmaFeatures option"},
                     {value: "parser", label: "use parser option"}
                   ]}
-                  defaultValue={view.ecmaOrParser}
+                  defaultValue={output.ecmaOrParser}
                   onChange={({value}) => dispatch(setEcmaOrParser(value))} />
 
                 {
@@ -94,7 +91,7 @@ export default
                         </div>
                       );
                     }
-                  })(view.ecmaOrParser)
+                  })(output.ecmaOrParser)
                 }
 
               </OptionGroup>

@@ -6,6 +6,7 @@ import reduce from 'lodash/collection/reduce';
 import each from 'lodash/collection/each';
 import {createReducer, getActionIds} from '../util/redux';
 import _app from '../actions/app';
+import _output from '../actions/output';
 import _env from '../actions/env';
 import _globals from '../actions/globals';
 import _ecmaFeatures from '../actions/ecmaFeatures';
@@ -13,6 +14,7 @@ import _parser from '../actions/parser';
 import _rule from '../actions/rule';
 
 const app = getActionIds(_app);
+const {setEcmaOrParser} = getActionIds(_output);
 const env = getActionIds(_env);
 const globals = getActionIds(_globals);
 const ecmaFeatures = getActionIds(_ecmaFeatures);
@@ -24,6 +26,7 @@ const initialState = Map({
   globals: Map({}),
   ecmaFeatures: [],
   parser: null,
+  ecmaOrParser: 'ecmaFeatures',
   rules: Map({})
 });
 
@@ -61,6 +64,8 @@ export default createReducer(initialState, {
   [ecmaFeatures.change]: (state, {values}) => state.set('ecmaFeatures', values),
 
   [parser.change]: (state, {value}) => state.set('parser', value),
+
+  [setEcmaOrParser]: (state, {value}) => state.set('ecmaOrParser', value),
 
   [rule.changeStatus]: (state, {name, status}) => {
     if (!state.hasIn(['rules', name])) {

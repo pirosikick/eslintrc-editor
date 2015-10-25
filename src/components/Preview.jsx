@@ -62,6 +62,13 @@ export default
       try {
         text = stripJsonComments(text);
         let data = JSON.parse(text);
+
+        if (data.parser) {
+          data.ecmaOrParser = 'parser';
+        } else if (data.ecmaFeatures) {
+          data.ecmaOrParser = 'ecmaFeatures';
+        }
+
         this.props.onAction(importJSON(data));
       } catch (e) {
         alert('Invalid JSON format data.');
@@ -69,13 +76,13 @@ export default
     }
 
     getJSON() {
-      let {target, indent, ecmaOrParser} = this.props;
+      let {target, indent} = this.props;
       let data = {};
       data.env = target.env;
       data.globals = target.globals;
-      if (ecmaOrParser === 'parser' && target.parser) {
+      if (target.ecmaOrParser === 'parser' && target.parser) {
         data.parser = target.parser;
-      } else if (ecmaOrParser === 'ecmaFeatures' && target.ecmaFeatures) {
+      } else if (target.ecmaOrParser === 'ecmaFeatures' && target.ecmaFeatures) {
         data.ecmaFeatures = target.ecmaFeatures;
       }
 
