@@ -63,7 +63,7 @@
   overflow: scroll;
   overflow-x: auto;
   border-left: 1px solid #A4A4A4;
-  font-size: 90%;
+  font-size: 100%;
   z-index: 100;
   background-color: #EFEFEF;
   box-sizing: border-box;
@@ -213,7 +213,7 @@
   overflow: hidden;
   float: right;
   width: 35%;
-  min-width: 90px;
+  min-width: 100px;
   max-width: 115px;
   text-align: center; }
   .rule-status__item {
