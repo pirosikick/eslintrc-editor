@@ -5,11 +5,12 @@ import clone from 'lodash/lang/clone';
 import difference from 'lodash/array/difference';
 import remove from 'lodash/array/remove';
 import noop from 'lodash/utility/noop';
+import _keys from 'lodash/object/keys';
 
 export default
   class CheckList extends Component {
     static defaultProps = {
-      defaultChecked: []
+      defaultChecked: {}
     }
 
     constructor (props) {
@@ -29,7 +30,7 @@ export default
           key={`${idPrefix}-${key}`}
           value={key}
           onChange={this.onChange}
-          checked={defaultChecked.indexOf(key) !== -1}/>
+          checked={defaultChecked[key]}/>
       );
 
       return (
@@ -59,12 +60,19 @@ export default
 
     isToggleAllChecked() {
       let {keys, defaultChecked} = this.props;
-      return difference(keys, defaultChecked).length === 0;
+      return difference(keys, _keys(defaultChecked)).length === 0;
     }
 
     toggleAll (e) {
+      let {keys} = this.props;
       let {checked} = e.target;
-      this.props.onChange(checked ? this.props.keys : []);
+      if (checked) {
+        let all = {};
+        keys.forEach(key => all[key] = true);
+        this.props.onChange(all)
+      } else {
+        this.props.onChange({});
+      }
     }
 
     onChange(e) {
@@ -73,16 +81,19 @@ export default
       let {value, checked} = e;
 
       if (checked) {
-        newChecked.push(value);
+        newChecked[value] = true;
       } else {
-        remove(newChecked, v => v === value);
+        delete newChecked[value];
       }
 
-      newChecked.sort((a, b) =>
-        keys.indexOf(a) - keys.indexOf(b)
-      );
+      let sorted = {};
+      keys.forEach(key => {
+        if (newChecked[key]) {
+          sorted[key] = true;
+        }
+      });
 
-      this.props.onChange(newChecked);
+      this.props.onChange(sorted);
     }
   }
 

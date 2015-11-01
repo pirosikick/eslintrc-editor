@@ -22,9 +22,9 @@ const parser = getActionIds(_parser);
 const rule = getActionIds(_rule);
 
 const initialState = Map({
-  env: [],
+  env: {},
   globals: Map({}),
-  ecmaFeatures: [],
+  ecmaFeatures: {},
   parser: null,
   ecmaOrParser: 'ecmaFeatures',
   rules: Map({})
