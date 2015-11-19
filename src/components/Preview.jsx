@@ -5,6 +5,7 @@ import isUndefined from 'lodash/lang/isUndefined';
 import forEach from 'lodash/collection/forEach';
 import forEachRight from 'lodash/collection/forEachRight';
 import noop from 'lodash/utility/noop';
+import assign from 'lodash/object/assign';
 import cx from 'classnames';
 import stripJsonComments from 'strip-json-comments';
 
@@ -77,16 +78,14 @@ export default
 
     getJSON() {
       let {target, indent} = this.props;
-      let data = {};
-      data.env = target.env;
-      data.globals = target.globals;
+      let data = assign({}, target, { ecmaOrParser: undefined, rules: {} });
+
       if (target.ecmaOrParser === 'parser' && target.parser) {
         data.parser = target.parser;
       } else if (target.ecmaOrParser === 'ecmaFeatures' && target.ecmaFeatures) {
         data.ecmaFeatures = target.ecmaFeatures;
       }
 
-      data.rules = {};
       forEach(target.rules, (args, name) =>
         data.rules[name] = this.normalizeRuleArgs(args));
 
