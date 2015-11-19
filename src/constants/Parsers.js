@@ -1,2 +1,2 @@
 'use strict';
-export default ["esprima", "esprima-fb", "babel-parser"];
+export default ["esprima", "esprima-fb", "babel-eslint"];
