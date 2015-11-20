@@ -1,4 +1,5 @@
 "use strict";
+import "./polyfill";
 import {Component} from "react";
 import ReactDOM from 'react-dom';
 import {createStore, applyMiddleware} from 'redux';
