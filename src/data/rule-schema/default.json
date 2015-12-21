@@ -1,0 +1,2057 @@
+[
+  {
+    "name": "accessor-pairs",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "getWithoutSet": {
+            "type": "boolean"
+          },
+          "setWithoutGet": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "array-bracket-spacing",
+    "schema": [
+      {
+        "enum": [
+          "always",
+          "never"
+        ]
+      },
+      {
+        "type": "object",
+        "properties": {
+          "singleValue": {
+            "type": "boolean"
+          },
+          "objectsInArrays": {
+            "type": "boolean"
+          },
+          "arraysInArrays": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "arrow-parens",
+    "schema": [
+      {
+        "enum": [
+          "always",
+          "as-needed"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "arrow-spacing",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "before": {
+            "type": "boolean"
+          },
+          "after": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "block-scoped-var",
+    "schema": []
+  },
+  {
+    "name": "block-spacing",
+    "schema": [
+      {
+        "enum": [
+          "always",
+          "never"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "brace-style",
+    "schema": [
+      {
+        "enum": [
+          "1tbs",
+          "stroustrup",
+          "allman"
+        ]
+      },
+      {
+        "type": "object",
+        "properties": {
+          "allowSingleLine": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "callback-return",
+    "schema": [
+      {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "name": "camelcase",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "properties": {
+            "enum": [
+              "always",
+              "never"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "comma-dangle",
+    "schema": [
+      {
+        "enum": [
+          "always",
+          "always-multiline",
+          "never"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "comma-spacing",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "before": {
+            "type": "boolean"
+          },
+          "after": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "comma-style",
+    "schema": [
+      {
+        "enum": [
+          "first",
+          "last"
+        ]
+      },
+      {
+        "type": "object",
+        "properties": {
+          "exceptions": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "boolean"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "complexity",
+    "schema": [
+      {
+        "type": "integer"
+      }
+    ]
+  },
+  {
+    "name": "computed-property-spacing",
+    "schema": [
+      {
+        "enum": [
+          "always",
+          "never"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "consistent-return",
+    "schema": []
+  },
+  {
+    "name": "consistent-this",
+    "schema": [
+      {
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "name": "constructor-super",
+    "schema": []
+  },
+  {
+    "name": "curly",
+    "schema": [
+      {
+        "enum": [
+          "all",
+          "multi",
+          "multi-line",
+          "multi-or-nest"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "default-case",
+    "schema": []
+  },
+  {
+    "name": "dot-location",
+    "schema": [
+      {
+        "enum": [
+          "object",
+          "property"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "dot-notation",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "allowKeywords": {
+            "type": "boolean"
+          },
+          "allowPattern": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "eol-last",
+    "schema": []
+  },
+  {
+    "name": "eqeqeq",
+    "schema": [
+      {
+        "enum": [
+          "smart",
+          "allow-null"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "func-names",
+    "schema": []
+  },
+  {
+    "name": "func-style",
+    "schema": [
+      {
+        "enum": [
+          "declaration",
+          "expression"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "generator-star-spacing",
+    "schema": [
+      {
+        "oneOf": [
+          {
+            "enum": [
+              "before",
+              "after",
+              "both",
+              "neither"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "before": {
+                "type": "boolean"
+              },
+              "after": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "global-require",
+    "schema": []
+  },
+  {
+    "name": "guard-for-in",
+    "schema": []
+  },
+  {
+    "name": "handle-callback-err",
+    "schema": [
+      {
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "name": "id-length",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "min": {
+            "type": "number"
+          },
+          "max": {
+            "type": "number"
+          },
+          "exceptions": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "properties": {
+            "enum": [
+              "always",
+              "never"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "id-match",
+    "schema": [
+      {
+        "type": "string"
+      },
+      {
+        "type": "object",
+        "properties": {
+          "properties": {
+            "enum": [
+              true,
+              false
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "indent",
+    "schema": [
+      {
+        "oneOf": [
+          {
+            "enum": [
+              "tab"
+            ]
+          },
+          {
+            "type": "integer"
+          }
+        ]
+      },
+      {
+        "type": "object",
+        "properties": {
+          "SwitchCase": {
+            "type": "integer"
+          },
+          "VariableDeclarator": {
+            "type": [
+              "integer",
+              "object"
+            ],
+            "properties": {
+              "var": {
+                "type": "integer"
+              },
+              "let": {
+                "type": "integer"
+              },
+              "const": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "init-declarations",
+    "schema": [
+      {
+        "enum": [
+          "always",
+          "never"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "jsx-quotes",
+    "schema": [
+      {
+        "enum": [
+          "prefer-single",
+          "prefer-double"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "key-spacing",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "align": {
+            "enum": [
+              "colon",
+              "value"
+            ]
+          },
+          "mode": {
+            "enum": [
+              "strict",
+              "minimum"
+            ]
+          },
+          "beforeColon": {
+            "type": "boolean"
+          },
+          "afterColon": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "linebreak-style",
+    "schema": [
+      {
+        "enum": [
+          "unix",
+          "windows"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "lines-around-comment",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "beforeBlockComment": {
+            "type": "boolean"
+          },
+          "afterBlockComment": {
+            "type": "boolean"
+          },
+          "beforeLineComment": {
+            "type": "boolean"
+          },
+          "afterLineComment": {
+            "type": "boolean"
+          },
+          "allowBlockStart": {
+            "type": "boolean"
+          },
+          "allowBlockEnd": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "max-depth",
+    "schema": [
+      {
+        "type": "integer"
+      }
+    ]
+  },
+  {
+    "name": "max-len",
+    "schema": [
+      {
+        "type": "integer",
+        "minimum": 0
+      },
+      {
+        "type": "integer",
+        "minimum": 0
+      },
+      {
+        "type": "object",
+        "properties": {
+          "ignorePattern": {
+            "type": "string"
+          },
+          "ignoreComments": {
+            "type": "boolean"
+          },
+          "ignoreUrls": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "max-nested-callbacks",
+    "schema": [
+      {
+        "type": "integer"
+      }
+    ]
+  },
+  {
+    "name": "max-params",
+    "schema": [
+      {
+        "type": "integer"
+      }
+    ]
+  },
+  {
+    "name": "max-statements",
+    "schema": [
+      {
+        "type": "integer"
+      }
+    ]
+  },
+  {
+    "name": "new-cap",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "newIsCap": {
+            "type": "boolean"
+          },
+          "capIsNew": {
+            "type": "boolean"
+          },
+          "newIsCapExceptions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "capIsNewExceptions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "properties": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "new-parens",
+    "schema": []
+  },
+  {
+    "name": "newline-after-var",
+    "schema": [
+      {
+        "enum": [
+          "never",
+          "always"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "no-alert",
+    "schema": []
+  },
+  {
+    "name": "no-array-constructor",
+    "schema": []
+  },
+  {
+    "name": "no-bitwise",
+    "schema": []
+  },
+  {
+    "name": "no-caller",
+    "schema": []
+  },
+  {
+    "name": "no-catch-shadow",
+    "schema": []
+  },
+  {
+    "name": "no-class-assign",
+    "schema": []
+  },
+  {
+    "name": "no-cond-assign",
+    "schema": [
+      {
+        "enum": [
+          "except-parens",
+          "always"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "no-console",
+    "schema": []
+  },
+  {
+    "name": "no-const-assign",
+    "schema": []
+  },
+  {
+    "name": "no-constant-condition",
+    "schema": []
+  },
+  {
+    "name": "no-continue",
+    "schema": []
+  },
+  {
+    "name": "no-control-regex",
+    "schema": []
+  },
+  {
+    "name": "no-debugger",
+    "schema": []
+  },
+  {
+    "name": "no-delete-var",
+    "schema": []
+  },
+  {
+    "name": "no-div-regex",
+    "schema": []
+  },
+  {
+    "name": "no-dupe-args",
+    "schema": []
+  },
+  {
+    "name": "no-dupe-class-members",
+    "schema": []
+  },
+  {
+    "name": "no-dupe-keys",
+    "schema": []
+  },
+  {
+    "name": "no-duplicate-case",
+    "schema": []
+  },
+  {
+    "name": "no-else-return",
+    "schema": []
+  },
+  {
+    "name": "no-empty-character-class",
+    "schema": []
+  },
+  {
+    "name": "no-empty-label",
+    "schema": []
+  },
+  {
+    "name": "no-empty",
+    "schema": []
+  },
+  {
+    "name": "no-eq-null",
+    "schema": []
+  },
+  {
+    "name": "no-eval",
+    "schema": []
+  },
+  {
+    "name": "no-ex-assign",
+    "schema": []
+  },
+  {
+    "name": "no-extend-native",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "exceptions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "no-extra-bind",
+    "schema": []
+  },
+  {
+    "name": "no-extra-boolean-cast",
+    "schema": []
+  },
+  {
+    "name": "no-extra-parens",
+    "schema": [
+      {
+        "enum": [
+          "all",
+          "functions"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "no-extra-semi",
+    "schema": []
+  },
+  {
+    "name": "no-fallthrough",
+    "schema": []
+  },
+  {
+    "name": "no-floating-decimal",
+    "schema": []
+  },
+  {
+    "name": "no-func-assign",
+    "schema": []
+  },
+  {
+    "name": "no-implicit-coercion",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "boolean": {
+            "type": "boolean"
+          },
+          "number": {
+            "type": "boolean"
+          },
+          "string": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "no-implied-eval",
+    "schema": []
+  },
+  {
+    "name": "no-inline-comments",
+    "schema": []
+  },
+  {
+    "name": "no-inner-declarations",
+    "schema": [
+      {
+        "enum": [
+          "functions",
+          "both"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "no-invalid-regexp",
+    "schema": []
+  },
+  {
+    "name": "no-invalid-this",
+    "schema": []
+  },
+  {
+    "name": "no-irregular-whitespace",
+    "schema": []
+  },
+  {
+    "name": "no-iterator",
+    "schema": []
+  },
+  {
+    "name": "no-label-var",
+    "schema": []
+  },
+  {
+    "name": "no-labels",
+    "schema": []
+  },
+  {
+    "name": "no-lone-blocks",
+    "schema": []
+  },
+  {
+    "name": "no-lonely-if",
+    "schema": []
+  },
+  {
+    "name": "no-loop-func",
+    "schema": []
+  },
+  {
+    "name": "no-mixed-requires",
+    "schema": [
+      {
+        "oneOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "grouping": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "no-mixed-spaces-and-tabs",
+    "schema": [
+      {
+        "enum": [
+          "smart-tabs",
+          true,
+          false
+        ]
+      }
+    ]
+  },
+  {
+    "name": "no-multi-spaces",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "exceptions": {
+            "type": "object",
+            "patternProperties": {
+              "^([A-Z][a-z]*)+$": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "no-multi-str",
+    "schema": []
+  },
+  {
+    "name": "no-multiple-empty-lines",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "max": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "max"
+        ],
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "no-native-reassign",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "exceptions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "no-negated-condition",
+    "schema": []
+  },
+  {
+    "name": "no-negated-in-lhs",
+    "schema": []
+  },
+  {
+    "name": "no-nested-ternary",
+    "schema": []
+  },
+  {
+    "name": "no-new-func",
+    "schema": []
+  },
+  {
+    "name": "no-new-object",
+    "schema": []
+  },
+  {
+    "name": "no-new-require",
+    "schema": []
+  },
+  {
+    "name": "no-new-wrappers",
+    "schema": []
+  },
+  {
+    "name": "no-new",
+    "schema": []
+  },
+  {
+    "name": "no-obj-calls",
+    "schema": []
+  },
+  {
+    "name": "no-octal-escape",
+    "schema": []
+  },
+  {
+    "name": "no-octal",
+    "schema": []
+  },
+  {
+    "name": "no-param-reassign",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "props": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "no-path-concat",
+    "schema": []
+  },
+  {
+    "name": "no-plusplus",
+    "schema": []
+  },
+  {
+    "name": "no-process-env",
+    "schema": []
+  },
+  {
+    "name": "no-process-exit",
+    "schema": []
+  },
+  {
+    "name": "no-proto",
+    "schema": []
+  },
+  {
+    "name": "no-redeclare",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "builtinGlobals": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "no-regex-spaces",
+    "schema": []
+  },
+  {
+    "name": "no-restricted-modules",
+    "schema": {
+      "type": "array",
+      "items": [
+        {
+          "enum": [
+            0,
+            1,
+            2
+          ]
+        }
+      ],
+      "additionalItems": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    }
+  },
+  {
+    "name": "no-restricted-syntax",
+    "schema": {
+      "type": "array",
+      "items": [
+        {
+          "enum": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "enum": [
+            "AssignmentExpression",
+            "AssignmentPattern",
+            "ArrayExpression",
+            "ArrayPattern",
+            "ArrowFunctionExpression",
+            "BlockStatement",
+            "BinaryExpression",
+            "BreakStatement",
+            "CallExpression",
+            "CatchClause",
+            "ClassBody",
+            "ClassDeclaration",
+            "ClassExpression",
+            "ConditionalExpression",
+            "ContinueStatement",
+            "DoWhileStatement",
+            "DebuggerStatement",
+            "EmptyStatement",
+            "ExperimentalRestProperty",
+            "ExperimentalSpreadProperty",
+            "ExpressionStatement",
+            "ForStatement",
+            "ForInStatement",
+            "ForOfStatement",
+            "FunctionDeclaration",
+            "FunctionExpression",
+            "Identifier",
+            "IfStatement",
+            "Literal",
+            "LabeledStatement",
+            "LogicalExpression",
+            "MemberExpression",
+            "MetaProperty",
+            "MethodDefinition",
+            "NewExpression",
+            "ObjectExpression",
+            "ObjectPattern",
+            "Program",
+            "Property",
+            "RestElement",
+            "ReturnStatement",
+            "SequenceExpression",
+            "SpreadElement",
+            "Super",
+            "SwitchCase",
+            "SwitchStatement",
+            "TaggedTemplateExpression",
+            "TemplateElement",
+            "TemplateLiteral",
+            "ThisExpression",
+            "ThrowStatement",
+            "TryStatement",
+            "UnaryExpression",
+            "UpdateExpression",
+            "VariableDeclaration",
+            "VariableDeclarator",
+            "WhileStatement",
+            "WithStatement",
+            "YieldExpression",
+            "JSXIdentifier",
+            "JSXNamespacedName",
+            "JSXMemberExpression",
+            "JSXEmptyExpression",
+            "JSXExpressionContainer",
+            "JSXElement",
+            "JSXClosingElement",
+            "JSXOpeningElement",
+            "JSXAttribute",
+            "JSXSpreadAttribute",
+            "JSXText",
+            "ExportDefaultDeclaration",
+            "ExportNamedDeclaration",
+            "ExportAllDeclaration",
+            "ExportSpecifier",
+            "ImportDeclaration",
+            "ImportSpecifier",
+            "ImportDefaultSpecifier",
+            "ImportNamespaceSpecifier"
+          ]
+        }
+      ],
+      "uniqueItems": true,
+      "minItems": 1
+    }
+  },
+  {
+    "name": "no-return-assign",
+    "schema": [
+      {
+        "enum": [
+          "except-parens",
+          "always"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "no-script-url",
+    "schema": []
+  },
+  {
+    "name": "no-self-compare",
+    "schema": []
+  },
+  {
+    "name": "no-sequences",
+    "schema": []
+  },
+  {
+    "name": "no-shadow-restricted-names",
+    "schema": []
+  },
+  {
+    "name": "no-shadow",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "builtinGlobals": {
+            "type": "boolean"
+          },
+          "hoist": {
+            "enum": [
+              "all",
+              "functions",
+              "never"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "no-spaced-func",
+    "schema": []
+  },
+  {
+    "name": "no-sparse-arrays",
+    "schema": []
+  },
+  {
+    "name": "no-sync",
+    "schema": []
+  },
+  {
+    "name": "no-ternary",
+    "schema": []
+  },
+  {
+    "name": "no-this-before-super",
+    "schema": []
+  },
+  {
+    "name": "no-throw-literal",
+    "schema": []
+  },
+  {
+    "name": "no-trailing-spaces",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "skipBlankLines": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "no-undef-init",
+    "schema": []
+  },
+  {
+    "name": "no-undef",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "typeof": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "no-undefined",
+    "schema": []
+  },
+  {
+    "name": "no-underscore-dangle",
+    "schema": []
+  },
+  {
+    "name": "no-unexpected-multiline",
+    "schema": []
+  },
+  {
+    "name": "no-unneeded-ternary",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "defaultAssignment": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "no-unreachable",
+    "schema": []
+  },
+  {
+    "name": "no-unused-expressions",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "allowShortCircuit": {
+            "type": "boolean"
+          },
+          "allowTernary": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "no-unused-vars",
+    "schema": [
+      {
+        "oneOf": [
+          {
+            "enum": [
+              "all",
+              "local"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "vars": {
+                "enum": [
+                  "all",
+                  "local"
+                ]
+              },
+              "varsIgnorePattern": {
+                "type": "string"
+              },
+              "args": {
+                "enum": [
+                  "all",
+                  "after-used",
+                  "none"
+                ]
+              },
+              "argsIgnorePattern": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "no-use-before-define",
+    "schema": [
+      {
+        "enum": [
+          "nofunc"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "no-useless-call",
+    "schema": []
+  },
+  {
+    "name": "no-useless-concat",
+    "schema": []
+  },
+  {
+    "name": "no-var",
+    "schema": []
+  },
+  {
+    "name": "no-void",
+    "schema": []
+  },
+  {
+    "name": "no-warning-comments",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "terms": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "location": {
+            "enum": [
+              "start",
+              "anywhere"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "no-with",
+    "schema": []
+  },
+  {
+    "name": "object-curly-spacing",
+    "schema": [
+      {
+        "enum": [
+          "always",
+          "never"
+        ]
+      },
+      {
+        "type": "object",
+        "properties": {
+          "arraysInObjects": {
+            "type": "boolean"
+          },
+          "objectsInObjects": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "object-shorthand",
+    "schema": [
+      {
+        "enum": [
+          "always",
+          "methods",
+          "properties",
+          "never"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "one-var",
+    "schema": [
+      {
+        "oneOf": [
+          {
+            "enum": [
+              "always",
+              "never"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "var": {
+                "enum": [
+                  "always",
+                  "never"
+                ]
+              },
+              "let": {
+                "enum": [
+                  "always",
+                  "never"
+                ]
+              },
+              "const": {
+                "enum": [
+                  "always",
+                  "never"
+                ]
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "initialized": {
+                "enum": [
+                  "always",
+                  "never"
+                ]
+              },
+              "uninitialized": {
+                "enum": [
+                  "always",
+                  "never"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "operator-assignment",
+    "schema": [
+      {
+        "enum": [
+          "always",
+          "never"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "operator-linebreak",
+    "schema": [
+      {
+        "enum": [
+          "after",
+          "before",
+          "none",
+          null
+        ]
+      },
+      {
+        "type": "object",
+        "properties": {
+          "overrides": {
+            "type": "object",
+            "properties": {
+              "anyOf": {
+                "type": "string",
+                "enum": [
+                  "after",
+                  "before",
+                  "none"
+                ]
+              }
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "padded-blocks",
+    "schema": [
+      {
+        "enum": [
+          "always",
+          "never"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "prefer-arrow-callback",
+    "schema": []
+  },
+  {
+    "name": "prefer-const",
+    "schema": []
+  },
+  {
+    "name": "prefer-reflect",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "exceptions": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "apply",
+                "call",
+                "delete",
+                "defineProperty",
+                "getOwnPropertyDescriptor",
+                "getPrototypeOf",
+                "setPrototypeOf",
+                "isExtensible",
+                "getOwnPropertyNames",
+                "preventExtensions"
+              ]
+            },
+            "uniqueItems": true
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "prefer-spread",
+    "schema": []
+  },
+  {
+    "name": "prefer-template",
+    "schema": []
+  },
+  {
+    "name": "quote-props",
+    "schema": {
+      "anyOf": [
+        {
+          "type": "array",
+          "items": [
+            {
+              "enum": [
+                0,
+                1,
+                2
+              ]
+            },
+            {
+              "enum": [
+                "always",
+                "as-needed",
+                "consistent",
+                "consistent-as-needed"
+              ]
+            }
+          ],
+          "minItems": 1,
+          "maxItems": 2
+        },
+        {
+          "type": "array",
+          "items": [
+            {
+              "enum": [
+                0,
+                1,
+                2
+              ]
+            },
+            {
+              "enum": [
+                "always",
+                "as-needed",
+                "consistent",
+                "consistent-as-needed"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "keywords": {
+                  "type": "boolean"
+                },
+                "unnecessary": {
+                  "type": "boolean"
+                },
+                "numbers": {
+                  "type": "boolean"
+                }
+              },
+              "additionalProperties": false
+            }
+          ],
+          "minItems": 1,
+          "maxItems": 3
+        }
+      ]
+    }
+  },
+  {
+    "name": "quotes",
+    "schema": [
+      {
+        "enum": [
+          "single",
+          "double",
+          "backtick"
+        ]
+      },
+      {
+        "enum": [
+          "avoid-escape"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "radix",
+    "schema": []
+  },
+  {
+    "name": "require-jsdoc",
+    "schema": []
+  },
+  {
+    "name": "require-yield",
+    "schema": []
+  },
+  {
+    "name": "semi-spacing",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "before": {
+            "type": "boolean"
+          },
+          "after": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "semi",
+    "schema": [
+      {
+        "enum": [
+          "always",
+          "never"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "sort-vars",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "ignoreCase": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "space-after-keywords",
+    "schema": [
+      {
+        "enum": [
+          "always",
+          "never"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "space-before-blocks",
+    "schema": [
+      {
+        "oneOf": [
+          {
+            "enum": [
+              "always",
+              "never"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "keywords": {
+                "enum": [
+                  "always",
+                  "never"
+                ]
+              },
+              "functions": {
+                "enum": [
+                  "always",
+                  "never"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "space-before-function-paren",
+    "schema": [
+      {
+        "oneOf": [
+          {
+            "enum": [
+              "always",
+              "never"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "anonymous": {
+                "enum": [
+                  "always",
+                  "never"
+                ]
+              },
+              "named": {
+                "enum": [
+                  "always",
+                  "never"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "space-before-keywords",
+    "schema": [
+      {
+        "enum": [
+          "always",
+          "never"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "space-in-parens",
+    "schema": [
+      {
+        "enum": [
+          "always",
+          "never"
+        ]
+      },
+      {
+        "type": "object",
+        "properties": {
+          "exceptions": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "{}",
+                "[]",
+                "()",
+                "empty"
+              ]
+            },
+            "uniqueItems": true
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "space-infix-ops",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "int32Hint": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "space-return-throw-case",
+    "schema": []
+  },
+  {
+    "name": "space-unary-ops",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "words": {
+            "type": "boolean"
+          },
+          "nonwords": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "spaced-comment",
+    "schema": [
+      {
+        "enum": [
+          "always",
+          "never"
+        ]
+      },
+      {
+        "type": "object",
+        "properties": {
+          "exceptions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "markers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "line": {
+            "type": "object",
+            "properties": {
+              "exceptions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "markers": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "additionalProperties": false
+          },
+          "block": {
+            "type": "object",
+            "properties": {
+              "exceptions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "markers": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "strict",
+    "schema": [
+      {
+        "enum": [
+          "never",
+          "global",
+          "function"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "use-isnan",
+    "schema": []
+  },
+  {
+    "name": "valid-jsdoc",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "prefer": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "requireReturn": {
+            "type": "boolean"
+          },
+          "requireParamDescription": {
+            "type": "boolean"
+          },
+          "requireReturnDescription": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "valid-typeof",
+    "schema": []
+  },
+  {
+    "name": "vars-on-top",
+    "schema": []
+  },
+  {
+    "name": "wrap-iife",
+    "schema": [
+      {
+        "enum": [
+          "outside",
+          "inside",
+          "any"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "wrap-regex",
+    "schema": []
+  },
+  {
+    "name": "yoda",
+    "schema": [
+      {
+        "enum": [
+          "always",
+          "never"
+        ]
+      },
+      {
+        "type": "object",
+        "properties": {
+          "exceptRange": {
+            "type": "boolean"
+          },
+          "onlyEquality": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  }
+]

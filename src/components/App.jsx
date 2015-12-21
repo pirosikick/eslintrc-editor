@@ -18,7 +18,7 @@ import MarkdownViewer from './MarkdownViewer';
 import Preview from './Preview';
 import Rules from './Rules';
 import {Menu} from './Menu';
-import ruleSchema from "../constants/eslintRuleSchema.json";
+import ruleSchema from "../data/rule-schema/default.json";
 
 @connect(state => ({
   view: state.view.toJS(),

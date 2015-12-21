@@ -21,7 +21,8 @@ let src = {
   ghPages: [
     '.tmp/index.html',
     '.tmp/**/*.{js,css,otf,eot,svg,ttf,woff,woff2,md}'
-  ]
+  ],
+  ruleSchema: 'src/data/rule-schema/*.json'
 };
 
 let dest = {
@@ -32,7 +33,7 @@ let dest = {
   bower: '.tmp/lib',
   eslintdoc: 'src/docs',
   font: '.tmp/fonts',
-  eslintRuleSchema: 'src/constants/eslintRuleSchema.json',
+  eslintRuleSchema: 'src/data/rule-schema/default.json',
   deploy: '.deploy/'
 }
 
@@ -105,17 +106,31 @@ gulp.task('copy-json', () =>
 
 gulp.task('babel', () =>
   gulp.src(src.scripts)
-    .pipe($.babel({ stage: 0 }))
+    .pipe($.babel({
+      plugins: [
+        "transform-runtime",
+        "transform-decorators-legacy"
+      ],
+      presets: ["es2015", "stage-0", "react"]
+    }))
     .pipe(gulp.dest('lib'))
 );
 
 gulp.task('eslint-rule-schema', (done) => {
   let schema = [];
 
+  const replaceArray = (key, value) => {
+    if (Array.isArray(value)) {
+      let values = value.map(v => v);
+      return `[]`;
+    }
+    return value;
+  };
+
   _.each(loadRules(), (filepath, name) => {
     schema.push({ name, schema: require(filepath).schema });
   });
-  writeFile(dest.eslintRuleSchema, JSON.stringify(schema), (err) => {
+  writeFile(dest.eslintRuleSchema, JSON.stringify(schema, null, 2), (err) => {
     if (err) return $.util.log('[eslint-rule-schema]', err);
     done();
   })
@@ -144,6 +159,10 @@ gulp.task('copy:eslintDocs', () =>
   gulp.src(src.eslintDocs, { base: 'eslint' }).pipe(gulp.dest('.tmp'))
 )
 
+gulp.task('copy:rule-schema', () => {
+  gulp.src(src.ruleSchema).pipe(gulp.dest('lib'));
+});
+
 gulp.task('default', ['serve']);
 
 gulp.task('watch', ['sass', 'watch-webpack'], () => {
@@ -151,6 +170,7 @@ gulp.task('watch', ['sass', 'watch-webpack'], () => {
   gulp.watch([src.sass], ['sass']);
   gulp.watch(['bower.json'], ['main-bower-files']);
   gulp.watch([src.html]).on('change', () => reload());
+  gulp.watch([src.ruleSchema], ['copy:ruleSchema']);
 });
 
 gulp.task('build', ['build-clean'], done => {

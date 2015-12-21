@@ -1,4 +1,5 @@
 'use strict';
+var path = require('path');
 
 module.exports = {
   context: __dirname + '/src',
@@ -17,7 +18,19 @@ module.exports = {
   ],
   module: {
     loaders: [
-      { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader?optional=runtime&stage=0' },
+      {
+        loader: 'babel',
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        include: path.join(__dirname, 'src'),
+        query: {
+          plugins: [
+            'transform-runtime',
+            'transform-decorators-legacy'
+          ],
+          presets: ['es2015', 'stage-0', 'react']
+        }
+      },
       { test: /\.json$/, loader: 'json' }
     ]
   },
