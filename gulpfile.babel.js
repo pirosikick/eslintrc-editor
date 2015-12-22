@@ -119,14 +119,6 @@ gulp.task('babel', () =>
 gulp.task('eslint-rule-schema', (done) => {
   let schema = [];
 
-  const replaceArray = (key, value) => {
-    if (Array.isArray(value)) {
-      let values = value.map(v => v);
-      return `[]`;
-    }
-    return value;
-  };
-
   _.each(loadRules(), (filepath, name) => {
     schema.push({ name, schema: require(filepath).schema });
   });
