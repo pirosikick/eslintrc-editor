@@ -6,7 +6,7 @@ import actions from '../actions/ecmaFeatures';
 
 class EcmaFeatures extends Component {
   static propTypes = {
-    values: PropTypes.array.isRequired,
+    values: PropTypes.object.isRequired,
     onAction: PropTypes.func.isRequired
   }
 
