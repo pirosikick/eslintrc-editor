@@ -18,7 +18,7 @@ const webpackConfig = require('./webpack.config');
 const src = {
   webpack: ['src/client.js'],
   json: ['src/**/*.json'],
-  md: ['eslint/docs/**/*.md'],
+  md: ['repos/eslint/docs/**/*.md'],
   deploy: [
     'build/**/*.{html,js,css}',
     'vendor/**/*.{js,css,otf,eot,svg,ttf,woff,woff2,md}'
@@ -52,12 +52,12 @@ const build = {
 
 const port = process.env.NODE_PORT || 3000;
 
-gulp.task('default', ['serve']);
+gulp.task('default', ['start']);
 gulp.task('start', ['clean'], done => {
   run('serve', done);
 });
 gulp.task('clean', done =>
-  del(['.tmp', 'build'])
+  del(['.tmp', 'build', 'vendor'])
     .then(() => done)
     .catch(done)
 );
@@ -178,7 +178,7 @@ gulp.task('eslint-rule-schema', (done) => {
 
 gulp.task('copy', ['copy:md', 'copy:lib', 'copy:font']);
 gulp.task('copy:md', () =>
-  gulp.src(src.md, { base: 'eslint' }).pipe(gulp.dest('vendor')));
+  gulp.src(src.md, { base: 'repos/eslint' }).pipe(gulp.dest('vendor')));
 gulp.task('copy:lib', () =>
   gulp.src(src.lib).pipe(gulp.dest(vendor.lib)));
 gulp.task('copy:font', () =>
