@@ -80,6 +80,16 @@ gulp.task('serve', ['html', 'copy', 'watch'], () => {
   });
 });
 
+gulp.task('serve:build', ['build'], () => {
+  browserSync({
+    server: {
+      baseDir: ['build', 'vendor']
+    },
+    port: port,
+    ghostMode: false
+  });
+});
+
 gulp.task('watch', ['sass', 'webpack:watch'], () => {
   gulp.watch(src.sass, ['sass']);
 });
