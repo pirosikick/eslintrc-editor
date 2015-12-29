@@ -51,16 +51,13 @@ class List extends Component {
 
   wrapListItem(children, index) {
     let {name} = this.props;
-    return <ListItem name={name} index={index}>{children}</ListItem>;
+    return <ListItem key ={`radioset-${name}-${index}`}>{children}</ListItem>;
   }
 }
 
 class ListItem extends Component {
   render() {
-    let {name, index} = this.props;
-    let key = `radioset-${name}-${index}`;
-
-    return <li key={key} className="radioset__item">{this.props.children}</li>;
+    return <li className="radioset__item">{this.props.children}</li>;
   }
 }
 

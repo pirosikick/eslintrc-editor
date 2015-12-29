@@ -24,14 +24,6 @@ const createStoreWithMiddleware
   = applyMiddleware(thunk, saveToLocalStorage)(createStore);
 const store = createStoreWithMiddleware(reducers);
 
-if (window.localStorage[localStorageKey]) {
-  try {
-    let deserialized = JSON.parse(window.localStorage[localStorageKey]);
-    store.dispatch(appActions.init(deserialized));
-  } catch (e) {
-  }
-}
-
 class Outer extends Component {
   render () {
     return (
@@ -42,4 +34,12 @@ class Outer extends Component {
   }
 }
 
-ReactDOM.render(<Outer/>, document.getElementById('app'));
+ReactDOM.render(<Outer/>, document.getElementById('app'), function () {
+  if (window.localStorage[localStorageKey]) {
+    try {
+      let deserialized = JSON.parse(window.localStorage[localStorageKey]);
+      store.dispatch(appActions.init(deserialized));
+    } catch (e) {
+    }
+  }
+});

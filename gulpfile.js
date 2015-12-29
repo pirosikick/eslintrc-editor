@@ -65,7 +65,7 @@ gulp.task('clean', done =>
 gulp.task('serve', ['html', 'copy', 'watch'], () => {
   browserSync({
     server: {
-      baseDir: ['.tmp', 'vendor', 'eslint'],
+      baseDir: ['.tmp', 'vendor'],
       middleware: function (req, res, next) {
         if (req.url !== '/') {
           return next();
