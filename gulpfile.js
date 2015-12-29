@@ -30,6 +30,7 @@ const src = {
     'node_modules/react-dom/dist/react-dom.js',
     'node_modules/immutable/dist/immutable.min.js',
     'node_modules/immutable/dist/immutable.js',
+    'node_modules/es6-promise/dist/*.js',
     'node_modules/github-markdown-css/github-markdown.css',
     'node_modules/purecss/build/pure*.css',
     'node_modules/font-awesome/css/*'

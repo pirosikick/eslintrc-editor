@@ -14,18 +14,18 @@ const Html = ({app, prod}) => (
     <head>
       <meta charset="UTF-8"/>
       <title>.eslintrc editor</title>
-      <link rel="stylesheet" href="lib/pure.css"/>
-      <link rel="stylesheet" href="lib/pure.css"/>
-      <link rel="stylesheet" href="lib/font-awesome.css"/>
+      <link rel="stylesheet" href={prod ? "lib/pure-min.css" : "lib/pure.css"}/>
+      <link rel="stylesheet" href={prod ? "lib/font-awesome.min.css" : "lib/font-awesome.css"}/>
       <link rel="stylesheet" href="lib/github-markdown.css"/>
       <link rel="stylesheet" href="styles/app.css"/>
     </head>
     <body>
       <div id="app" dangerouslySetInnerHTML={{__html:app}}/>
+      <script src="lib/es6-promise.min.js"></script>
       <script src={prod ? "lib/react.min.js" : "lib/react.js"}></script>
       <script src={prod ? "lib/react-dom.min.js": "lib/react-dom.js"}></script>
       <script src={prod ? "lib/immutable.min.js" : "lib/immutable.js"}></script>
-      <script src={prod ? "scripts/client.bundle.min.js" : "scripts/client.bundle.js"}></script>
+      <script src="scripts/client.bundle.js"></script>
       <script dangerouslySetInnerHTML={{__html: googleAnalyticsScript}} />
     </body>
   </html>
