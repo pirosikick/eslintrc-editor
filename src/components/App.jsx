@@ -1,7 +1,8 @@
 import {Component} from "react";
 import {connect} from 'react-redux';
 
-import {setEcmaOrParser} from '../actions/output';
+import outputActions from '../actions/output';
+const {setEcmaOrParser} = outputActions;
 
 import Header from './Header';
 import Wrapper from './Wrapper';

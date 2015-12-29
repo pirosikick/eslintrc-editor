@@ -1,8 +1,10 @@
 'use strict';
 import {Component, PropTypes} from "react";
-import {openDocument} from '../actions/view';
+import viewActions from '../actions/view';
 import md2react from "@pirosikick/md2react";
 import noop from 'lodash/utility/noop';
+
+const {openDocument} = viewActions;
 
 export default class MarkdownViewer extends Component {
   static propTypes = {
@@ -47,10 +49,6 @@ export default class MarkdownViewer extends Component {
   }
 
   onClick(e) {
-    if (e.target.isExternal) {
-      return;
-    }
-
     e.preventDefault();
     let documentUrl = e.currentTarget.getAttribute('data-document-url');
     this.props.onAction(openDocument(documentUrl));
@@ -76,6 +74,7 @@ class Link extends Component {
     let href = props.node.href || "";
     this.isExternal = /^http/.test(href);
     this.isAbsolute = /^\//.test(href);
+    this.onClick = this.onClick.bind(this);
   }
 
   render() {
@@ -84,7 +83,7 @@ class Link extends Component {
       key,
       href: this.getHref(),
       title: node.title,
-      onClick: this.props.onClick,
+      onClick: this.onClick,
       children: [node.children[0].value]
     };
 
@@ -95,6 +94,13 @@ class Link extends Component {
     }
 
     return <a {...props}/>;
+  }
+
+  onClick(e) {
+    if (this.isExternal) {
+      return;
+    }
+    this.props.onClick(e);
   }
 
   getHref() {

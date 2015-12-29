@@ -1,5 +1,5 @@
 import {Component} from "react";
-import {reset, importJSON} from '../actions/app';
+import appActions from '../actions/app';
 import isNull from 'lodash/lang/isNull';
 import isUndefined from 'lodash/lang/isUndefined';
 import forEach from 'lodash/collection/forEach';
@@ -8,6 +8,8 @@ import noop from 'lodash/utility/noop';
 import assign from 'lodash/object/assign';
 import cx from 'classnames';
 import stripJsonComments from 'strip-json-comments';
+
+const {reset, importJSON} = appActions;
 
 export default
   class Preview extends Component {
