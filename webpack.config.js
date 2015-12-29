@@ -1,21 +1,8 @@
 'use strict';
-var path = require('path');
+const path = require('path');
 
 module.exports = {
-  context: __dirname + '/src',
-  entry: {
-    client: './client'
-  },
-  output: {
-    path: __dirname + "/.tmp/scripts",
-    filename: "[name].bundle.js"
-  },
   devtool: 'inline-source-map',
-  externals: [
-    { react: "var React" },
-    { "react-dom": "var ReactDOM" },
-    { "immutable": "var Immutable" }
-  ],
   module: {
     loaders: [
       {
@@ -34,7 +21,15 @@ module.exports = {
       { test: /\.json$/, loader: 'json' }
     ]
   },
+  output: {
+    filename: '[name].bundle.js'
+  },
+  externals: [
+    { react: "var React" },
+    { "react-dom": "var ReactDOM" },
+    { "immutable": "var Immutable" }
+  ],
   resolve: {
     extensions: ['', '.js', '.jsx']
   }
-};
+}

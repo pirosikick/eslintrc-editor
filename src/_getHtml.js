@@ -18,7 +18,7 @@ const Outer = () => (
   </Provider>
 );
 
-export const toHtml = (prod = false) => {
+export default function (prod = false) {
   let app = ReactDOMServer.renderToString(<Outer/>);
   let props = { app, prod };
   return ReactDOMServer.renderToStaticMarkup(<Html {...props}/>);

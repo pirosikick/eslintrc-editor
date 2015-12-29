@@ -31,8 +31,10 @@ node_modules
 build
 *.css
 lib/
+vendor/
 
 bower_components/
 .sass-cache
 .publish
 .envrc
+
