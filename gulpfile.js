@@ -172,7 +172,7 @@ gulp.task('eslint-rule-schema', (done) => {
     return schema;
   }, []);
   const schemaJson = JSON.stringify(schema, null, 2);
-  return stringStream('default.json', schemaJson)
+  return stringStream('built-in.json', schemaJson)
     .pipe(gulp.dest('src/data/rule-schema'));
 });
 
