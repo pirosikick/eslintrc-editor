@@ -1,0 +1,472 @@
+[
+  {
+    "name": "display-name",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "acceptTranspilerName": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "forbid-prop-types",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "forbid": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": true
+      }
+    ]
+  },
+  {
+    "name": "jsx-boolean-value",
+    "schema": [
+      {
+        "enum": [
+          "always",
+          "never"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "jsx-closing-bracket-location",
+    "schema": [
+      {
+        "oneOf": [
+          {
+            "enum": [
+              "after-props",
+              "props-aligned",
+              "tag-aligned",
+              "line-aligned"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "location": {
+                "enum": [
+                  "after-props",
+                  "props-aligned",
+                  "tag-aligned",
+                  "line-aligned"
+                ]
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "nonEmpty": {
+                "enum": [
+                  "after-props",
+                  "props-aligned",
+                  "tag-aligned",
+                  "line-aligned",
+                  false
+                ]
+              },
+              "selfClosing": {
+                "enum": [
+                  "after-props",
+                  "props-aligned",
+                  "tag-aligned",
+                  "line-aligned",
+                  false
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "jsx-curly-spacing",
+    "schema": [
+      {
+        "enum": [
+          "always",
+          "never"
+        ]
+      },
+      {
+        "type": "object",
+        "properties": {
+          "allowMultiline": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "jsx-handler-names",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "eventHandlerPrefix": {
+            "type": "string"
+          },
+          "eventHandlerPropPrefix": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "jsx-indent-props",
+    "schema": [
+      {
+        "oneOf": [
+          {
+            "enum": [
+              "tab"
+            ]
+          },
+          {
+            "type": "integer"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "jsx-key",
+    "schema": []
+  },
+  {
+    "name": "jsx-max-props-per-line",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "maximum": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "jsx-no-bind",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "allowArrowFunctions": {
+            "default": false,
+            "type": "boolean"
+          },
+          "allowBind": {
+            "default": false,
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "jsx-no-duplicate-props",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "ignoreCase": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "jsx-no-literals",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "jsx-no-undef",
+    "schema": []
+  },
+  {
+    "name": "jsx-pascal-case"
+  },
+  {
+    "name": "jsx-quotes",
+    "schema": [
+      {
+        "enum": [
+          "single",
+          "double"
+        ]
+      },
+      {
+        "enum": [
+          "avoid-escape"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "jsx-sort-prop-types",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "callbacksLast": {
+            "type": "boolean"
+          },
+          "ignoreCase": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "jsx-sort-props",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "callbacksLast": {
+            "type": "boolean"
+          },
+          "shorthandFirst": {
+            "type": "boolean"
+          },
+          "ignoreCase": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "jsx-uses-react",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "pragma": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "jsx-uses-vars",
+    "schema": []
+  },
+  {
+    "name": "no-danger",
+    "schema": []
+  },
+  {
+    "name": "no-deprecated",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "react": {
+            "type": "string",
+            "pattern": "^[0-9]+.[0-9]+(.[0-9]+)?$"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "no-did-mount-set-state",
+    "schema": [
+      {
+        "enum": [
+          "allow-in-func"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "no-did-update-set-state",
+    "schema": [
+      {
+        "enum": [
+          "allow-in-func"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "no-direct-mutation-state"
+  },
+  {
+    "name": "no-is-mounted",
+    "schema": []
+  },
+  {
+    "name": "no-multi-comp",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "ignoreStateless": {
+            "default": false,
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "no-set-state",
+    "schema": []
+  },
+  {
+    "name": "no-string-refs",
+    "schema": []
+  },
+  {
+    "name": "no-unknown-property",
+    "schema": []
+  },
+  {
+    "name": "prefer-es6-class",
+    "schema": [
+      {
+        "enum": [
+          "always",
+          "never"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "prop-types",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "ignore": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "customValidators": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "react-in-jsx-scope",
+    "schema": []
+  },
+  {
+    "name": "require-extension",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "extensions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "self-closing-comp",
+    "schema": []
+  },
+  {
+    "name": "sort-comp",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "order": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "groups": {
+            "type": "object",
+            "patternProperties": {
+              "^.*$": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  {
+    "name": "wrap-multilines",
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "declaration": {
+            "type": "boolean"
+          },
+          "assignment": {
+            "type": "boolean"
+          },
+          "return": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  }
+]

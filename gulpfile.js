@@ -1,4 +1,5 @@
 'use strict';
+const path = require('path');
 const writeFile = require('fs').writeFile;
 const reduce = require('lodash/collection/reduce');
 const gulp = require('gulp');
@@ -10,6 +11,7 @@ const reload = browserSync.reload;
 const loadRules = require('eslint/lib/load-rules');
 const del = require('del');
 const run = require('run-sequence');
+const glob = require('glob');
 const getHtml = require('./src/getHtml');
 
 $.webpack = require('webpack-stream');
@@ -121,7 +123,7 @@ gulp.task('webpack:watch', () => {
     .pipe(gulp.dest(tmp.js));
 });
 
-gulp.task('webpack:min', ['eslint-rule-schema'], () => {
+gulp.task('webpack:min', ['rule-schema'], () => {
   const UglifyJsPlugin = require('webpack').optimize.UglifyJsPlugin;
   const plugins = [new UglifyJsPlugin()];
   const devtool = false;
@@ -145,6 +147,19 @@ gulp.task('sass:min', () =>
     .pipe($.cssnano())
     .pipe(gulp.dest(build.sass)));
 
+gulp.task('html', () =>
+  stringStream('index.html', getHtml()).pipe(gulp.dest('.tmp')));
+gulp.task('html:build', () =>
+  stringStream('index.html', getHtml(true)).pipe(gulp.dest('build')));
+
+gulp.task('copy', ['copy:md', 'copy:lib', 'copy:font']);
+gulp.task('copy:md', () =>
+  gulp.src(src.md, { base: 'repos/eslint' }).pipe(gulp.dest('vendor')));
+gulp.task('copy:lib', () =>
+  gulp.src(src.lib).pipe(gulp.dest(vendor.lib)));
+gulp.task('copy:font', () =>
+  gulp.src(src.font).pipe(gulp.dest(vendor.font)));
+
 const stringStream = (filename, string) => {
   const file = new $.util.File({
     cwd: "",
@@ -161,12 +176,37 @@ const stringStream = (filename, string) => {
   });
 };
 
-gulp.task('html', () =>
-  stringStream('index.html', getHtml()).pipe(gulp.dest('.tmp')));
-gulp.task('html:build', () =>
-  stringStream('index.html', getHtml(true)).pipe(gulp.dest('build')));
+const plugins = [
+  {
+    name: 'built-in',
+    repo: 'eslint',
+    rules: 'lib/rules/*.js',
+    docs: 'docs/**/*.md'
+  },
+  {
+    name: 'react',
+    repo: 'eslint-plugin-react',
+    rules: 'lib/rules/*.js',
+    docs: 'docs/**/*.md'
+  }
+];
 
-gulp.task('eslint-rule-schema', (done) => {
+gulp.task('rule-schema', ['rule-schema:built-in'], (done) => {
+  const files = glob.sync('repos/eslint-plugin-react/lib/rules/*.js');
+  const schema = files
+    .map(f => ({
+      name: path.basename(f, '.js'),
+      schema: require(path.join(__dirname, f)).schema
+    }));
+  const hoge = {
+    version: require(
+  };
+  const schemaJson = JSON.stringify(schema, null, 2);
+  return stringStream('react.json', schemaJson)
+    .pipe(gulp.dest('src/data/rule-schema'));
+});
+
+gulp.task('rule-schema:built-in', (done) => {
   const schema = reduce(loadRules(), (schema, filepath, name) => {
     schema.push({ name, schema: require(filepath).schema });
     return schema;
@@ -176,10 +216,3 @@ gulp.task('eslint-rule-schema', (done) => {
     .pipe(gulp.dest('src/data/rule-schema'));
 });
 
-gulp.task('copy', ['copy:md', 'copy:lib', 'copy:font']);
-gulp.task('copy:md', () =>
-  gulp.src(src.md, { base: 'repos/eslint' }).pipe(gulp.dest('vendor')));
-gulp.task('copy:lib', () =>
-  gulp.src(src.lib).pipe(gulp.dest(vendor.lib)));
-gulp.task('copy:font', () =>
-gulp.src(src.font).pipe(gulp.dest(vendor.font)));

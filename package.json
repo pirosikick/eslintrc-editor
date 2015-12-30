@@ -37,6 +37,7 @@
     "del": "^2.0.2",
     "espower-babel": "^3.3.0",
     "fixpack": "^2.2.0",
+    "glob": "^6.0.3",
     "gulp": "^3.9.0",
     "gulp-cssnano": "^2.0.0",
     "gulp-gh-pages": "^0.5.2",
