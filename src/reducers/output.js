@@ -1,5 +1,5 @@
 'use strict';
-import {Map, List} from 'immutable';
+import {Map, List, Set} from 'immutable';
 import isObject from 'lodash/lang/isObject';
 import isArray from 'lodash/lang/isArray';
 import reduce from 'lodash/collection/reduce';
@@ -27,6 +27,7 @@ const initialState = Map({
   ecmaFeatures: {},
   parser: null,
   ecmaOrParser: 'ecmaFeatures',
+  plugins: Set(),
   rules: Map({})
 });
 
