@@ -1,3 +1,6 @@
 [submodule "eslint"]
 	path = eslint
 	url = https://github.com/eslint/eslint.git
+[submodule "repos/eslint"]
+	path = repos/eslint
+	url = https://github.com/eslint/eslint.git
