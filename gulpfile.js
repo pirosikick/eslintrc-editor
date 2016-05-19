@@ -20,7 +20,7 @@ gulp.task('serve', () => {
 
 const webpackConfig = (opts) =>
   Object.assign({}, require('./webpack.config'), opts || {});
-const entries = ['src/client.js'];
+const entries = ['src/client.jsx'];
 
 gulp.task('watch:webpack', ['copy-libs'], () => {
   return gulp.src(entries)
@@ -56,9 +56,7 @@ const ruleMeta = file => {
   if (rule.meta) {
     return rule.meta;
   } else if (rule.schema) {
-    return {
-      schema: rule.schema;
-    };
+    return { schema: rule.schema };
   }
   return {};
 };
@@ -78,6 +76,6 @@ const writeJSON = (dest, data) =>
 
 gulp.task('rule-metas:built-in', done => {
   getRuleMetas('./repos/eslint/lib/rules/*.js')
-    .then(metas => writeJSON('./src/rule-metas/built-in.js', metas))
+    .then(metas => writeJSON('./src/rule-metas/built-in.json', metas))
     .then(done).catch(done);
 });
