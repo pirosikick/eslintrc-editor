@@ -38,8 +38,8 @@ gulp.task('webpack', () => {
 
 gulp.task('copy-libs', () => {
   const libs = [
-    'node_modules/react/dist/react.js',
-    'node_modules/react-dom/dist/react-dom.js',
+    'node_modules/react/dist/*.js',
+    'node_modules/react-dom/dist/*.js',
   ];
   return gulp.src(libs).pipe(gulp.dest('.tmp/libs'));
 });
@@ -52,9 +52,15 @@ const globp = pattern => {
 
 const ruleName = file => path.basename(file, '.js');
 const ruleMeta = file => {
-  console.log(file);
   const rule = require(file) || {};
-  return rule.meta || {};
+  if (rule.meta) {
+    return rule.meta;
+  } else if (rule.schema) {
+    return {
+      schema: rule.schema;
+    };
+  }
+  return {};
 };
 
 const getRuleMetas = pattern =>
