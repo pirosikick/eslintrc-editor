@@ -1,0 +1,518 @@
+{
+  "display-name": {
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "ignoreTranspilerName": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  "forbid-prop-types": {
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "forbid": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": true
+      }
+    ]
+  },
+  "jsx-boolean-value": {
+    "schema": [
+      {
+        "enum": [
+          "always",
+          "never"
+        ]
+      }
+    ]
+  },
+  "jsx-closing-bracket-location": {
+    "schema": [
+      {
+        "oneOf": [
+          {
+            "enum": [
+              "after-props",
+              "props-aligned",
+              "tag-aligned",
+              "line-aligned"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "location": {
+                "enum": [
+                  "after-props",
+                  "props-aligned",
+                  "tag-aligned",
+                  "line-aligned"
+                ]
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "nonEmpty": {
+                "enum": [
+                  "after-props",
+                  "props-aligned",
+                  "tag-aligned",
+                  "line-aligned",
+                  false
+                ]
+              },
+              "selfClosing": {
+                "enum": [
+                  "after-props",
+                  "props-aligned",
+                  "tag-aligned",
+                  "line-aligned",
+                  false
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    ]
+  },
+  "jsx-curly-spacing": {
+    "schema": [
+      {
+        "enum": [
+          "always",
+          "never"
+        ]
+      },
+      {
+        "type": "object",
+        "properties": {
+          "allowMultiline": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  "jsx-equals-spacing": {
+    "schema": [
+      {
+        "enum": [
+          "always",
+          "never"
+        ]
+      }
+    ]
+  },
+  "jsx-first-prop-new-line": {
+    "schema": [
+      {
+        "enum": [
+          "always",
+          "never",
+          "multiline"
+        ]
+      }
+    ]
+  },
+  "jsx-handler-names": {
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "eventHandlerPrefix": {
+            "type": "string"
+          },
+          "eventHandlerPropPrefix": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  "jsx-indent-props": {
+    "schema": [
+      {
+        "oneOf": [
+          {
+            "enum": [
+              "tab"
+            ]
+          },
+          {
+            "type": "integer"
+          }
+        ]
+      }
+    ]
+  },
+  "jsx-indent": {
+    "schema": [
+      {
+        "oneOf": [
+          {
+            "enum": [
+              "tab"
+            ]
+          },
+          {
+            "type": "integer"
+          }
+        ]
+      }
+    ]
+  },
+  "jsx-key": {
+    "schema": []
+  },
+  "jsx-max-props-per-line": {
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "maximum": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      }
+    ]
+  },
+  "jsx-no-bind": {
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "allowArrowFunctions": {
+            "default": false,
+            "type": "boolean"
+          },
+          "allowBind": {
+            "default": false,
+            "type": "boolean"
+          },
+          "ignoreRefs": {
+            "default": false,
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  "jsx-no-duplicate-props": {
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "ignoreCase": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  "jsx-no-literals": {
+    "schema": [
+      {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    ]
+  },
+  "jsx-no-target-blank": {
+    "schema": []
+  },
+  "jsx-no-undef": {
+    "schema": []
+  },
+  "jsx-pascal-case": {
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "allowAllCaps": {
+            "type": "boolean"
+          },
+          "ignore": {
+            "type": "array"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  "jsx-sort-prop-types": {
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "requiredFirst": {
+            "type": "boolean"
+          },
+          "callbacksLast": {
+            "type": "boolean"
+          },
+          "ignoreCase": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  "jsx-sort-props": {
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "callbacksLast": {
+            "type": "boolean"
+          },
+          "shorthandFirst": {
+            "type": "boolean"
+          },
+          "ignoreCase": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  "jsx-space-before-closing": {
+    "schema": [
+      {
+        "enum": [
+          "always",
+          "never"
+        ]
+      }
+    ]
+  },
+  "jsx-uses-react": {
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "pragma": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  "jsx-uses-vars": {
+    "schema": []
+  },
+  "no-danger": {
+    "schema": []
+  },
+  "no-deprecated": {
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "react": {
+            "type": "string",
+            "pattern": "^[0-9]+.[0-9]+(.[0-9]+)?$"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  "no-did-mount-set-state": {
+    "schema": [
+      {
+        "enum": [
+          "allow-in-func"
+        ]
+      }
+    ]
+  },
+  "no-did-update-set-state": {
+    "schema": [
+      {
+        "enum": [
+          "allow-in-func"
+        ]
+      }
+    ]
+  },
+  "no-direct-mutation-state": {},
+  "no-is-mounted": {
+    "schema": []
+  },
+  "no-multi-comp": {
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "ignoreStateless": {
+            "default": false,
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  "no-set-state": {
+    "schema": []
+  },
+  "no-string-refs": {
+    "schema": []
+  },
+  "no-unknown-property": {
+    "schema": []
+  },
+  "prefer-es6-class": {
+    "schema": [
+      {
+        "enum": [
+          "always",
+          "never"
+        ]
+      }
+    ]
+  },
+  "prefer-stateless-function": {
+    "schema": []
+  },
+  "prop-types": {
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "ignore": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "customValidators": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  "react-in-jsx-scope": {
+    "schema": []
+  },
+  "require-extension": {
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "extensions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  "require-render-return": {
+    "schema": [
+      {}
+    ]
+  },
+  "self-closing-comp": {
+    "schema": []
+  },
+  "sort-comp": {
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "order": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "groups": {
+            "type": "object",
+            "patternProperties": {
+              "^.*$": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  "sort-prop-types": {
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "requiredFirst": {
+            "type": "boolean"
+          },
+          "callbacksLast": {
+            "type": "boolean"
+          },
+          "ignoreCase": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  },
+  "wrap-multilines": {
+    "schema": [
+      {
+        "type": "object",
+        "properties": {
+          "declaration": {
+            "type": "boolean"
+          },
+          "assignment": {
+            "type": "boolean"
+          },
+          "return": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    ]
+  }
+}

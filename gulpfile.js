@@ -74,8 +74,19 @@ const writeJSON = (dest, data) =>
     fs.writeFile(dest, contents, callback);
   });
 
-gulp.task('rule-metas:built-in', done => {
+glup.task('rule-metas', [
+  'rule-metas:builtin',
+  'rule-metas:react'
+]);
+
+gulp.task('rule-metas:builtin', done => {
   getRuleMetas('./repos/eslint/lib/rules/*.js')
-    .then(metas => writeJSON('./src/rule-metas/built-in.json', metas))
+    .then(metas => writeJSON('./src/rule-metas/builtin.json', metas))
+    .then(done).catch(done);
+});
+
+gulp.task('rule-metas:react', done => {
+  getRuleMetas('./repos/eslint-plugin-react/lib/rules/*.js')
+    .then(metas => writeJSON('./src/rule-metas/eslint-plugin-react.json', metas))
     .then(done).catch(done);
 });
