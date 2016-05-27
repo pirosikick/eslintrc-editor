@@ -75,13 +75,13 @@ const writeJSON = (dest, data) =>
   });
 
 glup.task('rule-metas', [
-  'rule-metas:builtin',
+  'rule-metas:eslint',
   'rule-metas:react'
 ]);
 
-gulp.task('rule-metas:builtin', done => {
+gulp.task('rule-metas:eslint', done => {
   getRuleMetas('./repos/eslint/lib/rules/*.js')
-    .then(metas => writeJSON('./src/rule-metas/builtin.json', metas))
+    .then(metas => writeJSON('./src/rule-metas/eslint.json', metas))
     .then(done).catch(done);
 });
 
