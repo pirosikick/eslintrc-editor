@@ -74,7 +74,7 @@ const writeJSON = (dest, data) =>
     fs.writeFile(dest, contents, callback);
   });
 
-glup.task('rule-metas', [
+gulp.task('rule-metas', [
   'rule-metas:eslint',
   'rule-metas:react'
 ]);
