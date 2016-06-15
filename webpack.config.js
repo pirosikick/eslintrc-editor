@@ -3,6 +3,7 @@ const path = require('path');
 
 module.exports = {
   debug: true,
+  cacheDirectory: true,
   devtool: 'inline-source-map',
   module: {
     loaders: [
