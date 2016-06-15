@@ -3,13 +3,14 @@ const fs = require('fs');
 const gulp = require('gulp');
 const $ = require('gulp-load-plugins')();
 $.webpack = require('webpack-stream');
+const cssnext = require('postcss-cssnext');
 const named = require('vinyl-named');
 const browserSync = require('browser-sync').create();
 const glob = require('glob');
 
-gulp.task('default', ['watch:webpack', 'serve']);
+gulp.task('default', ['serve']);
 
-gulp.task('serve', () => {
+gulp.task('serve', ['watch'], () => {
   browserSync.init({
     server: {
       baseDir: ['.tmp', 'static'],
@@ -18,12 +19,17 @@ gulp.task('serve', () => {
   });
 });
 
+gulp.task('watch', ['watch:webpack', 'css'], () => {
+  gulp.watch(['src/styles/**/*.css'], ['css']);
+});
+
 const webpackConfig = (opts) =>
   Object.assign({}, require('./webpack.config'), opts || {});
 const entries = ['src/client.jsx'];
 
 gulp.task('watch:webpack', ['copy-libs'], () => {
-  return gulp.src(entries)
+  gulp.src(entries)
+    .pipe($.plumber())
     .pipe(named())
     .pipe($.webpack(webpackConfig({ watch: true })))
     .pipe(gulp.dest('.tmp/scripts'));
@@ -34,6 +40,17 @@ gulp.task('webpack', () => {
     .pipe(named())
     .pipe($.webpack(webpackConfig()))
     .pipe(gulp.dest('.tmp/scripts'));
+});
+
+gulp.task('css', () => {
+  const processors = [
+    cssnext()
+  ];
+  return gulp.src('src/styles/**/*.css')
+    .pipe($.sourcemaps.init())
+    .pipe($.postcss(processors))
+    .pipe($.sourcemaps.write())
+    .pipe(gulp.dest('.tmp/styles'));
 });
 
 gulp.task('copy-libs', () => {

@@ -20,6 +20,7 @@
     "redux": "^3.5.2",
     "redux-save-state": "^1.0.1",
     "redux-thunk": "^1.0.0",
+    "reselect": "^2.5.1",
     "strip-json-comments": "^1.0.4",
     "uniqueid": "^0.1.0"
   },
@@ -45,6 +46,7 @@
     "gulp-gh-pages": "^0.5.2",
     "gulp-load-plugins": "^0.10.0",
     "gulp-plumber": "^1.0.1",
+    "gulp-postcss": "^6.1.1",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.5.3",
     "gulp-ruby-sass": "^1.0.5",
@@ -55,6 +57,7 @@
     "gulp-wrap": "^0.11.0",
     "json-loader": "^0.5.2",
     "mocha": "^2.3.3",
+    "postcss-cssnext": "^2.6.0",
     "power-assert": "^1.0.1",
     "react-addons-test-utils": "^0.14.8",
     "run-sequence": "^1.1.4",
@@ -77,12 +80,15 @@
   },
   "ava": {
     "files": [
-      "test/**/*.js"
+      "test/**/*.js",
+      "test/**/*.jsx"
     ],
     "source": [
       "src/**/*.{js,jsx}"
     ],
-    "require": ["babel-register"],
+    "require": [
+      "babel-register"
+    ],
     "babel": "inherit"
   }
 }
