@@ -57,6 +57,7 @@ gulp.task('copy-libs', () => {
   const libs = [
     'node_modules/react/dist/*.js',
     'node_modules/react-dom/dist/*.js',
+    'node_modules/immutable/dist/*.js',
   ];
   return gulp.src(libs).pipe(gulp.dest('.tmp/libs'));
 });
