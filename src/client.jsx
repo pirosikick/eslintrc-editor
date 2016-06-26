@@ -30,7 +30,7 @@ const App = ({
           )
         }</ul>
       </div>
-      <div className="col-md-4">
+      <div className="col-md-3">
         <RuleList
           plugin="eslint"
           rules={ruleMetas.eslint}
@@ -40,7 +40,13 @@ const App = ({
           onFocus={onFocusRule}/>
       </div>
       <div className="col-md-4">
-        {focusedRule}
+        {
+          focusedRule
+            ? <RuleForm
+                name={focusedRule.name}
+                schemata={focusedRule.schemata} />
+            : ''
+        }
       </div>
     </div>
   </div>
@@ -57,7 +63,14 @@ const ruleEnabledSelector = createSelector(
 );
 const focusedRuleSelector = createSelector(
   rulesSelector,
-  rules => rules.get('focused')
+  rules => {
+    const name = rules.get('focused');
+    const ruleMeta = ruleMetas.eslint[name];
+    return ruleMeta ? {
+      name,
+      schemata: ruleMeta.schema || []
+    } : false;
+  }
 );
 
 const mapStateToProps = state => ({
