@@ -1,10 +1,7 @@
-'use strict';
-import {createActions} from '../util/redux';
-import forEachRight from 'lodash/collection/forEachRight';
-import isNull from 'lodash/lang/isNull';
+import { createActions } from '../util/redux';
 
 export default createActions({
   init: output => ({ output }),
   reset: () => {},
-  setEcmaOrParser: value => ({ value })
+  setEcmaOrParser: value => ({ value }),
 });

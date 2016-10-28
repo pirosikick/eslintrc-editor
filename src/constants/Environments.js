@@ -1,15 +1,16 @@
-'use strict';
+
+
 export default [
-  'browser'
-, 'node'
-, 'amd'
-, 'mocha'
-, 'jasmine'
-, 'phantomjs'
-, 'jquery'
-, 'prototypejs'
-, 'shelljs'
-, 'meteor'
-, 'es6'
+  'browser',
+  'node',
+  'amd',
+  'mocha',
+  'jasmine',
+  'phantomjs',
+  'jquery',
+  'prototypejs',
+  'shelljs',
+  'meteor',
+  'es6',
 ];
 

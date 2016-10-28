@@ -1,34 +1,40 @@
-'use strict';
-import {Component} from "react";
+import React, { Component } from 'react';
 import cx from 'classnames';
 import noop from 'lodash/utility/noop';
 import clone from 'lodash/lang/clone';
 import Argument from './RuleArgument';
 
 class Arguments extends Component {
-  static defaultProps = { onChange: noop };
-
   constructor(props) {
     super(props);
     this.emitChange = this.emitChange.bind(this);
   }
 
+  emitChange(e) {
+    const values = clone(this.props.values);
+    values[e.index] = e.value;
+    this.props.onChange({ values });
+  }
+
   render() {
-    let {ruleName, schema, values, disabled} = this.props;
+    const { ruleName, schema, values, disabled } = this.props;
 
     if (!schema.length) {
       return null;
     }
 
     const getProps = (def, index) => ({
-      ruleName, index, def, disabled,
+      ruleName,
+      index,
+      def,
+      disabled,
       value: values[index],
-      onChange: this.emitChange
+      onChange: this.emitChange,
     });
-    const getArgument = props => <Argument {...props}/>;
-    let children = schema.map(getProps).map(getArgument);
+    const getArgument = props => <Argument {...props} />;
+    const children = schema.map(getProps).map(getArgument);
 
-    let className = cx(
+    const className = cx(
       'rule__body rule-args',
       disabled && 'rule__body--is-disabled'
     );
@@ -45,12 +51,8 @@ class Arguments extends Component {
       </article>
     );
   }
-
-  emitChange(e) {
-    let values = clone(this.props.values);
-    values[e.index] = e.value;
-    this.props.onChange({ values });
-  }
 }
+
+Arguments.defaultProps = { onChange: noop };
 
 export default Arguments;

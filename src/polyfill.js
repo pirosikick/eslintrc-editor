@@ -1,1 +1,1 @@
-require("isomorphic-fetch");
+require('isomorphic-fetch');

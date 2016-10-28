@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 // https://gist.github.com/skevy/8a4ffc3cfdaf5fd68739
 
 import zipObject from 'lodash/array/zipObject';
@@ -6,7 +7,7 @@ import mapValues from 'lodash/object/mapValues';
 import uniqueId from 'uniqueid';
 
 // Create actions that don't need constants :)
-export const createActions = (actionObj) => {
+export const createActions = actionObj => {
   const baseId = uniqueId();
   return zipObject(map(actionObj, (actionCreator, key) => {
     const actionId = `${baseId}-${key}`;
@@ -25,16 +26,15 @@ export const createActions = (actionObj) => {
 };
 
 // Get action ids from actions created with `createActions`
-export const getActionIds = (actionCreators) => {
-  return mapValues(actionCreators, (value, key) => {
-    return value._id;
-  });
-};
+export function getActionIds(actionCreators) {
+  return mapValues(actionCreators, value => value._id);
+}
 
 // Replace switch statements in stores (taken from the Redux README)
-export const createReducer = (initialState, handlers) => {
-  return (state = initialState, action) =>
-  handlers[action.type] ?
-  handlers[action.type](state, action) :
-  state;
-};
+export function createReducer(initialState, handlers) {
+  return (state = initialState, action) => (
+    handlers[action.type] ?
+      handlers[action.type](state, action) :
+      state
+  );
+}

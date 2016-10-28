@@ -1,23 +1,22 @@
-"use strict";
-import {Component} from "react";
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import {createStore, applyMiddleware} from 'redux';
-import appActions from './actions/app';
-import {Provider} from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import saveState from 'redux-save-state/localStorage';
+import appActions from './actions/app';
 import reducers from './reducers/index';
-import App from "./components/App";
+import App from './components/App';
 
-const localStorageKey = "eslintrcEditor";
+const localStorageKey = 'eslintrcEditor';
 const saveToLocalStorage = saveState(localStorageKey, {
   filter: state => {
-    let ecmaOrParser = state.view.get('ecmaOrParser');
-    let view = { ecmaOrParser };
-    let output = state.output.toJS();
+    const ecmaOrParser = state.view.get('ecmaOrParser');
+    const view = { ecmaOrParser };
+    const output = state.output.toJS();
     return { output, view };
   },
-  debounce: 200
+  debounce: 200,
 });
 
 const createStoreWithMiddleware
@@ -25,21 +24,22 @@ const createStoreWithMiddleware
 const store = createStoreWithMiddleware(reducers);
 
 class Outer extends Component {
-  render () {
+  render() {
     return (
       <Provider store={store}>
-        <App/>
+        <App />
       </Provider>
     );
   }
 }
 
-ReactDOM.render(<Outer/>, document.getElementById('app'), function () {
+ReactDOM.render(<Outer />, document.getElementById('app'), () => {
   if (window.localStorage[localStorageKey]) {
     try {
-      let deserialized = JSON.parse(window.localStorage[localStorageKey]);
+      const deserialized = JSON.parse(window.localStorage[localStorageKey]);
       store.dispatch(appActions.init(deserialized));
     } catch (e) {
+      // no use
     }
   }
 });
