@@ -1,47 +1,18 @@
-'use strict';
+/* eslint-disable no-script-url */
+import React, { Component, PropTypes } from 'react';
 import map from 'lodash/collection/map';
-import clone from 'lodash/lang/clone';
 import noop from 'lodash/utility/noop';
-import uniqueid from 'uniqueid';
-import {Component, PropTypes} from "react";
 import RadioSet from './RadioSet';
 import actions from '../actions/globals';
 
 export default
   class Globals extends Component {
-    static propTypes = {
-      value: PropTypes.object,
-      onAction: PropTypes.func.isRequired
-    };
-    static defaultProps = { value: {} };
-
     constructor(props) {
       super(props);
       this.id = 'globals';
       this.onAdd = this.onAdd.bind(this);
       this.onRemove = this.onRemove.bind(this);
       this.onChange = this.onChange.bind(this);
-    }
-
-    render () {
-      let {value} = this.props;
-      let rows = map(value, (v, name) =>
-        <TableRow
-          key={`${this.id}-row-${name}`}
-          name={name}
-          value={v}
-          onRemove={this.onRemove}
-          onChange={this.onChange} />
-      );
-
-      return (
-        <div className="globals">
-          <InputForm
-            globals={value}
-            onAdd={(name) => this.onChange(name, true)} />
-          <Table>{rows}</Table>
-        </div>
-      );
     }
 
     onAdd(name) {
@@ -59,32 +30,43 @@ export default
     emitAction(action) {
       this.props.onAction(action);
     }
+
+    render() {
+      const { value } = this.props;
+      const rows = map(value, (v, name) =>
+        <TableRow
+          key={`${this.id}-row-${name}`}
+          name={name}
+          value={v}
+          onRemove={this.onRemove}
+          onChange={this.onChange}
+        />
+      );
+
+      return (
+        <div className="globals">
+          <InputForm
+            globals={value}
+            onAdd={name => this.onChange(name, true)}
+          />
+          <Table>{rows}</Table>
+        </div>
+      );
+    }
   }
 
-class InputForm extends Component {
-  static propTypes = {
-    globals: PropTypes.object,
-    onAdd: PropTypes.func
-  };
-  static defaultProps = { globals:{}, onAdd: noop };
+Globals.propTypes = {
+  value: PropTypes.objectOf(PropTypes.bool),
+  onAction: PropTypes.func.isRequired,
+};
+Globals.defaultProps = { value: {} };
 
+class InputForm extends Component {
   constructor(props) {
     super(props);
     this.state = { isPlusButtonDisabled: true };
-  }
-
-  render() {
-    return (
-      <div className="globals__form pure-form">
-        <input ref="input" type="text" onInput={this.onInput.bind(this)}/>
-        <button
-          className="globals__plus pure-button"
-          disabled={this.state.isPlusButtonDisabled}
-          onClick={this.onClickAddButton.bind(this)}>
-          <i className="fa fa-plus"></i>
-        </button>
-      </div>
-    );
+    this.onInput = this.onInput.bind(this);
+    this.onClickAddButton = this.onClickAddButton.bind(this);
   }
 
   onClickAddButton() {
@@ -93,8 +75,8 @@ class InputForm extends Component {
   }
 
   onInput(e) {
-    let {value} = e.target;
-    let isPlusButtonDisabled = this.isPlusButtonDisabled(value);
+    const { value } = e.target;
+    const isPlusButtonDisabled = this.isPlusButtonDisabled(value);
 
     this.setState({ isPlusButtonDisabled });
   }
@@ -104,7 +86,7 @@ class InputForm extends Component {
   }
 
   clear() {
-    this.refs.input.value = "";
+    this.refs.input.value = '';
   }
 
   isPlusButtonDisabled(value) {
@@ -114,7 +96,29 @@ class InputForm extends Component {
   exists(name) {
     return typeof this.props.globals[name] !== 'undefined';
   }
+
+  render() {
+    return (
+      <div className="globals__form pure-form">
+        <input ref="input" type="text" onInput={this.onInput} />
+        <button
+          className="globals__plus pure-button"
+          disabled={this.state.isPlusButtonDisabled}
+          onClick={this.onClickAddButton}
+        >
+          <i className="fa fa-plus" />
+        </button>
+      </div>
+    );
+  }
 }
+
+InputForm.propTypes = {
+  globals: PropTypes.objectOf(PropTypes.bool),
+  onAdd: PropTypes.func,
+};
+InputForm.defaultProps = { globals: {}, onAdd: noop };
+
 
 class Table extends Component {
   render() {
@@ -130,47 +134,55 @@ class Table extends Component {
           {this.props.children}
         </tbody>
       </table>
-    )
+    );
   }
 }
 
 const radioSetOptions = [
-  { label: "true", value: true },
-  { label: "false", value: false }
+  { label: 'true', value: true },
+  { label: 'false', value: false },
 ];
 
 class TableRow extends Component {
-  render() {
-    let {name, value} = this.props;
-
-    return (
-      <tr key={`globals-${name}`}>
-        <td>
-          <a onClick={this.onRemove.bind(this)}
-             href="javascript:void(0)"
-             className="global-list__remove">
-            <i className="fa fa-times"></i>
-          </a>
-          <span className="global-list__var-name">{name}</span>
-        </td>
-        <td>
-          <RadioSet
-            name={name}
-            horizontal={true}
-            options={radioSetOptions}
-            defaultValue={value}
-            onChange={this.onChange.bind(this)}
-          />
-        </td>
-      </tr>
-    );
+  constructor(props) {
+    super(props);
+    this.onRemove = this.onRemove.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
   onRemove() {
     this.props.onRemove(this.props.name);
   }
 
-  onChange({name, value}) {
+  onChange({ name, value }) {
     this.props.onChange(name, value);
+  }
+
+  render() {
+    const { name, value } = this.props;
+
+    return (
+      <tr key={`globals-${name}`}>
+        <td>
+          <a
+            onClick={this.onRemove}
+            href="javascript:void(0)"
+            className="global-list__remove"
+          >
+            <i className="fa fa-times" />
+          </a>
+          <span className="global-list__var-name">{name}</span>
+        </td>
+        <td>
+          <RadioSet
+            name={name}
+            horizontal
+            options={radioSetOptions}
+            defaultValue={value}
+            onChange={this.onChange}
+          />
+        </td>
+      </tr>
+    );
   }
 }

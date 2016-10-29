@@ -1,4 +1,3 @@
-/* eslint-disable import/no-named-as-default, import/no-named-as-default-member */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -16,7 +15,7 @@ import Parser from './Parser';
 import MarkdownViewer from './MarkdownViewer';
 import Preview from './Preview';
 import Rules from './Rules';
-import { Menu } from './Menu';
+import Menu from './Menu';
 import ruleSchema from '../data/rule-schema/default.json';
 
 const { setEcmaOrParser } = outputActions;
