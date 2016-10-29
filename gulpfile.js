@@ -4,7 +4,6 @@ const reduce = require('lodash/collection/reduce');
 const gulp = require('gulp');
 const $ = require('gulp-load-plugins')();
 const named = require('vinyl-named');
-const webpack = require('webpack');
 const browserSync = require('browser-sync');
 const reload = browserSync.reload;
 const loadRules = require('eslint/lib/load-rules');
@@ -12,11 +11,7 @@ const del = require('del');
 const run = require('run-sequence');
 const getHtml = require('./src/getHtml');
 
-$.webpack = require('webpack-stream');
-const webpackConfig = require('./webpack.config');
-
 const src = {
-  webpack: ['src/client.jsx'],
   json: ['src/**/*.json'],
   md: ['eslint/docs/**/*.md'],
   deploy: [
@@ -90,13 +85,13 @@ gulp.task('serve:build', ['build'], () => {
   });
 });
 
-gulp.task('watch', ['sass', 'webpack:watch'], () => {
+gulp.task('watch', ['sass'], () => {
   gulp.watch(src.sass, ['sass']);
 });
 
 gulp.task('build', ['clean'], done => {
   run(
-    ['sass:min', 'webpack:min', 'copy'],
+    ['sass:min', 'copy'],
     'html:build',
     done
   );
@@ -104,32 +99,6 @@ gulp.task('build', ['clean'], done => {
 
 gulp.task('deploy', ['build'], () => {
   return gulp.src(src.deploy).pipe($.ghPages())
-});
-
-gulp.task('webpack', () => {
-  return gulp.src(src.webpack)
-    .pipe(named())
-    .pipe($.webpack(webpackConfig))
-    .pipe(gulp.dest(tmp.js));
-});
-
-gulp.task('webpack:watch', () => {
-  const config = Object.assign(webpackConfig, { watch: true });
-  gulp.src(src.webpack)
-    .pipe(named())
-    .pipe($.webpack(config))
-    .pipe(gulp.dest(tmp.js));
-});
-
-gulp.task('webpack:min', ['eslint-rule-schema'], () => {
-  const UglifyJsPlugin = require('webpack').optimize.UglifyJsPlugin;
-  const plugins = [new UglifyJsPlugin()];
-  const devtool = false;
-  const config = Object.assign(webpackConfig, { plugins, devtool });
-  return gulp.src(src.webpack)
-    .pipe(named())
-    .pipe($.webpack(config))
-    .pipe(gulp.dest(build.js));
 });
 
 gulp.task('sass', () =>

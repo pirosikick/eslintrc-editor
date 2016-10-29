@@ -1,3 +1,3 @@
 const get = require('./webpack.config.base');
 
-module.exports = get('development');
+module.exports = get('production');
