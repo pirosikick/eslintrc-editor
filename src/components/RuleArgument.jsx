@@ -1,88 +1,84 @@
-import {Component, PropTypes} from "react";
-import clone from "lodash/lang/clone";
-import isNull from "lodash/lang/isNull";
-import isUndefined from "lodash/lang/isUndefined";
-import isObject from "lodash/lang/isObject";
-import isArray from "lodash/lang/isArray";
-import isBoolean from "lodash/lang/isBoolean";
+import React, { Component, PropTypes } from 'react';
+import clone from 'lodash/lang/clone';
+import isNull from 'lodash/lang/isNull';
+import isUndefined from 'lodash/lang/isUndefined';
+import isObject from 'lodash/lang/isObject';
+import isArray from 'lodash/lang/isArray';
+import isBoolean from 'lodash/lang/isBoolean';
 import each from 'lodash/collection/each';
 import noop from 'lodash/utility/noop';
 import uniqueid from 'uniqueid';
-import cx from 'classnames';
 import ArrayValue from './RuleArgumentArray';
 
 export default
   class RuleArgument extends Component {
-    static propTypes = {
-      ruleName: PropTypes.string.isRequired,
-      def: PropTypes.object.isRequired,
-      value: PropTypes.any,
-      index: PropTypes.number,
-      disabled: PropTypes.bool,
-      onChange: PropTypes.func
-    };
-    static defaultProps = {
-      disabled: false,
-      onChange: noop
-    };
-
     constructor(props) {
       super(props);
       this.onChange = this.onChange.bind(this);
     }
 
+    onChange(value) {
+      this.props.onChange({ index: this.props.index, value });
+    }
+
     render() {
-      let {ruleName, def, value, index, disabled, onChange} = this.props;
+      const { def, value, index, disabled } = this.props;
 
       return (
         <div className="rule-arg">
           <div className="rule-arg__index">
-            <span className="rule-arg__index-no">{index+1}</span>
+            <span className="rule-arg__index-no">{index + 1}</span>
           </div>
           <div className="rule-arg__input">
             <RuleArgumentInput
               def={def}
               value={value}
               disabled={disabled}
-              onChange={this.onChange} />
+              onChange={this.onChange}
+            />
           </div>
         </div>
       );
     }
-
-    onChange(value) {
-      this.props.onChange({ index: this.props.index, value });
-    }
   }
 
-class RuleArgumentInput extends Component {
-  static propTypes = {
-    value: PropTypes.any,
-    disabled: PropTypes.bool,
-    onChange: PropTypes.func
-  };
+RuleArgument.propTypes = {
+  index: PropTypes.number,
+  disabled: PropTypes.bool,
+  onChange: PropTypes.func,
+};
+RuleArgument.defaultProps = {
+  disabled: false,
+  onChange: noop,
+};
 
+class RuleArgumentInput extends Component {
   constructor(props) {
     super(props);
     this.currentValue = props.value || null;
     this.onChange = this.onChange.bind(this);
   }
 
+  onChange(value) {
+    this.currentValue = value;
+    this.props.onChange(value);
+  }
+
   render() {
-    let {value, def, disabled} = this.props;
-    let props = {
-      value: value,
-      disabled: disabled,
-      onChange: this.onChange
+    const { value, def, disabled } = this.props;
+    const props = {
+      value,
+      disabled,
+      onChange: this.onChange,
     };
 
     switch (def.type) {
       case 'enum':
-        return <Enum {...props} options={def.options}/>;
+        return <Enum {...props} options={def.options} />;
       case 'oneOf':
-        return <OneOf {...props} defaultValue={value} defs={def.defs}/>;
+        return <OneOf {...props} defaultValue={value} defs={def.defs} />;
       case 'object':
-        return <ObjectValue {...props} properties={def.properties}/>;
+        return <ObjectValue {...props} properties={def.properties} />;
       case 'integer':
         return <Integer {...props} />;
       case 'string':
@@ -91,17 +87,28 @@ class RuleArgumentInput extends Component {
         return <Bool {...props} />;
       case 'array':
         return <ArrayValue {...props} />;
+      default:
+        return null;
     }
-    return null;
-  }
-
-  onChange(value) {
-    this.currentValue = value;
-    this.props.onChange(value);
   }
 }
 
+RuleArgumentInput.propTypes = {
+  value: PropTypes.any, // eslint-disable-line
+  disabled: PropTypes.bool,
+  onChange: PropTypes.func,
+};
+
 class Integer extends Component {
+  constructor(props) {
+    super(props);
+    this.onChange = this.onChange.bind(this);
+  }
+
+  onChange(e) {
+    this.props.onChange(e.target.value - 0);
+  }
+
   render() {
     return (
       <input
@@ -110,16 +117,22 @@ class Integer extends Component {
         placeholder="integer"
         value={this.props.value}
         disabled={this.props.disabled}
-        onChange={this.onChange.bind(this)} />
+        onChange={this.onChange}
+      />
     );
-  }
-
-  onChange(e) {
-    this.props.onChange(e.target.value - 0)
   }
 }
 
 class Bool extends Component {
+  constructor(props) {
+    super(props);
+    this.onChange = this.onChange.bind(this);
+  }
+
+  onChange(e) {
+    this.props.onChange(e.target.checked);
+  }
+
   render() {
     return (
       <input
@@ -127,16 +140,22 @@ class Bool extends Component {
         type="checkbox"
         checked={this.props.value}
         disabled={this.props.disabled}
-        onChange={this.onChange.bind(this)}/>
+        onChange={this.onChange}
+      />
     );
-  }
-
-  onChange(e) {
-    this.props.onChange(e.target.checked)
   }
 }
 
 class String extends Component {
+  constructor(props) {
+    super(props);
+    this.onChange = this.onChange.bind(this);
+  }
+
+  onChange(e) {
+    this.props.onChange(e.target.value);
+  }
+
   render() {
     return (
       <input
@@ -144,18 +163,13 @@ class String extends Component {
         type="text"
         placeholder="string"
         disabled={this.props.disabled}
-        onChange={this.onChange.bind(this)}/>
+        onChange={this.onChange}
+      />
     );
-  }
-
-  onChange(e) {
-    this.props.onChange(e.target.value)
   }
 }
 
 class ObjectValue extends Component {
-  static defaultProps = { value: {} };
-
   constructor(props) {
     super(props);
     this.id = uniqueid({ prefix: 'object-value' });
@@ -163,14 +177,14 @@ class ObjectValue extends Component {
   }
 
   onChange(key, value) {
-    let newValue = clone(this.props.value);
+    const newValue = clone(this.props.value);
     newValue[key] = value;
     this.props.onChange(newValue);
   }
 
   render() {
-    let {value, properties, disabled} = this.props;
-    let lines = [];
+    const { value, properties, disabled } = this.props;
+    const lines = [];
     each(properties, (def, key) => {
       lines.push(
         <tr key={`${this.id}-${key}`}>
@@ -182,11 +196,12 @@ class ObjectValue extends Component {
               value={value[key]}
               def={def}
               disabled={disabled}
-              onChange={value => this.onChange(key, value)}/>
+              onChange={v => this.onChange(key, v)}
+            />
           </td>
         </tr>
       );
-    })
+    });
 
     return (
       <table className="rule-arg-object">
@@ -196,78 +211,74 @@ class ObjectValue extends Component {
   }
 }
 
+ObjectValue.defaultProps = { value: {} };
+
 class Enum extends Component {
   constructor(props) {
     super(props);
     this.id = uniqueid({ prefix: 'rule-arg-enum' });
-  }
-
-  render() {
-    let {value, options, disabled} = this.props;
-    let optionElements = options.map(v =>
-      <option key={`${this.id}-${v}`} value={v}>{v}</option>
-    );
-    return (
-      <select
-        className="rule-arg-options"
-        value={value || ""}
-        disabled={disabled}
-        onChange={this.onChange.bind(this)}>
-        <option value="">---</option>
-        {optionElements}
-      </select>
-    );
+    this.onChange = this.onChange.bind(this);
   }
 
   onChange(e) {
     this.props.onChange(e.target.value || null);
   }
+
+  render() {
+    const { value, options, disabled } = this.props;
+    const optionElements = options.map(v =>
+      <option key={`${this.id}-${v}`} value={v}>{v}</option>
+    );
+    return (
+      <select
+        className="rule-arg-options"
+        value={value || ''}
+        disabled={disabled}
+        onChange={this.onChange}
+      >
+        <option value="">---</option>
+        {optionElements}
+      </select>
+    );
+  }
 }
 
 class OneOf extends Component {
-  static propTypes = {
-    defs: PropTypes.array.isRequired,
-    disabled: PropTypes.bool,
-    defaultValue: PropTypes.any,
-  };
-
   constructor(props) {
     super(props);
     this.id = uniqueid({ prefix: 'rule-arg-oneof' });
     this.radioName = uniqueid({ prefix: 'rule-arg-oneof-radio' });
     this.onChecked = this.onChecked.bind(this);
     this.onChangeValue = this.onChangeValue.bind(this);
-    let {defaultValue, defs} = props;
+    const { defaultValue, defs } = props;
     this.state = this.guessState(defaultValue, defs);
   }
 
-  render() {
-    let {defs, disabled} = this.props;
-    let items = defs.reduce((items, def, index) => {
-      let key = `${this.id}-${index}`;
-      if (index > 0) {
-        items.push(<OneOfOr key={key+"-or"}/>);
-      }
-      items.push(
-        <OneOfItem
-          key={key}
-          radioName={this.radioName}
-          index={index}
-          def={def}
-          value={this.getValue(index)}
-          checked={this.isItemSelected(index)}
-          disabled={disabled}
-          onChecked={this.onChecked}
-          onChangeValue={this.onChangeValue}/>
-      );
-      return items;
-    }, [])
-
-    return <ul className="rule-arg-oneof">{items}</ul>;
+  onChecked(index) {
+    this.props.onChange(this.getValue(index));
+    this.setState({ selected: index });
   }
 
-  guessState(value, defs) {
-    let state = { selected: false, values: [] };
+  onChangeValue(e) {
+    const values = clone(this.state.values);
+    values[e.index] = e.value;
+    this.setState({ values });
+
+    if (this.isItemSelected(e.index)) {
+      this.props.onChange(e.value);
+    }
+  }
+
+  getValue(index) {
+    return this.state.values[index];
+  }
+
+  isItemSelected(itemIndex) {
+    return this.state.selected === itemIndex;
+  }
+
+  guessState(value, defs) { // eslint-disable-line class-methods-use-this
+    const state = { selected: false, values: [] };
     if (isUndefined(value) || isNull(value)) {
       return state;
     }
@@ -278,7 +289,7 @@ class OneOf extends Component {
       }
 
       let matched = false;
-      switch(def.type) {
+      switch (def.type) { // eslint-disable-line default-case
         case 'enum':
           matched = def.options.indexOf(value) >= 0;
           break;
@@ -292,10 +303,10 @@ class OneOf extends Component {
           matched = isBoolean(value);
           break;
         case 'integer':
-          matched = !isNaN(parseInt(value));
+          matched = !isNaN(parseInt(value, 10));
           break;
         case 'string':
-          matched = typeof(value) === 'string';
+          matched = typeof (value) === 'string';
       }
 
       if (matched) {
@@ -307,29 +318,38 @@ class OneOf extends Component {
     return state;
   }
 
-  isItemSelected(itemIndex) {
-    return this.state.selected === itemIndex;
-  }
+  render() {
+    const { defs, disabled } = this.props;
+    const items = defs.reduce((items, def, index) => { // eslint-disable-line no-shadow
+      const key = `${this.id}-${index}`;
+      if (index > 0) {
+        items.push(<OneOfOr key={`${key}-or`} />);
+      }
+      items.push(
+        <OneOfItem
+          key={key}
+          radioName={this.radioName}
+          index={index}
+          def={def}
+          value={this.getValue(index)}
+          checked={this.isItemSelected(index)}
+          disabled={disabled}
+          onChecked={this.onChecked}
+          onChangeValue={this.onChangeValue}
+        />
+      );
+      return items;
+    }, []);
 
-  getValue(index) {
-    return this.state.values[index];
-  }
-
-  onChecked(index) {
-    this.props.onChange(this.getValue(index));
-    this.setState({ selected: index });
-  }
-
-  onChangeValue(e) {
-    let values = clone(this.state.values);
-    values[e.index] = e.value;
-    this.setState({ values });
-
-    if (this.isItemSelected(e.index)) {
-      this.props.onChange(e.value);
-    }
+    return <ul className="rule-arg-oneof">{items}</ul>;
   }
 }
+
+OneOf.propTypes = {
+  defs: PropTypes.array.isRequired, // eslint-disable-line
+  disabled: PropTypes.bool,
+  defaultValue: PropTypes.any, // eslint-disable-line
+};
 
 class OneOfOr extends Component {
   render() {
@@ -348,8 +368,17 @@ class OneOfItem extends Component {
     this.onChangeValue = this.onChangeValue.bind(this);
   }
 
+  onChangeValue(value) {
+    const { index } = this.props;
+    this.props.onChangeValue({ index, value });
+  }
+
+  onChecked() {
+    this.props.onChecked(this.props.index);
+  }
+
   render() {
-    let {def, value, checked, disabled, radioName} = this.props;
+    const { def, value, checked, disabled, radioName } = this.props;
 
     return (
       <li className="rule-arg-oneof__item">
@@ -361,7 +390,8 @@ class OneOfItem extends Component {
             checked={checked}
             name={radioName}
             disabled={disabled}
-            onChange={this.onChecked}/>
+            onChange={this.onChecked}
+          />
         </div>
         <div className="rule-arg-oneof__input-column">
           <RuleArgumentInput
@@ -369,18 +399,10 @@ class OneOfItem extends Component {
             ref="input"
             value={value}
             disabled={disabled || !checked}
-            onChange={this.onChangeValue}/>
+            onChange={this.onChangeValue}
+          />
         </div>
       </li>
     );
-  }
-
-  onChangeValue(value) {
-    let {index} = this.props;
-    this.props.onChangeValue({ index, value });
-  }
-
-  onChecked() {
-    this.props.onChecked(this.props.index);
   }
 }

@@ -1,31 +1,38 @@
-'use strict';
+import React, { Component, PropTypes } from 'react';
 import cx from 'classnames';
-import {Component} from "react";
-import {onResize} from 'on-resize/react';
 
-//@onResize()
 class Wrapper extends Component {
   constructor(props) {
     super(props);
     this.state = { height: 0 };
   }
 
-  render () {
-    let {height} = this.state;
-    let className = cx('wrapper', this.props.className);
+  componentWillMount() {
+    if (global.window) {
+      this.setState({ height: window.innerHeight });
+    }
+  }
+
+  componentDidMout() {
+    window.addEventListener('resize', () => {
+      this.setState({ height: window.innerHeight });
+    });
+  }
+
+  render() {
+    const { height } = this.state;
+    const className = cx('wrapper', this.props.className);
     return (
       <div className={className} style={{ height }}>
         {this.props.children}
       </div>
     );
   }
-
-  componentDidMount() {
-    this.setState({ height: window.innerHeight });
-    window.addEventListener('resize', () => {
-      this.setState({ height: window.innerHeight });
-    });
-  }
 }
+
+Wrapper.propTypes = {
+  className: PropTypes.string,
+  children: PropTypes.arrayOf(PropTypes.element),
+};
 
 export default Wrapper;

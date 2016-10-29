@@ -1,43 +1,45 @@
-'use strict';
+/* eslint-disable no-script-url */
+import React, { Component } from 'react';
 import cx from 'classnames';
-import React, {Component} from "react";
 
 class Icon extends Component {
-  render () {
-    let {type, className} = this.props;
-    return <i className={cx(`fa fa-${type}`, className)}/>;
+  render() {
+    const { type, className } = this.props;
+    return <i className={cx(`fa fa-${type}`, className)} />;
   }
 }
 
 export default
   class OptionGroup extends Component {
-    constructor (props) {
+    constructor(props) {
       super(props);
 
-      this.state = { opened: props.defaultOpened || false }
+      this.state = { opened: props.defaultOpened || false };
+      this.toggle = this.toggle.bind(this);
     }
 
-    toggle () {
-      this.setState({ opened: !this.state.opened })
+    toggle() {
+      this.setState({ opened: !this.state.opened });
     }
 
-    render () {
+    render() {
       const prefix = 'option-group';
 
-      let {opened} = this.state;
-      let {name, children} = this.props;
-      let className = cx(prefix, { [`${prefix}-is-opened`]: opened })
-      let iconType = opened ? "angle-down" : "angle-right";
+      const { opened } = this.state;
+      const { name, children } = this.props;
+      const className = cx(prefix, { [`${prefix}-is-opened`]: opened });
+      const iconType = opened ? 'angle-down' : 'angle-right';
 
       return (
         <div className={className}>
           <a
             href="javascript:void(0)"
             className="option-group__header option-group-header"
-            onClick={this.toggle.bind(this)}>
+            onClick={this.toggle}
+          >
             <div>
               <h3 className="option-group-header__title">{name}</h3>
-              <Icon type={iconType} className="option-group-header__icon"/>
+              <Icon type={iconType} className="option-group-header__icon" />
             </div>
           </a>
           <article className="option-group__body">{children}</article>

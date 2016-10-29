@@ -1,8 +1,9 @@
-'use strict';
-import {createActions} from '../util/redux';
+
+
+import { createActions } from '../util/redux';
 
 const actions = createActions({
-  change: (values) => ({ values }),
+  change: values => ({ values }),
 });
 
 export default actions;

@@ -1,31 +1,21 @@
-'use strict';
-import {Component, PropTypes} from "react";
-import cx from "classnames";
-import isArray from 'lodash/lang/isArray';
+/* eslint-disable no-script-url */
+import React, { Component, PropTypes } from 'react';
+import cx from 'classnames';
 import noop from 'lodash/utility/noop';
 import viewActions from '../actions/view';
-const {selectMenuItem, openDocument} = viewActions;
 
-const homeUrl = "https://pirosikick.github.io/eslintrc-editor/";
-const eslintUrl = "http://eslint.org";
-const githubUrl = "https://github.com/pirosikick/eslintrc-editor";
+const { selectMenuItem, openDocument } = viewActions;
+
+const homeUrl = 'https://pirosikick.github.io/eslintrc-editor/';
+const eslintUrl = 'http://eslint.org';
+const githubUrl = 'https://github.com/pirosikick/eslintrc-editor';
 const docs = {
   configure: 'docs/user-guide/configuring.md',
   cli: 'docs/user-guide/command-line-interface.md',
-  rules: 'docs/rules/README.md'
+  rules: 'docs/rules/README.md',
 };
 
-export class Menu extends Component {
-  static propsTypes = {
-    selectedItem: PropTypes.string,
-    onAction: PropTypes.func
-  };
-
-  static defaultProps = {
-    selectedItem: "",
-    onAction: noop,
-  };
-
+export default class Menu extends Component {
   constructor(props) {
     super(props);
     this.selectPreview = this.selectMenuItem.bind(this, 'preview');
@@ -35,17 +25,29 @@ export class Menu extends Component {
     this.openRules = this.openDocument.bind(this, docs.rules);
   }
 
+  openDocument(md) {
+    this.emitAction(openDocument(md));
+  }
+
+  selectMenuItem(name) {
+    this.emitAction(selectMenuItem(name));
+  }
+
+  emitAction(action) {
+    this.props.onAction(action);
+  }
+
   render() {
-    let {selectedItem} = this.props;
+    const { selectedItem } = this.props;
 
     return (
       <div className="menu pure-menu pure-menu-horizontal">
-        <Link heading={true} href={homeUrl}>.eslintrc editor</Link>
+        <Link heading href={homeUrl}>.eslintrc editor</Link>
         <List key="menu-left">
           <ListItem key="menu-item-preview" selected={selectedItem === 'preview'}>
             <Link onClick={this.selectPreview}>Preview</Link>
           </ListItem>
-          <ListItem key="menu-item-doc" selected={selectedItem === 'document'} hasChildren={true}>
+          <ListItem key="menu-item-doc" selected={selectedItem === 'document'} hasChildren>
             <Link onClick={this.selectDocument}>Document</Link>
             <Children>
               <ListItem key="menu-item-doc-config">
@@ -60,7 +62,7 @@ export class Menu extends Component {
             </Children>
           </ListItem>
         </List>
-        <List key="menu-right" right={true}>
+        <List key="menu-right" right>
           <ListItem key="menu-item-github">
             <Link href={githubUrl} target="_blank">GitHub</Link>
           </ListItem>
@@ -71,25 +73,24 @@ export class Menu extends Component {
       </div>
     );
   }
-
-  openDocument(md) {
-    this.emitAction(openDocument(md));
-  }
-
-  selectMenuItem(name) {
-    this.emitAction(selectMenuItem(name));
-  }
-
-  emitAction(action) {
-    this.props.onAction(action);
-  }
 }
+
+Menu.propsTypes = {
+  selectedItem: PropTypes.string,
+  onAction: PropTypes.func,
+};
+
+Menu.defaultProps = {
+  selectedItem: '',
+  onAction: noop,
+};
+
 
 class List extends Component {
   render() {
-    let className = cx(
-      "pure-menu-list menu__list",
-      this.props.right && "menu__list--on-right"
+    const className = cx(
+      'pure-menu-list menu__list',
+      this.props.right && 'menu__list--on-right'
     );
     return (
       <ul className={className}>
@@ -111,11 +112,11 @@ class Children extends Component {
 
 class ListItem extends Component {
   render() {
-    let {selected, hasChildren, children} = this.props;
-    let className = cx(
-      "menu__item pure-menu-item pure-menu-allow-hover",
-      selected && "pure-menu-selected",
-      hasChildren && "pure-menu-has-children"
+    const { selected, hasChildren, children } = this.props;
+    const className = cx(
+      'menu__item pure-menu-item pure-menu-allow-hover',
+      selected && 'pure-menu-selected',
+      hasChildren && 'pure-menu-has-children'
     );
     return <li className={className}>{children}</li>;
   }
@@ -123,17 +124,18 @@ class ListItem extends Component {
 
 class Link extends Component {
   render() {
-    let {href, target, onClick, heading, children} = this.props;
-    let className = cx(
-      "pure-menu-link menu__link",
-      heading && "pure-menu-heading menu__heading"
+    const { href, target, onClick, heading } = this.props;
+    const className = cx(
+      'pure-menu-link menu__link',
+      heading && 'pure-menu-heading menu__heading'
     );
     return (
       <a
         className={className}
         href={href || 'javascript:void(0);'}
         onClick={onClick || noop}
-        target={target || ""}>
+        target={target || ''}
+      >
         {this.props.children}
       </a>
     );

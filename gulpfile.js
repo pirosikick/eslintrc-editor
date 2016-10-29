@@ -16,7 +16,7 @@ $.webpack = require('webpack-stream');
 const webpackConfig = require('./webpack.config');
 
 const src = {
-  webpack: ['src/client.js'],
+  webpack: ['src/client.jsx'],
   json: ['src/**/*.json'],
   md: ['eslint/docs/**/*.md'],
   deploy: [

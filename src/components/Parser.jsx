@@ -1,23 +1,21 @@
-'use strict';
-import {Component, PropTypes} from "react";
+import React, { Component, PropTypes } from 'react';
 import Parsers from '../constants/Parsers';
 import actions from '../actions/parser';
 
 class Parser extends Component {
-  static propTypes = {
-    value: PropTypes.string,
-    onAction: PropTypes.func
-  };
-
   constructor(props) {
     super(props);
     this.id = 'parser';
     this.onChange = this.onChange.bind(this);
   }
 
+  onChange(e) {
+    this.props.onAction(actions.change(e.target.value));
+  }
+
   render() {
-    let {value} = this.props;
-    let options = Parsers.map(p =>
+    const { value } = this.props;
+    const options = Parsers.map(p =>
       <option key={`${this.id}-${p}`} value={p}>{p}</option>
     );
 
@@ -26,17 +24,19 @@ class Parser extends Component {
         <select
           className="parser-option__pulldown"
           value={value}
-          onChange={this.onChange}>
+          onChange={this.onChange}
+        >
           <option value="">select parser</option>
           {options}
         </select>
       </div>
     );
   }
-
-  onChange(e) {
-    this.props.onAction(actions.change(e.target.value));
-  }
 }
+
+Parser.propTypes = {
+  value: PropTypes.string,
+  onAction: PropTypes.func,
+};
 
 export default Parser;

@@ -1,6 +1,4 @@
-'use strict';
 import Environments from './constants/Environments';
-import ECMAFeatures from './constants/ECMAFeatures';
-import Parsers from './constants/Parsers';
+import ECMAFeatures from './constants/EcmaFeatures';
 
-export { Environments, ECMAFeatures }
+export { Environments, ECMAFeatures };

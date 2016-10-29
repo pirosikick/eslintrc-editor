@@ -6,7 +6,6 @@
     "@pirosikick/md2react": "^0.8.8-2",
     "classnames": "^2.1.3",
     "es6-promise": "^2.3.0",
-    "eslint": "file:eslint",
     "font-awesome": "^4.5.0",
     "github-markdown-css": "^2.1.1",
     "immutable": "^3.7.3",
@@ -35,6 +34,11 @@
     "babel-runtime": "^6.3.13",
     "browser-sync": "^2.2.5",
     "del": "^2.0.2",
+    "eslint": "^3.8.1",
+    "eslint-config-airbnb": "^12.0.0",
+    "eslint-plugin-import": "^1.16.0",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-react": "^6.4.1",
     "espower-babel": "^3.3.0",
     "fixpack": "^2.2.0",
     "gulp": "^3.9.0",
@@ -51,14 +55,24 @@
     "gulp-util": "^3.0.5",
     "gulp-wrap": "^0.11.0",
     "json-loader": "^0.5.2",
+    "lint-staged": "^3.2.0",
     "mocha": "^2.3.3",
     "power-assert": "^1.0.1",
+    "pre-commit": "^1.1.3",
     "run-sequence": "^1.1.4",
     "vinyl-named": "^1.1.0",
     "webpack": "^1.12.9",
     "webpack-stream": "^3.1.0"
   },
   "license": "MIT",
+  "lint-staged": {
+    "package.json": [
+      "fixpack",
+      "git add"
+    ],
+    "*.@(js|jsx)": "eslint"
+  },
+  "pre-commit": "lint-staged",
   "repository": {
     "type": "git",
     "url": "https://github.com/pirosikick/eslintrc-editor.git"
@@ -67,6 +81,8 @@
     "build": "gulp build",
     "deploy": "gulp deploy",
     "fixpack": "fixpack",
+    "lint": "eslint --ext .jsx --ext .js src",
+    "lint-staged": "lint-staged",
     "start": "gulp",
     "webpack": "gulp webpack"
   }

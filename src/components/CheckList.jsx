@@ -1,36 +1,74 @@
-import {Component, PropTypes} from "react";
+/* eslint-disable jsx-a11y/label-has-for */
+import React, { Component, PropTypes } from 'react';
 import uniqueid from 'uniqueid';
-import toArray from 'lodash/lang/toArray';
 import clone from 'lodash/lang/clone';
 import difference from 'lodash/array/difference';
-import remove from 'lodash/array/remove';
 import noop from 'lodash/utility/noop';
 import _keys from 'lodash/object/keys';
 
 export default
   class CheckList extends Component {
-    static defaultProps = {
-      defaultChecked: {}
-    }
-
-    constructor (props) {
-      super(props)
+    constructor(props) {
+      super(props);
 
       this.idPrefix = uniqueid({ prefix: 'checklist' });
       this.onChange = this.onChange.bind(this);
       this.toggleAll = this.toggleAll.bind(this);
     }
 
-    render () {
-      let {name, keys, defaultChecked} = this.props;
-      let idPrefix = this.idPrefix;
+    shouldComponentUpdate(nextProps) {
+      return this.props.defaultChecked !== nextProps.defaultChecked;
+    }
 
-      let rows = keys.map(key =>
+    onChange(e) {
+      const { keys, defaultChecked } = this.props;
+      const newChecked = clone(defaultChecked);
+      const { value, checked } = e;
+
+      if (checked) {
+        newChecked[value] = true;
+      } else {
+        delete newChecked[value];
+      }
+
+      const sorted = {};
+      keys.forEach(key => {
+        if (newChecked[key]) {
+          sorted[key] = true;
+        }
+      });
+
+      this.props.onChange(sorted);
+    }
+
+    isToggleAllChecked() {
+      const { keys, defaultChecked } = this.props;
+      return difference(keys, _keys(defaultChecked)).length === 0;
+    }
+
+    toggleAll(e) {
+      const { keys } = this.props;
+      const { checked } = e.target;
+      if (checked) {
+        const all = {};
+        keys.forEach(key => { all[key] = true; });
+        this.props.onChange(all);
+      } else {
+        this.props.onChange({});
+      }
+    }
+
+    render() {
+      const { keys, defaultChecked } = this.props;
+      const idPrefix = this.idPrefix;
+
+      const rows = keys.map(key =>
         <TableRow
           key={`${idPrefix}-${key}`}
           value={key}
           onChange={this.onChange}
-          checked={defaultChecked[key]}/>
+          checked={defaultChecked[key]}
+        />
       );
 
       return (
@@ -43,7 +81,8 @@ export default
                     type="checkbox"
                     checked={this.isToggleAllChecked()}
                     className="checkbox__input"
-                    onChange={this.toggleAll}/>
+                    onChange={this.toggleAll}
+                  />
                   <span className="checkbox__label">toggle all</span>
                 </label>
               </th>
@@ -53,66 +92,26 @@ export default
         </table>
       );
     }
-
-    shouldComponentUpdate(nextProps) {
-      return this.props.defaultChecked !== nextProps.defaultChecked;
-    }
-
-    isToggleAllChecked() {
-      let {keys, defaultChecked} = this.props;
-      return difference(keys, _keys(defaultChecked)).length === 0;
-    }
-
-    toggleAll (e) {
-      let {keys} = this.props;
-      let {checked} = e.target;
-      if (checked) {
-        let all = {};
-        keys.forEach(key => all[key] = true);
-        this.props.onChange(all)
-      } else {
-        this.props.onChange({});
-      }
-    }
-
-    onChange(e) {
-      let {keys, defaultChecked} = this.props;
-      let newChecked = clone(defaultChecked);
-      let {value, checked} = e;
-
-      if (checked) {
-        newChecked[value] = true;
-      } else {
-        delete newChecked[value];
-      }
-
-      let sorted = {};
-      keys.forEach(key => {
-        if (newChecked[key]) {
-          sorted[key] = true;
-        }
-      });
-
-      this.props.onChange(sorted);
-    }
   }
 
+CheckList.defaultProps = {
+  defaultChecked: {},
+};
+
+
 class TableRow extends Component {
-  static propTypes = {
-    key: PropTypes.string,
-    value: PropTypes.string,
-    onChange: PropTypes.func,
-    defaultChecked: PropTypes.bool
-  };
-  static defaultProps = {
-    key: "",
-    value: "",
-    onChange: noop,
-    defaultChecked: false
-  };
+  constructor(props) {
+    super(props);
+    this.onChange = this.onChange.bind(this);
+  }
+
+  onChange(e) {
+    const { checked } = e.target;
+    this.props.onChange({ value: this.props.value, checked });
+  }
 
   render() {
-    let {key, value, onChange, checked} = this.props;
+    const { key, value, checked } = this.props;
 
     return (
       <tr key={key}>
@@ -123,17 +122,23 @@ class TableRow extends Component {
               value={value}
               checked={checked}
               className="checkbox__input"
-              onChange={this.onChange.bind(this)}/>
+              onChange={this.onChange}
+            />
             <span className="checkbox__label">{value}</span>
           </label>
         </td>
       </tr>
     );
   }
-
-  onChange(e) {
-    let {checked} = e.target;
-    this.props.onChange({ value: this.props.value, checked });
-  }
 }
 
+TableRow.propTypes = {
+  key: PropTypes.string,
+  value: PropTypes.string,
+  onChange: PropTypes.func,
+};
+TableRow.defaultProps = {
+  key: '',
+  value: '',
+  onChange: noop,
+};

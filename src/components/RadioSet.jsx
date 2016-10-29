@@ -1,57 +1,65 @@
-'use strict';
-import React, {Component} from "react";
+/* eslint-disable react/no-multi-comp */
+import React, { Component, PropTypes } from 'react';
 import uniqueid from 'uniqueid';
 import cx from 'classnames';
 
+const propTypes = {
+  name: PropTypes.string,
+  options: PropTypes.array,
+  defaultValue: PropTypes.string,
+  horizontal: PropTypes.bool,
+  onChange: PropTypes.func,
+};
+const defaultProps = {
+  defaultValue: '',
+  horizontal: false,
+  onChange() {},
+};
+
 export default
   class RadioSet extends Component {
-    static defaultProps = {
-      defaultValue: "",
-      horizontal: false,
-      onChange: function () {}
-    };
-
     constructor(props) {
       super(props);
       this.id = uniqueid({ prefix: 'radio-set' });
       this.onChange = this.onChange.bind(this);
     }
 
-    onChange (value) {
+    onChange(value) {
       this.props.onChange({ name: this.props.name, value });
     }
 
-    render () {
-      let {options, defaultValue, horizontal} = this.props;
-      let className = cx("radioset", {
-        "radioset--is-horizontal": horizontal
-      });
-      let items = options.map(({value, label}) =>
+    render() {
+      const { options, defaultValue, horizontal } = this.props;
+      const items = options.map(({ value, label }) =>
         <Radio
           key={`${this.id}-${value}`}
           name={this.id}
           value={value}
           label={label}
           defaultChecked={value === defaultValue}
-          onChange={this.onChange} />
+          onChange={this.onChange}
+        />
       );
 
       return <List horizontal={horizontal} items={items} />;
     }
   }
 
-class List extends Component {
-  render() {
-    let {name, horizontal, items} = this.props;
-    let className = cx("radioset", { "radioset--is-horizontal": horizontal });
-    let lists = items.map(this.wrapListItem, this);
+RadioSet.propTypes = propTypes;
+RadioSet.defaultProps = defaultProps;
 
-    return <ul className={className}>{lists}</ul>;
+class List extends Component {
+  wrapListItem(children, index) {
+    const { name } = this.props;
+    return <ListItem key={`radioset-${name}-${index}`}>{children}</ListItem>;
   }
 
-  wrapListItem(children, index) {
-    let {name} = this.props;
-    return <ListItem key ={`radioset-${name}-${index}`}>{children}</ListItem>;
+  render() {
+    const { horizontal, items } = this.props;
+    const className = cx('radioset', { 'radioset--is-horizontal': horizontal });
+    const lists = items.map(this.wrapListItem, this);
+
+    return <ul className={className}>{lists}</ul>;
   }
 }
 
@@ -63,19 +71,20 @@ class ListItem extends Component {
 
 class Radio extends Component {
   render() {
-    let {name, value, label, defaultChecked, onChange} = this.props;
+    const { name, value, label, defaultChecked, onChange } = this.props;
 
     return (
+      // eslint-disable-next-line
       <label>
         <input
           className="radioset__radio"
           type="radio"
           name={name}
           defaultChecked={defaultChecked}
-          onChange={() => onChange(value)} />
+          onChange={() => onChange(value)}
+        />
         <span className="radioset__label-text">{label}</span>
       </label>
     );
   }
-
 }
