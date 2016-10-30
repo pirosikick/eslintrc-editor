@@ -38,3 +38,8 @@ bower_components/
 .publish
 .envrc
 
+dist/styles
+dist/scripts
+dist/libs
+dist/fonts
+dist/docs
