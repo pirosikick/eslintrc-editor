@@ -1,11 +1,7 @@
+import { createAction } from 'redux-actions';
 
+const add = createAction('ADD_GLOBAL', name => ({ name }));
+const change = createAction('CHANGE_GLOBAL', (name, value) => ({ name, value }));
+const remove = createAction('REMOVE_GLOBAL', name => ({ name }));
 
-import { createActions } from '../util/redux';
-
-const actions = createActions({
-  add: name => ({ name }),
-  change: (name, value) => ({ name, value }),
-  remove: name => ({ name }),
-});
-
-export default actions;
+export { add, change, remove };

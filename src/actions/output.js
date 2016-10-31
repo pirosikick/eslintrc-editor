@@ -1,7 +1,7 @@
-import { createActions } from '../util/redux';
+import { createAction } from 'redux-actions';
 
-export default createActions({
-  init: output => ({ output }),
-  reset: () => {},
-  setEcmaOrParser: value => ({ value }),
-});
+const init = createAction('INIT_OUTPUT');
+const reset = createAction('RESET_OUTPUT');
+const setEcmaOrParser = createAction('SET_ECMA_OR_PARSER');
+
+export { init, reset, setEcmaOrParser };

@@ -1,9 +1,4 @@
+import { createAction } from 'redux-actions';
 
-
-import { createActions } from '../util/redux';
-
-const actions = createActions({
-  change: values => ({ values }),
-});
-
-export default actions;
+export const change = createAction('CHANGE_ENV');
+export default { change };

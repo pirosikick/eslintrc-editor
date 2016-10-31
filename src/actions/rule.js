@@ -1,14 +1,13 @@
+import { createAction } from 'redux-actions';
 
+const changeStatus = createAction('RULE_CHANGE_STATUS', (name, status) => ({
+  name,
+  status,
+}));
+const changeArgs = createAction('RULE_CHANGE_ARGS', (name, args) => ({
+  name,
+  args,
+}));
+const remove = createAction('REMOVE_RULE', name => ({ name }));
 
-import { createActions } from '../util/redux';
-import viewActions from './view';
-
-const actions = createActions({
-  changeStatus: (name, status) => ({ name, status }),
-  changeArgs: (name, args) => ({ name, args }),
-  remove: name => ({ name }),
-  openDocument:
-    name => viewActions.openDocument(`docs/rules/${name}.md`),
-});
-
-export default actions;
+export { changeStatus, changeArgs, remove };
