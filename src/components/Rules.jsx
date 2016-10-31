@@ -9,27 +9,31 @@ class Rules extends Component {
 
   render() {
     const { schema, value } = this.props;
-    const items = schema.map(s =>
+    const items = Object.keys(schema).map(name => (
       <Rule
-        key={`${this.id}-${s.name}`}
-        name={s.name}
-        schema={s.schema}
-        value={value[s.name]}
+        key={`${this.id}-${name}`}
+        name={name}
+        schema={schema[name]}
+        value={value[name]}
         onAction={this.props.onAction}
       />
-    );
+    ));
 
     return <List items={items} />;
   }
 }
 
 Rules.propTypes = {
-  schema: PropTypes.array.isRequired, // eslint-disable-line
+  schema: PropTypes.objectOf(
+    PropTypes.oneOfType([
+      PropTypes.array,
+      PropTypes.object,
+    ])
+  ).isRequired,
   value: PropTypes.object, // eslint-disable-line
   onAction: PropTypes.func,
 };
 Rules.defaultProps = { rules: {} };
-
 
 class List extends Component {
   render() {
