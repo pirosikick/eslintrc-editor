@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import schema from 'eslint-rule-schemata/eslint/3.9.0/schema.json';
 
 import outputActions from '../actions/output';
 
@@ -16,7 +17,6 @@ import MarkdownViewer from './MarkdownViewer';
 import Preview from './Preview';
 import Rules from './Rules';
 import Menu from './Menu';
-import ruleSchema from '../data/rule-schema/default.json';
 
 const { setEcmaOrParser } = outputActions;
 
@@ -94,7 +94,7 @@ class App extends Component {
             </OptionGroup>
 
             <OptionGroup name="Rules">
-              <Rules value={output.rules} schema={ruleSchema} onAction={dispatch} />
+              <Rules value={output.rules} schema={schema} onAction={dispatch} />
             </OptionGroup>
 
           </SideMenu>
