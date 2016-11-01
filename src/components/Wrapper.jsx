@@ -13,7 +13,7 @@ class Wrapper extends Component {
     }
   }
 
-  componentDidMout() {
+  componentDidMount() {
     window.addEventListener('resize', () => {
       this.setState({ height: window.innerHeight });
     });
