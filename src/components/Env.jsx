@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import CheckList from './CheckList';
 import { Environments } from '../constants';
-import actions from '../actions/env';
+import * as actions from '../actions/env';
 
 class Env extends Component {
   constructor(props) {

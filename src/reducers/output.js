@@ -1,24 +1,16 @@
+import { handleActions } from 'redux-actions';
 import { Map, List } from 'immutable';
 import isObject from 'lodash/lang/isObject';
 import isArray from 'lodash/lang/isArray';
 import reduce from 'lodash/collection/reduce';
 import each from 'lodash/collection/each';
-import { createReducer, getActionIds } from '../util/redux';
-import _app from '../actions/app';
-import _output from '../actions/output';
-import _env from '../actions/env';
-import _globals from '../actions/globals';
-import _ecmaFeatures from '../actions/ecmaFeatures';
-import _parser from '../actions/parser';
-import _rule from '../actions/rule';
-
-const app = getActionIds(_app);
-const { setEcmaOrParser } = getActionIds(_output);
-const env = getActionIds(_env);
-const globals = getActionIds(_globals);
-const ecmaFeatures = getActionIds(_ecmaFeatures);
-const parser = getActionIds(_parser);
-const rule = getActionIds(_rule);
+import * as app from '../actions/app';
+import { setEcmaOrParser } from '../actions/output';
+import * as env from '../actions/env';
+import * as globals from '../actions/globals';
+import * as ef from '../actions/ecmaFeatures';
+import * as parser from '../actions/parser';
+import * as rule from '../actions/rule';
 
 const initialState = new Map({
   env: {},
@@ -29,16 +21,19 @@ const initialState = new Map({
   rules: new Map({}),
 });
 
-export default createReducer(initialState, {
-  [app.init]: (state, { output }) => (
-    isObject(output) ? state.merge(output) : state
+const reducer = handleActions({
+  [app.init]: (state, action) => (
+    isObject(action.payload.output)
+      ? state.merge(action.payload.output)
+      : state
   ),
 
-  [app.importJSON]: (state, { output }) => {
-    if (!isObject(output)) {
+  [app.importJSON]: (state, action) => {
+    if (!isObject(action.payload.output)) {
       return state;
     }
 
+    const output = action.payload.output;
     const newState = Object.assign({}, output);
 
     if (isObject(output.rules)) {
@@ -54,35 +49,48 @@ export default createReducer(initialState, {
 
   [app.reset]: () => initialState,
 
-  [env.change]: (state, action) => state.set('env', action.values),
+  [setEcmaOrParser]: (state, action) => (
+    state.set('ecmaOrParser', action.payload)
+  ),
 
-  [globals.add]: (state, { name }) =>
-    state.setIn(['globals', name], true),
-  [globals.change]: (state, { name, value }) =>
-    state.setIn(['globals', name], value),
-  [globals.remove]: (state, { name }) =>
-    state.deleteIn(['globals', name]),
+  // env
+  [env.change]: (state, action) => state.set('env', action.payload),
+  // ecmaFeatures
+  [ef.change]: (state, action) => state.set('ecmaFeatures', action.payload),
+  // globals
+  [globals.add]: (state, action) =>
+    state.setIn(['globals', action.payload.name], true),
+  [globals.change]: (state, action) =>
+    state.setIn(['globals', action.payload.name], action.payload.value),
+  [globals.remove]: (state, action) =>
+    state.deleteIn(['globals', action.payload.name]),
+  // parser
+  [parser.change]: (state, action) => (
+    state.set('parser', action.payload.value)
+  ),
+  // rule
+  [rule.changeStatus]: (state, action) => {
+    const { name, status } = action.payload;
 
-  [ecmaFeatures.change]: (state, { values }) => state.set('ecmaFeatures', values),
-
-  [parser.change]: (state, { value }) => state.set('parser', value),
-
-  [setEcmaOrParser]: (state, { value }) => state.set('ecmaOrParser', value),
-
-  [rule.changeStatus]: (state, { name, status }) => (
-    state.withMutations(s => {
+    return state.withMutations(s => {
       if (!s.hasIn(['rules', name])) {
         s.setIn(['rules', name], new List());
       }
       return s.setIn(['rules', name, 0], status);
-    })
-  ),
-  [rule.changeArgs]: (state, { name, args }) => (
-    reduce(
+    });
+  },
+  [rule.changeArgs]: (state, action) => {
+    const { name, args } = action.payload;
+
+    return reduce(
       args,
       (s, arg, index) => s.setIn(['rules', name, index + 1], arg),
       state
-    )
+    );
+  },
+  [rule.remove]: (state, action) => (
+    state.deleteIn(['rules', action.payload.name])
   ),
-  [rule.remove]: (state, { name }) => state.deleteIn(['rules', name]),
-});
+}, initialState);
+
+export default reducer;

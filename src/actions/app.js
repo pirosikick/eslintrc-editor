@@ -1,11 +1,10 @@
-import { createActions } from '../util/redux';
+import { createAction } from 'redux-actions';
 
-export default createActions({
-  init(deserialized = {}) {
-    const view = deserialized.view || {};
-    const output = deserialized.output || {};
-    return { view, output };
-  },
-  importJSON: output => ({ output }),
-  reset: () => {},
-});
+const init = createAction('INIT_APP', (deserialized = {}) => ({
+  view: deserialized.view || {},
+  output: deserialized.output || {},
+}));
+const importJSON = createAction('IMPORT_JSON');
+const reset = createAction('RESET_APP');
+
+export { init, importJSON, reset };

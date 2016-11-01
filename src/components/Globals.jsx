@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import map from 'lodash/collection/map';
 import noop from 'lodash/utility/noop';
 import RadioSet from './RadioSet';
-import actions from '../actions/globals';
+import * as actions from '../actions/globals';
 
 export default
   class Globals extends Component {

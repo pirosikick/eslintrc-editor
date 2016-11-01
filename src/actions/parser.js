@@ -1,10 +1,4 @@
+import { createAction } from 'redux-actions';
 
-
-import { createActions } from '../util/redux';
-
-const actions = createActions({
-  reset: () => {},
-  change: value => ({ value }),
-});
-
-export default actions;
+export const change = createAction('CHANGE_PARSER', value => ({ value }));
+export default { change };

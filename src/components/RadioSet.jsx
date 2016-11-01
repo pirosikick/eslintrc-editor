@@ -6,7 +6,11 @@ import cx from 'classnames';
 const propTypes = {
   name: PropTypes.string,
   options: PropTypes.array,
-  defaultValue: PropTypes.string,
+  defaultValue: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.string,
+    PropTypes.number,
+  ]),
   horizontal: PropTypes.bool,
   onChange: PropTypes.func,
 };

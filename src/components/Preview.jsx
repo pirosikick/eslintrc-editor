@@ -7,9 +7,7 @@ import noop from 'lodash/utility/noop';
 import assign from 'lodash/object/assign';
 import cx from 'classnames';
 import stripJsonComments from 'strip-json-comments';
-import appActions from '../actions/app';
-
-const { reset, importJSON } = appActions;
+import { reset, importJSON } from '../actions/app';
 
 function normalizeRuleArgs(args) {
   if (parseInt(args[0], 10) === 0) {

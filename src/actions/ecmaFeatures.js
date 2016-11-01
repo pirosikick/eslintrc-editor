@@ -1,10 +1,6 @@
+import { createAction } from 'redux-actions';
 
+const reset = createAction('RESET_ECMA_FEATURES');
+const change = createAction('CHANGE_ECMA_FEATURES');
 
-import { createActions } from '../util/redux';
-
-const actions = createActions({
-  reset: () => {},
-  change: values => ({ values }),
-});
-
-export default actions;
+export { reset, change };

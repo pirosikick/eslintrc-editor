@@ -2,9 +2,7 @@
 import React, { Component, PropTypes } from 'react';
 import md2react from '@pirosikick/md2react';
 import noop from 'lodash/utility/noop';
-import viewActions from '../actions/view';
-
-const { openDocument } = viewActions;
+import { openDocument } from '../actions/view';
 
 export default class MarkdownViewer extends Component {
   constructor(props) {
@@ -122,7 +120,7 @@ class Link extends Component {
 
 Link.propTypes = {
   baseUrl: PropTypes.string,
-  node: PropTypes.element,
+  node: PropTypes.object, // eslint-disable-line
   key: PropTypes.string,
   onClick: PropTypes.func,
 };
