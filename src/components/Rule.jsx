@@ -5,7 +5,7 @@ import clone from 'lodash/lang/clone';
 import noop from 'lodash/utility/noop';
 import cx from 'classnames';
 import uniqueid from 'uniqueid';
-import actions from '../actions/rule';
+import * as actions from '../actions/rule';
 import normalizeRuleSchema from '../util/normalizeRuleSchema';
 import RuleArguments from './RuleArguments';
 

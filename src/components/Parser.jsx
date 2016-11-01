@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Parsers from '../constants/Parsers';
-import actions from '../actions/parser';
+import * as actions from '../actions/parser';
 
 class Parser extends Component {
   constructor(props) {

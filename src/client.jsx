@@ -4,7 +4,8 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import saveState from 'redux-save-state/localStorage';
-import appActions from './actions/app';
+import * as appActions from './actions/app';
+import * as viewActions from './actions/view';
 import reducers from './reducers/index';
 import App from './components/App';
 
@@ -42,4 +43,5 @@ ReactDOM.render(<Outer />, document.getElementById('app'), () => {
       // no use
     }
   }
+  store.dispatch(viewActions.init());
 });

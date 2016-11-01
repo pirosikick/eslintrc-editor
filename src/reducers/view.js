@@ -13,7 +13,7 @@ const reducer = handleActions({
   [initApp]: (state, action) => state.merge(action.payload.view),
 
   [selectMenuItem]: (state, action) => (
-    state.set('selectedMenuItem', action.paload.name)
+    state.set('selectedMenuItem', action.payload.name)
   ),
 
   [setDocument]: (state, action) => (

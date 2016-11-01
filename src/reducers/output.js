@@ -4,11 +4,7 @@ import isObject from 'lodash/lang/isObject';
 import isArray from 'lodash/lang/isArray';
 import reduce from 'lodash/collection/reduce';
 import each from 'lodash/collection/each';
-import {
-  init as initApp,
-  importJSON,
-  reset as resetApp,
-} from '../actions/app';
+import * as app from '../actions/app';
 import { setEcmaOrParser } from '../actions/output';
 import * as env from '../actions/env';
 import * as globals from '../actions/globals';
@@ -26,13 +22,13 @@ const initialState = new Map({
 });
 
 const reducer = handleActions({
-  [initApp]: (state, action) => (
+  [app.init]: (state, action) => (
     isObject(action.payload.output)
       ? state.merge(action.payload.output)
       : state
   ),
 
-  [importJSON]: (state, action) => {
+  [app.importJSON]: (state, action) => {
     if (!isObject(action.payload.output)) {
       return state;
     }
@@ -51,7 +47,7 @@ const reducer = handleActions({
     return state.merge(newState);
   },
 
-  [resetApp]: () => initialState,
+  [app.reset]: () => initialState,
 
   [setEcmaOrParser]: (state, action) => (
     state.set('ecmaOrParser', action.payload)

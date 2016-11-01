@@ -2,9 +2,7 @@
 import React, { Component, PropTypes } from 'react';
 import cx from 'classnames';
 import noop from 'lodash/utility/noop';
-import viewActions from '../actions/view';
-
-const { selectMenuItem, openDocument } = viewActions;
+import { selectMenuItem, openDocument } from '../actions/view';
 
 const homeUrl = 'https://pirosikick.github.io/eslintrc-editor/';
 const eslintUrl = 'http://eslint.org';
