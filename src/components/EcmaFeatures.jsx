@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import CheckList from './CheckList';
-import { ECMAFeatures } from '../constants';
+import ECMAFeatures from '../constants/EcmaFeatures';
 import * as actions from '../actions/ecmaFeatures';
 
 class EcmaFeatures extends Component {
