@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from 'react';
+import schema from 'eslint-rule-schemata/schema.json';
 import CheckList from './CheckList';
-import { Environments } from '../constants';
 import * as actions from '../actions/env';
+
+const envs = Object.keys(schema.definitions.env.properties);
 
 class Env extends Component {
   constructor(props) {
@@ -19,7 +21,7 @@ class Env extends Component {
       <CheckList
         id="ecma-features"
         name="ecmaFeatures"
-        keys={Environments}
+        keys={envs}
         defaultChecked={values}
         onChange={this.onChange}
       />
